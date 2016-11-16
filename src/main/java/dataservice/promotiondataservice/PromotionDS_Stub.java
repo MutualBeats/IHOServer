@@ -7,7 +7,7 @@ import po.MemberPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
-public class PromotionDS_Stub implements PromotionDS{
+public class PromotionDS_Stub implements PromotionDataService{
 
 	/*
 	 * 添加酒店促销策略

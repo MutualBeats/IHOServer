@@ -29,12 +29,12 @@ public interface DataFactory extends Remote{
 	
 	public RoomDataService getRoomDatabase() throws RemoteException;
 	
-	public ClientDataService getClientDataBase() throws RemoteException;
+	public ClientDataService getClientDatabase() throws RemoteException;
 	
-	public MarketerDataService getMarketerDataBase() throws RemoteException;
+	public MarketerDataService getMarketerDatabase() throws RemoteException;
 	
-	public StaffDataService getStaffDataBase() throws RemoteException;
+	public StaffDataService getStaffDatabase() throws RemoteException;
 	
-	public ManagerDataService getManagerDataBase() throws RemoteException;
+	public ManagerDataService getManagerDatabase() throws RemoteException;
 	
 }

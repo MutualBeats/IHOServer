@@ -2,7 +2,7 @@
  * @author huangxiao
  * 2016年11月16日
  */
-package data.datahelper.impl;
+package data.datafactory;
 
 import java.rmi.RemoteException;
 
@@ -11,7 +11,10 @@ import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.orderdata.OrderDataServiceMySqlImpl;
 import data.promotiondata.PromotionDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
-import data.userdata.UserDataServiceMySqlImpl;
+import data.userdata.ClientDataServiceMySqlImpl;
+import data.userdata.ManagerDataServiceMySqlImpl;
+import data.userdata.MarketerDataServiceMySqlImpl;
+import data.userdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.datafactory.DataFactory;
 import dataservice.hoteldataservice.HotelDataService;
@@ -22,7 +25,6 @@ import dataservice.userdataservice.ClientDataService;
 import dataservice.userdataservice.ManagerDataService;
 import dataservice.userdataservice.MarketerDataService;
 import dataservice.userdataservice.StaffDataService;
-import dataservice.userdataservice.UserDataService;
 
 public class DataFactoryMySqlImpl implements DataFactory {
 	
@@ -42,7 +44,11 @@ public class DataFactoryMySqlImpl implements DataFactory {
 	private OrderDataService orderDatabase = new OrderDataServiceMySqlImpl();
 	private PromotionDataService promotionDatabase = new PromotionDataServiceMySqlImpl();
 	private RoomDataService roomDatabase = new RoomDataServiceMySqlImpl();
-	private UserDataService userDatabase = new UserDataServiceMySqlImpl();
+	private ClientDataService clientDatabase = new ClientDataServiceMySqlImpl();
+	private ManagerDataService managerDatabase = new ManagerDataServiceMySqlImpl();
+	private MarketerDataService marketerDatabase = new MarketerDataServiceMySqlImpl();
+	private StaffDataService staffDatabase = new StaffDataServiceMySqlImpl();
+
 
 	@Override
 	public CreditDataService getCreditDatabase() {
@@ -70,27 +76,23 @@ public class DataFactoryMySqlImpl implements DataFactory {
 	}
 
 	@Override
-	public ClientDataService getClientDataBase() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientDataService getClientDatabase() throws RemoteException {
+		return clientDatabase;
 	}
 
 	@Override
-	public MarketerDataService getMarketerDataBase() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public MarketerDataService getMarketerDatabase() throws RemoteException {
+		return marketerDatabase;
 	}
 
 	@Override
-	public StaffDataService getStaffDataBase() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public StaffDataService getStaffDatabase() throws RemoteException {
+		return staffDatabase;
 	}
 
 	@Override
-	public ManagerDataService getManagerDataBase() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public ManagerDataService getManagerDatabase() throws RemoteException {
+		return managerDatabase;
 	}
 	
 }

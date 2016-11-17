@@ -4,12 +4,13 @@
  */
 package dataservice.roomdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.RoomPO;
 
-public interface RoomDataService {
+public interface RoomDataService extends Remote{
 	public ArrayList<RoomPO> find(String HotelID) throws RemoteException;
 	
 	public void insert(RoomPO po) throws RemoteException;

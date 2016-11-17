@@ -4,12 +4,13 @@
  */
 package dataservice.creditdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.CreditPO;
 
-public interface CreditDataService {
+public interface CreditDataService extends Remote{
 	
 	public void insert(CreditPO po) throws RemoteException;
 	

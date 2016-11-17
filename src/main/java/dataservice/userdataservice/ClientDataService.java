@@ -1,11 +1,12 @@
 package dataservice.userdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import po.ClientPO;
 import util.ResultMessage;
 
-public interface ClientDataService {
+public interface ClientDataService extends Remote{
 	/*
 	 * 获取ClientPO内部数据
 	 */

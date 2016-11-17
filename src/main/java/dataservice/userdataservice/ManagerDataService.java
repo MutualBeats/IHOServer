@@ -1,5 +1,6 @@
 package dataservice.userdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import po.ClientPO;
@@ -7,7 +8,7 @@ import po.MarketerPO;
 import po.StaffPO;
 import util.ResultMessage;
 
-public interface ManagerDataService {
+public interface ManagerDataService extends Remote{
 	/*
 	 * 获取ClientPO内部数据
 	 */

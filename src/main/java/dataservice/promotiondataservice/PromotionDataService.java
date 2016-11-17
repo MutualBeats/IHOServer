@@ -1,5 +1,6 @@
 package dataservice.promotiondataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ import po.MemberPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
-public interface PromotionDataService {
+public interface PromotionDataService extends Remote{
 	/*
 	 * 添加酒店促销策略
 	 */

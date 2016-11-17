@@ -1,12 +1,13 @@
 package dataservice.userdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.MemberPO;
 import util.ResultMessage;
 
-public interface MemberDataService {
+public interface MemberDataService extends Remote{
 	/*
 	 * 注册企业会员
 	 */

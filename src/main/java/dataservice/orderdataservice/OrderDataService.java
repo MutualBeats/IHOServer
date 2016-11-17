@@ -1,12 +1,13 @@
 package dataservice.orderdataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.OrderPO;
 import util.ResultMessage;
 
-public interface OrderDataService {
+public interface OrderDataService extends Remote{
 	/**
 	 * 补录订单
 	 * 

@@ -64,7 +64,7 @@ public class DataFactoryMySqlImpl implements DataFactory {
 	}
 
 	@Override
-	public UserDataService getUserDatavase() {
+	public UserDataService getUserDatabase() {
 		return userDatabase;
 	}
 	

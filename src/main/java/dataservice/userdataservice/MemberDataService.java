@@ -1,4 +1,4 @@
-package dataservice.memberdataservice;
+package dataservice.userdataservice;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import po.MemberPO;
 import util.ResultMessage;
 
-public interface MemberDS {
+public interface MemberDataService {
 	/*
 	 * 注册企业会员
 	 */
 	public ResultMessage businessRegister (MemberPO po)throws RemoteException;
-	
 	/*
 	 * 注册普通会员
 	 */
@@ -23,8 +22,7 @@ public interface MemberDS {
 	/*
 	 * 会员等级更新
 	 */
-	public void levelUpdate (ArrayList <Integer> levelList,int level) throws RemoteException;
-	
+	public ResultMessage levelUpdate (ArrayList <Integer> levelList,int level) throws RemoteException;
 	/*
 	 * 会员信息查看
 	 */

@@ -3,7 +3,7 @@ package dataservice.promotiondataservice;
 import po.MemberPO;
 import po.PromotionPO;
 
-public class PromotionDS_Drive {
+public class PromotionDataService_Drive {
 	
 		public void drive(PromotionDataService promotionDS){
 			PromotionPO po1=new PromotionPO("123456789", "双十一全店特价","1234567890","2016/10/10","2016/10/20",0.1);

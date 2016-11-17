@@ -1,6 +1,7 @@
 package dataservice.userdataservice;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import po.ClientPO;
 import po.MarketerPO;

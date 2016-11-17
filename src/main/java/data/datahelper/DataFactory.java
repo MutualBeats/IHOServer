@@ -23,6 +23,6 @@ public interface DataFactory {
 	
 	public RoomDataService getRoomDatabase();
 	
-	public UserDataService getUserDatavase();
+	public UserDataService getUserDatabase();
 	
 }

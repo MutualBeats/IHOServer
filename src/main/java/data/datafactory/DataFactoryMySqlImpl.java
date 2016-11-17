@@ -51,27 +51,27 @@ public class DataFactoryMySqlImpl implements DataFactory {
 
 
 	@Override
-	public CreditDataService getCreditDatabase() {
+	public CreditDataService getCreditDatabase() throws RemoteException {
 		return creditDatabase;
 	}
 
 	@Override
-	public HotelDataService getHotelDatabase() {
+	public HotelDataService getHotelDatabase() throws RemoteException {
 		return hotelDatabase;
 	}
 
 	@Override
-	public OrderDataService getOrderDatabase() {
+	public OrderDataService getOrderDatabase() throws RemoteException {
 		return orderDatabase;
 	}
 
 	@Override
-	public PromotionDataService getPromotionDatabase() {
+	public PromotionDataService getPromotionDatabase() throws RemoteException {
 		return promotionDatabase;
 	}
 
 	@Override
-	public RoomDataService getRoomDatabase() {
+	public RoomDataService getRoomDatabase() throws RemoteException {
 		return roomDatabase;
 	}
 

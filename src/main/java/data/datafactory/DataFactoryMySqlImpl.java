@@ -5,6 +5,7 @@
 package data.datafactory;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
@@ -26,16 +27,23 @@ import dataservice.userdataservice.ManagerDataService;
 import dataservice.userdataservice.MarketerDataService;
 import dataservice.userdataservice.StaffDataService;
 
-public class DataFactoryMySqlImpl implements DataFactory {
+public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFactory {
+	
+	private static final long serialVersionUID = 2L;
 	
 	private static DataFactoryMySqlImpl dataFactoryMySql;
 	
-	private DataFactoryMySqlImpl() {
+	private DataFactoryMySqlImpl() throws RemoteException{
 	}
 	
 	public static DataFactory getInstance() {
 		if(dataFactoryMySql == null)
-			dataFactoryMySql = new DataFactoryMySqlImpl();
+			try {
+				dataFactoryMySql = new DataFactoryMySqlImpl();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return dataFactoryMySql;
 	}
 	

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #95AFA6;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rmihelper.QuickStartController">
+   <children>
+      <MenuBar layoutY="2.0" prefHeight="14.0" prefWidth="600.0" AnchorPane.bottomAnchor="373.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Control">
+            <items>
+              <MenuItem fx:id="run" mnemonicParsing="false" onAction="#handleRun" text="Run" />
+                  <MenuItem fx:id="restart" mnemonicParsing="false" onAction="#handleRestart" text="Restart" />
+                  <MenuItem fx:id="off" mnemonicParsing="false" onAction="#handleOff" text="Off" />
+                  <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Port">
+            <items>
+              <MenuItem fx:id="changeport" mnemonicParsing="false" onAction="#handleChangePort" text="Change" />
+                  <MenuItem fx:id="reset" mnemonicParsing="false" onAction="#handleReset" text="Reset" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="about" mnemonicParsing="false" onAction="#handleAbout" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ScrollPane fx:id="news" hbarPolicy="NEVER" layoutY="27.0" prefHeight="378.0" prefWidth="600.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

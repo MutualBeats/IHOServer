@@ -8,12 +8,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.roomdataservice.RoomDataService;
 import po.RoomPO;
 
 public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();

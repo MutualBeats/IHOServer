@@ -8,12 +8,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.creditdataservice.CreditDataService;
 import po.CreditPO;
 
 public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public CreditDataServiceMySqlImpl() throws RemoteException {
 		super();

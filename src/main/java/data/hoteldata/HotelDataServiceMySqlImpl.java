@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.hoteldataservice.HotelDataService;
 import po.HotelEvaluationPO;
 import po.HotelPO;
@@ -16,6 +17,8 @@ import util.SearchCondition;
 public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public HotelDataServiceMySqlImpl() throws RemoteException {
 		super();

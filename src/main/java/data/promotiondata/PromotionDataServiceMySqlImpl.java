@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.MemberPO;
 import po.PromotionPO;
@@ -16,6 +17,8 @@ import util.ResultMessage;
 public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public PromotionDataServiceMySqlImpl() throws RemoteException {
 		super();

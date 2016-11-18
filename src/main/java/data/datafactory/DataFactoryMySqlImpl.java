@@ -41,7 +41,6 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 			try {
 				dataFactoryMySql = new DataFactoryMySqlImpl();
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		return dataFactoryMySql;

@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MemberDataService;
 import po.MemberPO;
 import util.ResultMessage;
@@ -15,6 +16,8 @@ import util.ResultMessage;
 public class MemberDataServiceMySqlImpl extends UnicastRemoteObject implements MemberDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 	
 	protected MemberDataServiceMySqlImpl() throws RemoteException {
 		super();

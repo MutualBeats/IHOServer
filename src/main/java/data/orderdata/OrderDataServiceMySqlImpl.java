@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import data.databaseutility.SqlManager;
 import dataservice.orderdataservice.OrderDataService;
 import po.OrderPO;
 import util.ResultMessage;
@@ -15,6 +16,8 @@ import util.ResultMessage;
 public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public OrderDataServiceMySqlImpl() throws RemoteException {
 		super();

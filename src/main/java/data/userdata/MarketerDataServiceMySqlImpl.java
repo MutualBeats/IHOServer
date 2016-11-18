@@ -7,6 +7,7 @@ package data.userdata;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MarketerDataService;
 import po.MarketerPO;
 import util.ResultMessage;
@@ -14,6 +15,8 @@ import util.ResultMessage;
 public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {
 
 	private static final long serialVersionUID = 2L;
+	
+	private SqlManager sqlManager = SqlManager.getInstance();
 	
 	public MarketerDataServiceMySqlImpl() throws RemoteException {
 		super();

@@ -7,6 +7,7 @@ package data.userdata;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ManagerDataService;
 import util.ResultMessage;
 
@@ -20,6 +21,8 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 
 	private static final long serialVersionUID = 2L;
 	
+	private SqlManager sqlManager = SqlManager.getInstance();
+
 	public ManagerDataServiceMySqlImpl() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub

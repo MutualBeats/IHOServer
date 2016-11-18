@@ -16,7 +16,11 @@ public interface StaffDataService extends Remote{
 	 */
 	public ResultMessage updateData(StaffPO po) throws RemoteException;
 	/*
+	 * 检测是否允许登陆
+	 */
+	public ResultMessage find(String ID, String password) throws RemoteException;
+	/*
 	 * 在数据库中生成一个staffPO记录
 	 */
-	public ResultMessage insert(StaffPO po) throws RemoteException;
+	public ResultMessage insert(StaffPO po, String password) throws RemoteException;
 }

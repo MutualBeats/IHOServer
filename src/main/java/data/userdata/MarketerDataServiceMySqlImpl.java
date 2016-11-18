@@ -36,9 +36,15 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public ResultMessage insert(MarketerPO po) throws RemoteException {
+	public ResultMessage find(String ID, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public ResultMessage insert(MarketerPO po,String password) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

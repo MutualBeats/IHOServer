@@ -3,12 +3,11 @@ package dataservice.userdataservice;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import po.ClientPO;
+import util.ResultMessage;
 
 public interface ManagerDataService extends Remote{
 	/*
-	 * 获取ManagerPO内部数据
+	 * 检测是否允许登陆
 	 */
-	public ClientPO findData(String ManagerID) throws RemoteException;
-
+	public ResultMessage find(String ID, String password) throws RemoteException;
 }

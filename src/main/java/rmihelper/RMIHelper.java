@@ -14,12 +14,8 @@ import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.datafactory.DataFactory;
 
 public class RMIHelper {
-	/**
-	 * Default port;
-	 */
-	private final static int DE_PORT = 8888;
 	
-	private int port;
+	private final int port = 8888;
 	
 	private String address;
 	/**
@@ -32,7 +28,6 @@ public class RMIHelper {
 	private static RMIHelper helper = new RMIHelper();
 	
 	private RMIHelper() {
-		port = DE_PORT;
 		registry = null;
 		address = getIPAddress();
 		dataFactory = DataFactoryMySqlImpl.getInstance();
@@ -58,18 +53,6 @@ public class RMIHelper {
 		}else {
 			System.out.println("Server Open Already");
 		}
-	}
-	/**
-	 * Change port
-	 * @param port
-	 */
-	public void changePort(int port) {
-		off();
-		if(port == this.port){
-			return;
-		}
-		this.port = port;
-		run();
 	}
 	/**
 	 * Restart

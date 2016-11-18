@@ -19,12 +19,12 @@
                   <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Port">
+  <!--          <Menu mnemonicParsing="false" text="Port">
             <items>
               <MenuItem fx:id="changeport" mnemonicParsing="false" onAction="#handleChangePort" text="Change" />
                   <MenuItem fx:id="reset" mnemonicParsing="false" onAction="#handleReset" text="Reset" />
             </items>
-          </Menu>
+          </Menu> -->
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="about" mnemonicParsing="false" onAction="#handleAbout" text="About" />

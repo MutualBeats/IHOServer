@@ -1,4 +1,4 @@
-package rmitest;
+package rmi_test;
 
 import static org.junit.Assert.*;
 

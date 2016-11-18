@@ -5,6 +5,7 @@
 package data.promotiondata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import dataservice.promotiondataservice.PromotionDataService;
@@ -12,7 +13,14 @@ import po.MemberPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
-public class PromotionDataServiceMySqlImpl implements PromotionDataService {
+public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService {
+
+	private static final long serialVersionUID = 2L;
+
+	public PromotionDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.promotiondataservice.PromotionDataService#hotelAdd(po.PromotionPO)

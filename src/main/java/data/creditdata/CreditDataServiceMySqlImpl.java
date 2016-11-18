@@ -5,12 +5,20 @@
 package data.creditdata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import dataservice.creditdataservice.CreditDataService;
 import po.CreditPO;
 
-public class CreditDataServiceMySqlImpl implements CreditDataService {
+public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService {
+
+	private static final long serialVersionUID = 2L;
+
+	public CreditDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.creditdataservice.CreditDataService#insert(po.CreditPO)

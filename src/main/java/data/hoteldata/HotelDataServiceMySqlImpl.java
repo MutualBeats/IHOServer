@@ -5,6 +5,7 @@
 package data.hoteldata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import dataservice.hoteldataservice.HotelDataService;
@@ -12,7 +13,14 @@ import po.HotelEvaluationPO;
 import po.HotelPO;
 import util.SearchCondition;
 
-public class HotelDataServiceMySqlImpl implements HotelDataService {
+public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService {
+
+	private static final long serialVersionUID = 2L;
+
+	public HotelDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.hoteldataservice.HotelDataService#findHotelData(java.lang.String)

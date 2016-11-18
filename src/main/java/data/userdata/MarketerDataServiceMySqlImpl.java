@@ -5,12 +5,20 @@
 package data.userdata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import dataservice.userdataservice.MarketerDataService;
 import po.MarketerPO;
 import util.ResultMessage;
 
-public class MarketerDataServiceMySqlImpl implements MarketerDataService {
+public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {
+
+	private static final long serialVersionUID = 2L;
+	
+	public MarketerDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.userdataservice.MarketerDataService#findData(java.lang.String)

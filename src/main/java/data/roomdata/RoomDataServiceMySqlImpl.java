@@ -5,12 +5,20 @@
 package data.roomdata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import dataservice.roomdataservice.RoomDataService;
 import po.RoomPO;
 
-public class RoomDataServiceMySqlImpl implements RoomDataService {
+public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
+
+	private static final long serialVersionUID = 2L;
+
+	public RoomDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.roomdataservice.RoomDataService#find(java.lang.String)

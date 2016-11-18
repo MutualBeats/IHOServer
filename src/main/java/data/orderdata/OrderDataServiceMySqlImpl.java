@@ -5,13 +5,21 @@
 package data.orderdata;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import dataservice.orderdataservice.OrderDataService;
 import po.OrderPO;
 import util.ResultMessage;
 
-public class OrderDataServiceMySqlImpl implements OrderDataService {
+public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService {
+
+	private static final long serialVersionUID = 2L;
+
+	public OrderDataServiceMySqlImpl() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.orderdataservice.OrderDataService#putUpOrder(java.lang.String)

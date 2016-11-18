@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import dataservice.userdataservice.StaffDataService;
 import po.StaffPO;
+import util.ResultMessage;
 
 public class StaffDataServiceMySqlImpl implements StaffDataService {
 
@@ -16,6 +17,18 @@ public class StaffDataServiceMySqlImpl implements StaffDataService {
 	 */
 	@Override
 	public StaffPO findData(String StaffID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage updateData(StaffPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage insert(StaffPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

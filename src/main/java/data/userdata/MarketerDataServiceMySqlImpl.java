@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import dataservice.userdataservice.MarketerDataService;
 import po.MarketerPO;
+import util.ResultMessage;
 
 public class MarketerDataServiceMySqlImpl implements MarketerDataService {
 
@@ -16,6 +17,18 @@ public class MarketerDataServiceMySqlImpl implements MarketerDataService {
 	 */
 	@Override
 	public MarketerPO findData(String MarketerID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage updateData(MarketerPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage insert(MarketerPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,4 +1,4 @@
-package rmihelper;
+package test;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -13,33 +13,40 @@ import java.rmi.server.UnicastRemoteObject;
 import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.datafactory.DataFactory;
 
-public class RMIHelper {
+/**
+ * @see QuickStart
+ * @author Saltwater
+ * 
+ * This is the copy of RMIHelper
+ * Only Change Part of The Visibility of Some Properties
+ * For the Test of the Connection of RMI Connection. 
+ */
+public class RMIHelperCopyright {
 	/**
 	 * Default port;
 	 */
 	private final static int DE_PORT = 8888;
 	
-	private int port;
+	public int port;
 	
-	private String address;
+	public String address;
 	/**
 	 *  Registry 保存, 之后可以 Unregist
 	 */
-	private Registry registry;
+	public Registry registry;
 	
 	private DataFactory dataFactory;
 	
-	private static RMIHelper helper = new RMIHelper();
+	private static RMIHelperCopyright helper = new RMIHelperCopyright();
 	
-	private RMIHelper() {
+	private RMIHelperCopyright() {
 		port = DE_PORT;
 		registry = null;
 		address = getIPAddress();
 		dataFactory = DataFactoryMySqlImpl.getInstance();
 	}
 	
-	
-	public static RMIHelper getInstance() {
+	public static RMIHelperCopyright getInstance() {
 		return helper;
 	}
 	
@@ -87,7 +94,6 @@ public class RMIHelper {
 		if(registry != null){
 			try {
 				Naming.unbind(dealServerName(port, address));
-				//Notice : the object to unexport is Registry .
 				UnicastRemoteObject.unexportObject(registry, true);
 				registry = null;
 				System.out.println("The server is closed");
@@ -100,7 +106,7 @@ public class RMIHelper {
 		}
 	}
 	
-	private String dealServerName(int port, String ip) {
+	public String dealServerName(int port, String ip) {
 		return "rmi://"+ ip + ":"+port+"/"+DataFactory.class.getName();
 	}
 	

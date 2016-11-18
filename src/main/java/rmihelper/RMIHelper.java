@@ -84,7 +84,7 @@ public class RMIHelper {
 	}
 	
 	private String dealServerName(int port, String ip) {
-		return "rmi://"+ ip + ":"+port+"/"+DataFactory.class.getName();
+		return "rmi://"+ ip + ":"+port+"/DataFactory";
 	}
 	
 	private String getIPAddress() {

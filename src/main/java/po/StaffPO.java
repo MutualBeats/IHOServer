@@ -1,3 +1,6 @@
+/**
+ * @version 2016年11月19日 添加空构造方法
+ */
 package po;
 
 public class StaffPO {
@@ -16,6 +19,7 @@ public class StaffPO {
 	/*
 	 * 酒店工作人员所在酒店ID
 	 */
+	
 	private String hotelId;
 	/**
 	 * @param staffID
@@ -30,7 +34,11 @@ public class StaffPO {
 		this.hotelname = hotelname;
 		this.hotelId = hotelId;
 	}
-	public String getStaffID() {
+	
+	public StaffPO() {
+	}
+	
+ 	public String getStaffID() {
 		return staffID;
 	}
 	public void setStaffID(String staffID) {

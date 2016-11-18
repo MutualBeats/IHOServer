@@ -1,3 +1,6 @@
+/**
+ * @version 2016年11月19日 添加空构造方法
+ */
 package po;
 
 import java.util.ArrayList;
@@ -10,6 +13,36 @@ public class PromotionPO {
 	private String endTime;
 	private double discount;
 	private static ArrayList<Integer> levelList;
+	
+	/**
+	 * @param promotionId
+	 * @param message
+	 * @param id
+	 * @param startTime
+	 * @param endTime
+	 * @param discount
+	 * @param levelList
+	 */
+	public PromotionPO(String promotionId, String message, String id, String startTime, String endTime, double discount) {
+		super();
+		this.promotionId = promotionId;
+		this.message = message;
+		this.id = id;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.discount = discount;
+	}
+	
+	public PromotionPO() {
+	}
+	
+	public static ArrayList<Integer> getLevelList() {
+		return levelList;
+	}
+	public static void setLevelList(ArrayList<Integer> levelList) {
+		PromotionPO.levelList = levelList;
+	}
+	
 	public String getPromotionId() {
 		return promotionId;
 	}
@@ -45,31 +78,6 @@ public class PromotionPO {
 	}
 	public void setDiscount(double discount) {
 		this.discount = discount;
-	}
-	
-	/**
-	 * @param promotionId
-	 * @param message
-	 * @param id
-	 * @param startTime
-	 * @param endTime
-	 * @param discount
-	 * @param levelList
-	 */
-	public PromotionPO(String promotionId, String message, String id, String startTime, String endTime, double discount) {
-		super();
-		this.promotionId = promotionId;
-		this.message = message;
-		this.id = id;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.discount = discount;
-	}
-	public static ArrayList<Integer> getLevelList() {
-		return levelList;
-	}
-	public static void setLevelList(ArrayList<Integer> levelList) {
-		PromotionPO.levelList = levelList;
 	}
 	
 }

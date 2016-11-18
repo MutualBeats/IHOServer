@@ -1,6 +1,7 @@
 /**
  * @author huangxiao
- * 2016年10月16日
+ * @version 2016年10月16日
+ * @version 2016年11月19日 添加空构造方法
  */
 package po;
 
@@ -27,7 +28,6 @@ public class HotelEvaluationPO {
 	 */
 	private String evaluateInfo;
 	
-	
 	/**
 	 * 构造方法
 	 * @param hotelID
@@ -45,6 +45,10 @@ public class HotelEvaluationPO {
 		this.evaluateScore = evaluateScore;
 		this.evaluateInfo = evaluateInfo;
 	}
+	
+	public HotelEvaluationPO() {
+	}
+	
 	public String getHotelID() {
 		return hotelID;
 	}

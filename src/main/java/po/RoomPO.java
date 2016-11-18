@@ -1,6 +1,7 @@
 /**
  * @author huangxiao
- * 2016年10月15日
+ * @version 2016年10月15日
+ * @version 2016年11月19日 添加空构造方法
  */
 package po;
 
@@ -53,6 +54,9 @@ public class RoomPO {
 		this.price = price;
 		this.checkRecordList = checkRecordList;
 		this.conditionList = conditionList;
+	}
+	
+	public RoomPO() {
 	}
 
 	public String getHotelID() {

@@ -7,6 +7,8 @@ package data.creditdata;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.creditdataservice.CreditDataService;
@@ -20,15 +22,10 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	public CreditDataServiceMySqlImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.creditdataservice.CreditDataService#insert(po.CreditPO)
-	 */
 	@Override
 	public void insert(CreditPO po) throws RemoteException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -37,7 +34,20 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	 */
 	@Override
 	public ArrayList<CreditPO> find(String clientID) throws RemoteException {
-		// TODO Auto-generated method stub
+		sqlManager.getConnection();
+		
+		ArrayList<CreditPO> creditList = new ArrayList<CreditPO>();
+		String sql = "SELECT * FROM credit WHERE credit_id=? ORDER BY time DESC";
+		List<Map<String, Object>> maplist = sqlManager.queryMulti(sql, new Object[]{clientID});
+		for(Map<String, Object> map: maplist) {
+			creditList.add(getCreditPO(map));
+		}
+		sqlManager.releaseAll();
+		
+		return creditList;
+	}
+	
+	private CreditPO getCreditPO(Map<String, Object> map) {
 		return null;
 	}
 

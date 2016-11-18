@@ -1,3 +1,6 @@
+/**
+ * @version 2016年11月19日 添加空构造方法
+ */
 package po;
 
 import util.MemberType;
@@ -5,7 +8,6 @@ import util.OrderState;
 import util.RoomType;
 
 public class OrderPO {
-	
 	
 	/**
 	 * @param orderId
@@ -53,6 +55,10 @@ public class OrderPO {
 		this.numOfPeople = numOfPeople;
 		this.numOfRoom = numOfRoom;
 	}
+	
+	public OrderPO() {
+	}
+	
 	/*
 	 * 订单id
 	 */

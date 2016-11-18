@@ -1,6 +1,10 @@
+/**
+ * @version 2016年11月19日 添加空构造方法
+ */
 package po;
 
 public class MemberPO {
+	
 	private String memberID;
 	private String memberMessage;
 	private int level;
@@ -16,6 +20,10 @@ public class MemberPO {
 		this.memberMessage = memberMessage;
 		this.level = level;
 	}
+	
+	public MemberPO() {
+	}
+	
 	public String getMemberID() {
 		return memberID;
 	}

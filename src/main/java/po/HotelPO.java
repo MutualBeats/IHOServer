@@ -1,6 +1,7 @@
 /**
  * @author huangxiao
- * 2016年10月16日
+ * @version 2016年10月16日
+ * @version 2016年11月19日 添加空构造方法
  */
 package po;
 
@@ -54,6 +55,9 @@ public class HotelPO {
 		this.businessDistrict = businessDistrict;
 		this.starLevel = starLevel;
 		this.score = score;
+	}
+	
+	public HotelPO() {
 	}
 
 	public String getHotelID() {

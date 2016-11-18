@@ -1,6 +1,7 @@
 /**
  * @author huangxiao
- * 2016年10月15日
+ * @version 2016年10月15日
+ * @version 2016年11月19日 添加空构造方法
  */
 package po;
 
@@ -38,7 +39,10 @@ public class CreditPO {
 		this.changeValue = changeValue;
 		this.credit = credit;
 	}
-
+	
+	public CreditPO() {
+	}
+	
 	public String getClientID() {
 		return clientID;
 	}

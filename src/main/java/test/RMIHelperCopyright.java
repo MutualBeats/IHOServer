@@ -11,7 +11,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import data.datafactory.DataFactoryMySqlImpl;
-import dataservice.datafactory.DataFactory;
+import dataservice.datafactoryservice.DataFactory;
 
 /**
  * @see QuickStart

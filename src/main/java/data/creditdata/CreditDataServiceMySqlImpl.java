@@ -26,12 +26,21 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	@Override
 	public void insert(CreditPO po) throws RemoteException {
-
+		if(po == null)
+			return;
+		sqlManager.getConnection();
+		
+		String sql = "INSERT INTO credit VALUES ";
+		List<Object> params = new ArrayList<Object>();
+		params.add(po.getClientID());
+		params.add(po.getChangeTime());
+		params.add(po.getChangeValue());
+		params.add(po.getCredit());
+		
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
 	}
-
-	/* (non-Javadoc)
-	 * @see dataservice.creditdataservice.CreditDataService#find(java.lang.String)
-	 */
+	
 	@Override
 	public ArrayList<CreditPO> find(String clientID) throws RemoteException {
 		sqlManager.getConnection();
@@ -48,7 +57,12 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 	
 	private CreditPO getCreditPO(Map<String, Object> map) {
-		return null;
+		CreditPO po = new CreditPO();
+		po.setClientID(map.get("client_id").toString());
+		po.setChangeTime(map.get("time").toString());
+		po.setChangeValue(Integer.parseInt(map.get("value").toString()));
+		po.setCredit(Integer.parseInt(map.get("credit").toString()));
+		return po;
 	}
 
 }

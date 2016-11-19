@@ -17,7 +17,7 @@ import data.userdata.ManagerDataServiceMySqlImpl;
 import data.userdata.MarketerDataServiceMySqlImpl;
 import data.userdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
-import dataservice.datafactory.DataFactory;
+import dataservice.datafactoryservice.DataFactory;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.orderdataservice.OrderDataService;
 import dataservice.promotiondataservice.PromotionDataService;

@@ -2,7 +2,7 @@
  * @author huangxiao
  * 2016年11月16日
  */
-package dataservice.datafactory;
+package dataservice.datafactoryservice;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

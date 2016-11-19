@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 
 import org.junit.Test;
 
-import dataservice.datafactory.DataFactory;
+import dataservice.datafactoryservice.DataFactory;
 import test.RMIHelperCopyright;
 
 public class RMIConnectionTest {

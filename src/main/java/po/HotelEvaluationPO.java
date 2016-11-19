@@ -31,16 +31,16 @@ public class HotelEvaluationPO {
 	/**
 	 * 构造方法
 	 * @param hotelID
-	 * @param clientName
+	 * @param clientID
 	 * @param evaluateTime
 	 * @param evaluateScore
 	 * @param evaluateInfo
 	 */
-	public HotelEvaluationPO(String hotelID, String clientName, String evaluateTime, int evaluateScore,
+	public HotelEvaluationPO(String hotelID, String clientID, String evaluateTime, int evaluateScore,
 			String evaluateInfo) {
 		super();
 		this.hotelID = hotelID;
-		this.clientID = clientName;
+		this.clientID = clientID;
 		this.evaluateTime = evaluateTime;
 		this.evaluateScore = evaluateScore;
 		this.evaluateInfo = evaluateInfo;
@@ -55,11 +55,11 @@ public class HotelEvaluationPO {
 	public void setHotelID(String hotelID) {
 		this.hotelID = hotelID;
 	}
-	public String getClientName() {
+	public String getClientID() {
 		return clientID;
 	}
-	public void setClientName(String clientName) {
-		this.clientID = clientName;
+	public void setClientID(String clientID) {
+		this.clientID = clientID;
 	}
 	public String getEvaluateTime() {
 		return evaluateTime;

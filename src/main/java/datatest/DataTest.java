@@ -4,11 +4,13 @@
  */
 package datatest;
 
+import java.util.ArrayList;
+
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
-import po.HotelPO;
+import po.HotelEvaluationPO;
 
 public class DataTest {
 	
@@ -23,8 +25,8 @@ public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
-		HotelPO po = test.hotelDataService.findHotelData("00000001");
-		System.out.println(po.getHotelID() + '\t' + po.getRegion() + '\t' + po.getScore());
+		ArrayList<HotelEvaluationPO> list = test.hotelDataService.findHotelEvaluation("00000001");
+		System.out.println(list.size());
 	}
 
 }

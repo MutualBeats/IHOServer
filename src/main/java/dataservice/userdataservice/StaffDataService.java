@@ -10,7 +10,7 @@ public interface StaffDataService extends Remote{
 	/*
 	 * 获取StaffPO内部数据
 	 */
-	public StaffPO findData(String StaffID) throws RemoteException;
+	public StaffPO findData(String staffID) throws RemoteException;
 	/*
 	 * 在数据库中更新一个StaffPO记录
 	 */

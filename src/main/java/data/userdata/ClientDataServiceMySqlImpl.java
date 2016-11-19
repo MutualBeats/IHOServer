@@ -20,7 +20,6 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	
 	public ClientDataServiceMySqlImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)

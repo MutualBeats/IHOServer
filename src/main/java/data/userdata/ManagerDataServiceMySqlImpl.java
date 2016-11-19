@@ -29,7 +29,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 		String sql = "SELECT password FROM manager WHERE manager_id=?";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
-		// TODO
+		
 		if(map.get("password").equals(password))
 			return null; // TODO
 		else

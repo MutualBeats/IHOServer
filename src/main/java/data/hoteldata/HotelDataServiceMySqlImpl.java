@@ -36,7 +36,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		
 		return getHotelPO(map);
 	}
-
+	
+	// TODO 根据房间信息搜索
 	@Override
 	public ArrayList<HotelPO> findHotelListData(SearchCondition sc) throws RemoteException {
 		if(sc == null || sc.region == null || sc.businessDistrict == null)
@@ -116,7 +117,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getHotelID());
-		params.add(po.getClientName());
+		params.add(po.getClientID());
 		params.add(po.getEvaluateTime());
 		params.add(po.getEvaluateScore());
 		params.add(po.getEvaluateInfo());
@@ -166,7 +167,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		HotelEvaluationPO po = new HotelEvaluationPO();
 		
 		po.setHotelID(map.get("hotel_id").toString());
-		po.setClientName(map.get("client_id").toString());
+		po.setClientID(map.get("client_id").toString());
 		po.setEvaluateTime(map.get("time").toString());
 		po.setEvaluateScore(Integer.parseInt(map.get("score").toString()));
 		po.setEvaluateInfo(map.get("evaluate_info").toString());

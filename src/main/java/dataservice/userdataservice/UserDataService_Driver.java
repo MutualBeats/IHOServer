@@ -23,7 +23,7 @@ public class UserDataService_Driver {
 		StaffPO po2 = userDataService.findStaffData("0000000001");
 		System.out.println(po2.getStaffID());
 		System.out.println(po2.getStaffname());
-		System.out.println(po2.getHotelname());
+		System.out.println(po2.getHotelId());
 		/*
 		 * 获取MarketerPO内部数据
 		 */
@@ -38,7 +38,7 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中更新一个StaffPO记录
 		 */
-		userDataService.updateStaffData(new StaffPO("0000000001", "admin", "hotel","12345678"));
+		userDataService.updateStaffData(new StaffPO("0000000001", "admin", "12345678"));
 		/*
 		 * 在数据库中更新一个ClientPO记录
 		 */
@@ -50,7 +50,7 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中生成一个staffPO记录
 		 */
-		userDataService.insertStaff(new StaffPO("0000000001", "admin", "Hotel","12345678"));
+		userDataService.insertStaff(new StaffPO("0000000001", "admin", "12345678"));
 		/*
 		 * 检测是否允许登陆
 		 */

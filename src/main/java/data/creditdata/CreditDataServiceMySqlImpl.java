@@ -30,13 +30,14 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			return;
 		sqlManager.getConnection();
 		
-		String sql = sqlManager.appendSQL("INSERT INTO credit VALUES ", 4);
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getClientID());
 		params.add(po.getChangeTime());
 		params.add(po.getChangeValue());
 		params.add(po.getCredit());
 		
+		String sql = sqlManager.appendSQL("INSERT INTO credit VALUES ", params.size());
+
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 	}
@@ -46,7 +47,7 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.getConnection();
 		
 		ArrayList<CreditPO> creditList = new ArrayList<CreditPO>();
-		String sql = "SELECT * FROM credit WHERE credit_id=? ORDER BY time DESC";
+		String sql = "SELECT * FROM credit WHERE client_id=? ORDER BY time DESC";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{clientID});
 		for(Map<String, Object> map: mapList) {
 			creditList.add(getCreditPO(map));

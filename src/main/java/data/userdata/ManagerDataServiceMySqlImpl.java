@@ -6,6 +6,7 @@ package data.userdata;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ManagerDataService;
@@ -13,20 +14,26 @@ import util.ResultMessage;
 
 public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements ManagerDataService {
 
-	@Override
-	public ResultMessage find(String ID, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
 
 	public ManagerDataServiceMySqlImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
+	
+	@Override
+	public ResultMessage find(String ID, String password) throws RemoteException {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT password FROM manager WHERE manager_id=?";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
+		sqlManager.releaseAll();
+		// TODO
+		if(map.get("password").equals(password))
+			return null; // TODO
+		else
+			return null; // TODO
+	}
 	
 }

@@ -8,7 +8,7 @@ import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
-import po.CreditPO;
+import po.HotelPO;
 
 public class DataTest {
 	
@@ -23,8 +23,8 @@ public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
-		CreditPO po = new CreditPO("0123456789", "2017/01/01 23:15:00", 128, 96);
-		test.creditDataService.insert(po);
+		HotelPO po = test.hotelDataService.findHotelData("00000001");
+		System.out.println(po.getHotelID() + '\t' + po.getRegion() + '\t' + po.getScore());
 	}
 
 }

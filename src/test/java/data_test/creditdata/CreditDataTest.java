@@ -4,6 +4,53 @@
  */
 package data_test.creditdata;
 
+import static org.junit.Assert.*;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import data.creditdata.CreditDataServiceMySqlImpl;
+import dataservice.creditdataservice.CreditDataService;
+import po.CreditPO;
+
 public class CreditDataTest {
-	// TODO
+	private CreditDataService creditDataService;
+	
+	@Before
+	public void init() {
+		try {
+			creditDataService = new CreditDataServiceMySqlImpl();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testInsert() {
+		CreditPO po = new CreditPO("9999999999", "2016/11/19 17:27:00", -16, -16);
+		try {
+			creditDataService.insert(po);
+		} catch (Exception e) {
+			fail("Exception!");
+		}
+	}
+	
+	@Test
+	public void testFind() {
+		try {
+			ArrayList<CreditPO> creditList = creditDataService.find("1234567890");
+			for (CreditPO po : creditList) {
+				if(!po.getClientID().equals("1234567890"))
+					fail("Find Error!");
+				if(po.getChangeTime() == null)
+					fail("Null Pointer!");
+			}
+		} catch (Exception e) {
+			fail("Exception!");
+		}
+	}
+	
 }

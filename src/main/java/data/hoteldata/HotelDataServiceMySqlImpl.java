@@ -30,7 +30,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	public HotelPO findHotelData(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT * FROM hotel WHERE hotelID=?";
+		String sql = "SELECT * FROM hotel WHERE hotel_id=?";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID});
 		sqlManager.releaseAll();
 		
@@ -114,13 +114,14 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 			return;
 		sqlManager.getConnection();
 		
-		String sql = sqlManager.appendSQL("INSERT INTO hotel_evaluation VALUES ", 5);
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getHotelID());
 		params.add(po.getClientName());
 		params.add(po.getEvaluateTime());
 		params.add(po.getEvaluateScore());
 		params.add(po.getEvaluateInfo());
+		
+		String sql = sqlManager.appendSQL("INSERT INTO hotel_evaluation VALUES ", params.size());
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
@@ -132,7 +133,6 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 			return;
 		sqlManager.getConnection();
 		
-		String sql = sqlManager.appendSQL("INSERT INTO hotel VALUES ", 7);
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getHotelID());
 		params.add(po.getHotelName());
@@ -141,6 +141,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		params.add(po.getBusinessDistrict());
 		params.add(po.getStarLevel());
 		params.add(po.getScore());
+		
+		String sql = sqlManager.appendSQL("INSERT INTO hotel VALUES ", params.size());
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();

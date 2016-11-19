@@ -446,4 +446,20 @@ public class SqlManager {
 		return list;
 	}
 
+	/**
+     * 补全SQL末尾参数
+     * @param sql SQL语句
+     * @param num 参数数量
+     * @return SQL
+     */
+    public String appendSQL(String sql, int num) {
+        sql += "(";
+        for (int i = 0; i < num - 1; i++) {
+            sql += "?,";
+        }
+        sql += "?)";
+        return sql;
+    }
+
+
 }

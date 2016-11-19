@@ -46,4 +46,10 @@ public class HotelDataServiceImpl_Stub implements HotelDataService {
 		System.out.println("Insert Hotel Succeed!");
 	}
 
+	@Override
+	public ArrayList<HotelEvaluationPO> findHotelEvaluation(String hotelID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

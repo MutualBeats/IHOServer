@@ -4,23 +4,23 @@
 package po;
 
 public class StaffPO {
-	/*
+	/**
 	 * 酒店工作人员ID
 	 */
 	private String staffID;
-	/*
+	/**
 	 * 酒店工作人员姓名
 	 */
 	private String staffname;
-	/*
+	/**
 	 * 酒店工作人员所在酒店
 	 */
 	private String hotelname;
-	/*
+	/**
 	 * 酒店工作人员所在酒店ID
 	 */
-	
 	private String hotelId;
+	
 	/**
 	 * @param staffID
 	 * @param staffname

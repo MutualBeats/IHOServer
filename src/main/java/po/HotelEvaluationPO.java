@@ -14,7 +14,7 @@ public class HotelEvaluationPO {
 	/**
 	 * 评价者
 	 */
-	private String clientName;
+	private String clientID;
 	/**
 	 * 评价时间
 	 */
@@ -40,7 +40,7 @@ public class HotelEvaluationPO {
 			String evaluateInfo) {
 		super();
 		this.hotelID = hotelID;
-		this.clientName = clientName;
+		this.clientID = clientName;
 		this.evaluateTime = evaluateTime;
 		this.evaluateScore = evaluateScore;
 		this.evaluateInfo = evaluateInfo;
@@ -56,10 +56,10 @@ public class HotelEvaluationPO {
 		this.hotelID = hotelID;
 	}
 	public String getClientName() {
-		return clientName;
+		return clientID;
 	}
 	public void setClientName(String clientName) {
-		this.clientName = clientName;
+		this.clientID = clientName;
 	}
 	public String getEvaluateTime() {
 		return evaluateTime;

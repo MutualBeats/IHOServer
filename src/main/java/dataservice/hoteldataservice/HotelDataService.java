@@ -19,6 +19,8 @@ public interface HotelDataService extends Remote{
 	public ArrayList<HotelPO> findHotelListData(SearchCondition sc) throws RemoteException;
 	
 	public void updateHotelData(HotelPO po) throws RemoteException;
+	
+	public ArrayList<HotelEvaluationPO> findHotelEvaluation(String hotelID) throws RemoteException;
 		
 	public void insertHotelEvaluation(HotelEvaluationPO po) throws RemoteException;
 	

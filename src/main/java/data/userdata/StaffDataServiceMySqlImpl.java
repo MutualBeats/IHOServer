@@ -74,7 +74,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		List<Object> params = new ArrayList<Object>();
 		// TODO
 		
-		return null;
+		return ResultMessage.RegisterSuccess;
 	}
 	
 	private StaffPO getStaffPO(Map<String, Object> map) {

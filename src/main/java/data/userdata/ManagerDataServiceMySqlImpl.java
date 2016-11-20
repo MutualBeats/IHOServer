@@ -31,9 +31,11 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 		sqlManager.releaseAll();
 		
 		if(map.get("password").equals(password))
-			return null; // TODO
+			// TODO
+			return null;
 		else
-			return null; // TODO
+			// TODO
+			return null;
 	}
 	
 }

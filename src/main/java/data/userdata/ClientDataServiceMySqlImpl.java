@@ -6,6 +6,9 @@ package data.userdata;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
@@ -22,13 +25,15 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.userdataservice.ClientDataService#findData(java.lang.String)
-	 */
 	@Override
-	public ClientPO findData(String ClientID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientPO findData(String clientID) throws RemoteException {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT * FROM client WHERE client_id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{clientID});
+		sqlManager.releaseAll();
+		
+		return getClientPO(map);
 	}
 
 	/* (non-Javadoc)
@@ -36,26 +41,51 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	 */
 	@Override
 	public ResultMessage updateData(ClientPO po) throws RemoteException {
-		// TODO Auto-generated method stub
+		if(po == null)
+			return ResultMessage.UpdateFailed;
+		sqlManager.getConnection();
+		// TODO
+		String mysql;
+		
 		return null;
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.userdataservice.ClientDataService#find(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public ResultMessage find(String ID, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		sqlManager.getConnection();
+		
+		String sql = "SELECT password FROM client WHERE client_id=?";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
+		sqlManager.releaseAll();
+		
+		if(map.get("password").equals(password))
+			// TODO
+			return null;
+		else
+			// TODO
+			return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.userdataservice.ClientDataService#insert(po.ClientPO, java.lang.String)
-	 */
 	@Override
 	public ResultMessage insert(ClientPO po, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if(po == null)
+			return ResultMessage.RegisterFail;
+		sqlManager.getConnection();
+		
+		List<Object> params = new ArrayList<Object>();
+		// TODO
+		
+		return ResultMessage.RegisterSuccess;
+	}
+	
+	private ClientPO getClientPO(Map<String, Object> map) {
+		ClientPO po = new ClientPO();
+		po.setClientID(map.get("client_id").toString());
+		po.setClientname(map.get("client_name").toString());
+		po.setTel_number(map.get("contact_way").toString());
+		// TODO
+		return po;
 	}
 
 }

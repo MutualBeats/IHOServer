@@ -73,7 +73,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		List<Object> params = new ArrayList<Object>();
 		// TODO
 		
-		return null;
+		return ResultMessage.RegisterSuccess;
 	}
 	
 	private MarketerPO getMarketerPO(Map<String, Object> map) {

@@ -26,15 +26,20 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 	public ResultMessage find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT password FROM manager WHERE manager_id=?";
+		String sql = "SELECT password FROM manager WHERE manager_id=? ";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
+		if(map.size() == 0) {
+			// TODO manager_id不存在
+			return null;
+		}
+		
 		if(map.get("password").equals(password))
-			// TODO
+			// TODO 登录成功信息
 			return null;
 		else
-			// TODO
+			// TODO 登录失败信息
 			return null;
 	}
 	

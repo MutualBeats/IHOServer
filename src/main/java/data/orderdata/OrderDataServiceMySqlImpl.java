@@ -21,7 +21,6 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 
 	public OrderDataServiceMySqlImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)

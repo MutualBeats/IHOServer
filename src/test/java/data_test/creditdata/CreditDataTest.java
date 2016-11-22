@@ -15,6 +15,7 @@ import org.junit.Test;
 import data.creditdata.CreditDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import po.CreditPO;
+import util.CreditChangeAction;
 
 public class CreditDataTest {
 	private CreditDataService creditDataService;
@@ -30,11 +31,12 @@ public class CreditDataTest {
 	
 	@Test
 	public void testInsert() {
-		CreditPO po = new CreditPO("9999999999", "2016/11/19 17:27:00", -16, -16);
+		CreditPO po = new CreditPO("9999999999", "2016/11/19 17:27:00", CreditChangeAction.RepealOrder, "999999999999", -16, -16);
 		try {
 			creditDataService.insert(po);
 		} catch (Exception e) {
 			fail("Exception!");
+			e.printStackTrace();
 		}
 	}
 	
@@ -50,6 +52,7 @@ public class CreditDataTest {
 			}
 		} catch (Exception e) {
 			fail("Exception!");
+			e.printStackTrace();
 		}
 	}
 	

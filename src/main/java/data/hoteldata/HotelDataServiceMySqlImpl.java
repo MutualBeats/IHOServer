@@ -132,6 +132,10 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	public void insertHotel(HotelPO po) throws RemoteException {
 		if(po == null)
 			return;
+		if(findHotelData(po.getHotelID()) != null) {
+			// TODO hotelID已存在
+			// TODO 接口返回值类型修改 ResultMessage
+		}
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -150,6 +154,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 	
 	private HotelPO getHotelPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
 		HotelPO po = new HotelPO();
 		
 		po.setHotelID(map.get("hotel_id").toString());
@@ -164,6 +170,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 	
 	private HotelEvaluationPO getHotelEvaluationPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
 		HotelEvaluationPO po = new HotelEvaluationPO();
 		
 		po.setHotelID(map.get("hotel_id").toString());

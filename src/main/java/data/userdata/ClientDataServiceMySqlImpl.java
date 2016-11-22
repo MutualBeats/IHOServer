@@ -45,8 +45,8 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			return ResultMessage.UpdateFailed;
 		sqlManager.getConnection();
 		// TODO
-		String mysql;
 		
+		sqlManager.releaseConnection();
 		return null;
 		
 	}
@@ -59,11 +59,16 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
+		if(map.size() == 0) {
+			// TODO client_id不存在
+			return null;
+		}
+		
 		if(map.get("password").equals(password))
-			// TODO
+			// TODO 登录成功信息
 			return null;
 		else
-			// TODO
+			// TODO 登录失败信息
 			return null;
 	}
 
@@ -80,11 +85,13 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 	
 	private ClientPO getClientPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
 		ClientPO po = new ClientPO();
 		po.setClientID(map.get("client_id").toString());
 		po.setClientname(map.get("client_name").toString());
 		po.setTel_number(map.get("contact_way").toString());
-		// TODO
+		// TODO clientPO
 		return po;
 	}
 

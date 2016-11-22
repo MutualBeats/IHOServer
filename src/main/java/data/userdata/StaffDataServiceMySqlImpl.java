@@ -45,6 +45,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		String sql = "UPDATE staff SET staff_name=?, hotel_id=? WHERE staff_id=? ";
 		boolean updateSuccess;
 		updateSuccess = sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getHotelId(), po.getStaffID()});
+		sqlManager.releaseConnection();
 		
 		return updateSuccess ? ResultMessage.UpdateSucceed : ResultMessage.UpdateFailed;
 	}
@@ -58,10 +59,10 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.releaseAll();
 		
 		if(map.get("password").equals(password))
-			// TODO
+			// TODO 登录成功信息
 			return null;
 		else
-			// TODO
+			// TODO 登录失败信息
 			return null;
 	}
 	
@@ -69,15 +70,30 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	public ResultMessage insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
 			return ResultMessage.RegisterFail;
+		// staff_id已存在
+		if(findData(po.getStaffID()) != null)
+			return ResultMessage.RegisterFail;
+		
 		sqlManager.getConnection();
 		
+		String sql = "INSERT INTO staff (staff_id, password, staff_name, hotel_id) VALUES ";
+		
 		List<Object> params = new ArrayList<Object>();
-		// TODO
+		params.add(po.getStaffID());
+		params.add(password);
+		params.add(po.getStaffname());
+		params.add(po.getHotelId());
+		
+		sql = sqlManager.appendSQL(sql, params.size());
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
 		
 		return ResultMessage.RegisterSuccess;
 	}
 	
 	private StaffPO getStaffPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
 		StaffPO po = new StaffPO();
 		po.setStaffID(map.get("staff_id").toString());
 		po.setHotelId(map.get("hotel_id").toString());

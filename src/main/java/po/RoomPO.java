@@ -1,14 +1,12 @@
 /**
  * @author huangxiao
- * @version 2016年10月15日
+ * @version 2016年10月15日 po创建
  * @version 2016年11月19日 添加空构造方法
+ * @version 2016年11月22日 po属性修改
  */
 package po;
 
-import java.util.ArrayList;
-
-import util.RoomCheckRecord;
-import util.RoomConditionOfDate;
+import util.RoomCondition;
 import util.RoomType;
 
 public class RoomPO {
@@ -29,33 +27,26 @@ public class RoomPO {
 	 */
 	private int price;
 	/**
-	 * 房间记录
+	 * 当前状态
 	 */
-	private ArrayList<RoomCheckRecord> checkRecordList;
-	/**
-	 * 房间状态
-	 */
-	private ArrayList<RoomConditionOfDate> conditionList;
+	private RoomCondition condition;
 	
 	/**
-	 * 构造方法
 	 * @param hotelID
 	 * @param roomNumber
 	 * @param type
 	 * @param price
-	 * @param checkRecordList
-	 * @param conditionList
+	 * @param condition
 	 */
-	public RoomPO(String hotelID, String roomNumber, RoomType type, int price, 
-				ArrayList<RoomCheckRecord> checkRecordList, ArrayList<RoomConditionOfDate> conditionList) {
+	public RoomPO(String hotelID, String roomNumber, RoomType type, int price, RoomCondition condition) {
+		super();
 		this.hotelID = hotelID;
 		this.roomNumber = roomNumber;
 		this.type = type;
 		this.price = price;
-		this.checkRecordList = checkRecordList;
-		this.conditionList = conditionList;
+		this.condition = condition;
 	}
-	
+
 	public RoomPO() {
 	}
 
@@ -91,20 +82,12 @@ public class RoomPO {
 		this.price = price;
 	}
 
-	public ArrayList<RoomCheckRecord> getCheckRecordList() {
-		return checkRecordList;
+	public RoomCondition getCondition() {
+		return condition;
 	}
 
-	public void setCheckRecordList(ArrayList<RoomCheckRecord> checkRecordList) {
-		this.checkRecordList = checkRecordList;
+	public void setCondition(RoomCondition condition) {
+		this.condition = condition;
 	}
 
-	public ArrayList<RoomConditionOfDate> getConditionList() {
-		return conditionList;
-	}
-
-	public void setConditionList(ArrayList<RoomConditionOfDate> conditionList) {
-		this.conditionList = conditionList;
-	}
-	
 }

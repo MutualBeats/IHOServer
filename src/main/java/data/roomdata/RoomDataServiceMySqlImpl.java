@@ -12,8 +12,9 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.roomdataservice.RoomDataService;
-import po.CreditPO;
 import po.RoomPO;
+import util.RoomCondition;
+import util.RoomType;
 
 public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
 
@@ -24,10 +25,9 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
-
-	/* (non-Javadoc)
-	 * @see dataservice.roomdataservice.RoomDataService#find(java.lang.String)
-	 */
+	
+	// TODO RoomDataService接口修改
+	
 	@Override
 	public ArrayList<RoomPO> find(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
@@ -45,26 +45,54 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return roomList;
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.roomdataservice.RoomDataService#insert(po.RoomPO)
-	 */
 	@Override
 	public void insert(RoomPO po) throws RemoteException {
-		// TODO Auto-generated method stub
-
+		if(po == null)
+			return;
+		sqlManager.getConnection();
+		// TODO 判断房间是否已存在
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(po.getHotelID());
+		params.add(po.getRoomNumber());
+		params.add(po.getType().toString());
+		params.add(po.getCondition().toString());
+		
+		String sql = sqlManager.appendSQL("INSERT INTO room VALUES ", params.size());
+		
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.roomdataservice.RoomDataService#update(po.RoomPO)
-	 */
 	@Override
 	public void update(RoomPO po) throws RemoteException {
-		// TODO Auto-generated method stub
+		if(po == null)
+			return;
+		sqlManager.getConnection();
+		// TODO 判断房间是否存在
+		
+		String sql = "UPDATE room SET room_number=?, room_type=?, price=? WHERE hotel_id=? AND room_number=? ";
+		List<Object> params = new ArrayList<Object>();
+		params.add(po.getRoomNumber());
+		params.add(po.getType().toString());
+		params.add(po.getPrice());
+		params.add(po.getHotelID());
+		params.add(po.getRoomNumber());
+		
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
 	}
 	
 	private RoomPO getRoomPO(Map<String, Object> map) {
-		// TODO
-		return null;
+		if(map.size() == 0)
+			return null;
+		RoomPO po = new RoomPO();
+		po.setHotelID(map.get("hotel_id").toString());
+		po.setRoomNumber(map.get("room_number").toString());
+		po.setType(RoomType.valueOf(map.get("room_type").toString()));
+		po.setPrice(Integer.parseInt(map.get("price").toString()));
+		po.setCondition(RoomCondition.valueOf(map.get("condition").toString()));
+		return po;
 	}
 
 }

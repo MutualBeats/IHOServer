@@ -81,6 +81,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		if(po == null)
 			return;
 		sqlManager.getConnection();
+		// TODO 判断酒店是否存在
 		
 		String sql = "UPDATE hotel SET hotel_name=?, address=?, region=?, business_district=? WHERE hotel_id=?";
 		List<Object> params = new ArrayList<Object>();

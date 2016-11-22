@@ -8,8 +8,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.RoomPO;
-import util.RoomCheckRecord;
-import util.RoomConditionOfDate;
+import util.RoomCondition;
 import util.RoomType;
 
 public class RoomDataServiceImpl_Stub implements RoomDataService {
@@ -17,7 +16,7 @@ public class RoomDataServiceImpl_Stub implements RoomDataService {
 	@Override
 	public ArrayList<RoomPO> find(String HotelID) throws RemoteException {
 		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
-		roomList.add(new RoomPO("00000001", "1024", RoomType.Single, 100, new ArrayList<RoomCheckRecord>(), new ArrayList<RoomConditionOfDate>()));
+		roomList.add(new RoomPO("00000001", "1024", RoomType.Single, 100, RoomCondition.NotReserved));
 		return roomList;
 	}
 

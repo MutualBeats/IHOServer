@@ -5,17 +5,15 @@
 package dataservice.roomdataservice;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import po.RoomPO;
-import util.RoomCheckRecord;
-import util.RoomConditionOfDate;
+import util.RoomCondition;
 import util.RoomType;
 
 public class RoomDataServiceImpl_Driver {
 	
 	public void drive(RoomDataService roomDataService) throws RemoteException {
-		RoomPO po = new RoomPO("00000001", "1024", RoomType.Single, 100, new ArrayList<RoomCheckRecord>(), new ArrayList<RoomConditionOfDate>());
+		RoomPO po = new RoomPO("00000001", "1024", RoomType.Single, 100, RoomCondition.NotReserved);
 		
 		roomDataService.insert(po);
 		roomDataService.find("00000001");

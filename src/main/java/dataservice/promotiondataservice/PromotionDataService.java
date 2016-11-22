@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.MemberPO;
+import po.ClientPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
@@ -28,5 +28,5 @@ public interface PromotionDataService extends Remote{
 	/*
 	 * 制定会员等级制度
 	 */
-	public  void  levelMake (PromotionPO po,MemberPO po2)throws RemoteException ;
+	public  void  levelMake (PromotionPO po,ClientPO po2)throws RemoteException ;
 }

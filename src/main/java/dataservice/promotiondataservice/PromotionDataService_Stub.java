@@ -3,7 +3,7 @@ package dataservice.promotiondataservice;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.MemberPO;
+import po.ClientPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
@@ -38,7 +38,7 @@ public class PromotionDataService_Stub implements PromotionDataService{
 	 * 制定会员等级制度
 	 */
 	@Override
-	public void levelMake(PromotionPO po,MemberPO po2) throws RemoteException {
+	public void levelMake(PromotionPO po,ClientPO po2) throws RemoteException {
 		// TODO Auto-generated method stub
 		if(PromotionPO.getLevelList().contains(po2.getLevel()))
 			System.out.println("The level is "+ PromotionPO.getLevelList().indexOf(po2));

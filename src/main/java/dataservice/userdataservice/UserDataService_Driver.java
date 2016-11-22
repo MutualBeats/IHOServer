@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 
 import po.ClientPO;
 import po.MarketerPO;
-import po.MemberPO;
 import po.StaffPO;
 
 public class UserDataService_Driver {
@@ -34,7 +33,7 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中更新一个ClientPO记录
 		 */
-		userDataService.updateClientData(new ClientPO("0000000001", "admin", "123456789", 100, new MemberPO("1234567890", "腾讯企业",2)));
+		userDataService.updateClientData(new ClientPO("0000000001", "admin", "123456789", 100, "1234567890", "腾讯企业",2));
 		/*
 		 * 在数据库中更新一个StaffPO记录
 		 */
@@ -62,6 +61,6 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中生成一个clientPO记录
 		 */
-		userDataService.insertClient(new ClientPO("0000000001", "admin", "123456789", 100, new MemberPO("1234567890", "腾讯企业",2)), "123456");
+		userDataService.insertClient(new ClientPO("0000000001", "admin", "123456789", 100, "1234567890", "腾讯企业",2), "123456");
 	}
 }

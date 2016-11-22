@@ -66,31 +66,11 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		CreditPO po = new CreditPO();
 		po.setClientID(map.get("client_id").toString());
 		po.setChangeTime(map.get("time").toString());
-		po.setAction(stringToAction(map.get("action").toString()));
+		po.setAction(CreditChangeAction.valueOf(map.get("action").toString()));
 		po.setOrderID(map.get("order_id").toString());
 		po.setChangeValue(Integer.parseInt(map.get("value").toString()));
 		po.setCredit(Integer.parseInt(map.get("credit").toString()));
 		return po;
-	}
-	
-	/**
-	 * 字符串转化为枚举类型
-	 * @param action
-	 * @return 枚举类型
-	 */
-	private CreditChangeAction stringToAction(String action) {
-		switch(action) {
-		case "ExecuteOrder":
-			return CreditChangeAction.ExecuteOrder;
-		case "AbnormalOrder":
-			return CreditChangeAction.AbnormalOrder;
-		case "RepealOrder":
-			return CreditChangeAction.RepealOrder;
-		case "Deposit":
-			return CreditChangeAction.Deposit;
-		default:
-			return null;
-		}
 	}
 
 }

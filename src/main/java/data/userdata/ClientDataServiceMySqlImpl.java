@@ -95,4 +95,49 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		return po;
 	}
 
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.ClientDataService#businessRegister(po.ClientPO)
+	 */
+	@Override
+	public ResultMessage businessRegister(ClientPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.ClientDataService#originalRegister(po.ClientPO)
+	 */
+	@Override
+	public ResultMessage originalRegister(ClientPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.ClientDataService#update(java.lang.String, po.ClientPO)
+	 */
+	@Override
+	public ClientPO update(String name, ClientPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.ClientDataService#levelUpdate(java.util.ArrayList, int)
+	 */
+	@Override
+	public ResultMessage levelUpdate(ArrayList<Integer> levelList, int level) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.ClientDataService#query(java.lang.String, po.ClientPO)
+	 */
+	@Override
+	public ClientPO query(String name, ClientPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

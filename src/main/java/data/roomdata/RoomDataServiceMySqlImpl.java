@@ -7,9 +7,12 @@ package data.roomdata;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.roomdataservice.RoomDataService;
+import po.CreditPO;
 import po.RoomPO;
 
 public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
@@ -20,16 +23,26 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see dataservice.roomdataservice.RoomDataService#find(java.lang.String)
 	 */
 	@Override
-	public ArrayList<RoomPO> find(String HotelID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<RoomPO> find(String hotelID) throws RemoteException {
+		sqlManager.getConnection();
+		
+		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
+		
+		String sql = "SELECT * FROM room WHERE hotel_id=? ";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID});
+		
+		for(Map<String, Object> map: mapList) {
+			roomList.add(getRoomPO(map));
+		}
+		sqlManager.releaseAll();
+		
+		return roomList;
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +60,11 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public void update(RoomPO po) throws RemoteException {
 		// TODO Auto-generated method stub
-
+	}
+	
+	private RoomPO getRoomPO(Map<String, Object> map) {
+		// TODO
+		return null;
 	}
 
 }

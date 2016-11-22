@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import data.databaseutility.SqlManager;
 import dataservice.promotiondataservice.PromotionDataService;
-import po.MemberPO;
+import po.ClientPO;
 import po.PromotionPO;
 import util.ResultMessage;
 
@@ -65,7 +65,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	 * @see dataservice.promotiondataservice.PromotionDataService#levelMake(po.PromotionPO, po.MemberPO)
 	 */
 	@Override
-	public void levelMake(PromotionPO po, MemberPO po2) throws RemoteException {
+	public void levelMake(PromotionPO po, ClientPO po2) throws RemoteException {
 		// TODO Auto-generated method stub
 
 	}

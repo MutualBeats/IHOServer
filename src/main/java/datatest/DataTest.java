@@ -4,13 +4,15 @@
  */
 package datatest;
 
+import java.util.ArrayList;
+
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.userdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.userdataservice.StaffDataService;
-import po.StaffPO;
+import po.CreditPO;
 
 public class DataTest {
 	
@@ -24,11 +26,12 @@ public class DataTest {
 		staffDataService = new StaffDataServiceMySqlImpl();
 	}
 	
-	
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
-		StaffPO po = new StaffPO("0000000001", "staff1", "00000001");
-		System.out.println(test.staffDataService.updateData(po));
+		ArrayList<CreditPO> list = test.creditDataService.find("0123456789");
+		for (CreditPO po : list) {
+			System.out.println(po.getAction());
+		}
 	}
 
 }

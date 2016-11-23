@@ -19,7 +19,7 @@ public class ClientPO {
 	/*
 	 * 用户联系方式
 	 */
-	private String ContactWay;
+	private String contactWay;
 	/*
 	 * 用户信用值
 	 */
@@ -52,7 +52,7 @@ public class ClientPO {
 		super();
 		this.clientID = clientID;
 		this.clientName = clientName;
-		ContactWay = contactWay;
+		this.contactWay = contactWay;
 		this.credit = credit;
 		this.memberType = memberType;
 		this.level = level;
@@ -79,11 +79,11 @@ public class ClientPO {
 	}
 
 	public String getContactWay() {
-		return ContactWay;
+		return contactWay;
 	}
 
 	public void setContactWay(String contactWay) {
-		ContactWay = contactWay;
+		this.contactWay = contactWay;
 	}
 
 	public int getCredit() {

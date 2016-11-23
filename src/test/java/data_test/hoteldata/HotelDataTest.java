@@ -35,7 +35,7 @@ public class HotelDataTest {
 	@Test
 	public void testFindHotelData() {
 		try {
-			HotelPO po = hotelDataService.findHotelData("00000001");
+			HotelPO po = hotelDataService.getHotelInfo("00000001");
 			if(!po.getHotelName().equals("锦都金鼎大酒店") || 
 					!po.getRegion().equals("如皋市") || 
 					!po.getBusinessDistrict().equals("如城街道")) {
@@ -50,7 +50,7 @@ public class HotelDataTest {
 	public void testFindHotelListData() {
 		SearchCondition sc = new SearchCondition(null, "如皋市", "如城街道", null, -1, 4);
 		try {
-			ArrayList<HotelPO> list = hotelDataService.findHotelListData(sc);
+			ArrayList<HotelPO> list = hotelDataService.findHotelByCondition(sc);
 			if(list.size() != 1 || !list.get(0).getHotelName().equals("锦都金鼎大酒店")) {
 				fail("Search Result Error!");
 			}
@@ -68,7 +68,7 @@ public class HotelDataTest {
 		po.setRegion("如皋市");
 		po.setBusinessDistrict("如城街道");
 		try {
-			hotelDataService.updateHotelData(po);
+			hotelDataService.changeHotelInfo(po);
 		} catch (Exception e) {
 			fail("Exception!");
 		}
@@ -77,7 +77,7 @@ public class HotelDataTest {
 	@Test
 	public void testFindHotelEvaluation() {
 		try {
-			ArrayList<HotelEvaluationPO> list = hotelDataService.findHotelEvaluation("00000001");
+			ArrayList<HotelEvaluationPO> list = hotelDataService.getHotelEvaluation("00000001");
 			if(list == null)
 				fail("Null Pointer!");
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class HotelDataTest {
 		po.setEvaluateScore(4);
 		po.setEvaluateInfo("评价测试");
 		try {
-			hotelDataService.insertHotelEvaluation(po);
+			hotelDataService.evaluation(po);
 		} catch (Exception e) {
 			fail("Exception!");
 		}
@@ -112,7 +112,7 @@ public class HotelDataTest {
 		po.setScore(3.56);
 		po.setStarLevel(3);
 		try {
-			hotelDataService.insertHotel(po);
+			hotelDataService.addHotel(po);
 		} catch (RemoteException e) {
 			fail("Exception!");
 		}

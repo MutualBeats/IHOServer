@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.creditdataservice.CreditDataService;
+import dataservice.creditdataservice.ResultMessage_CreditData;
 import po.CreditPO;
 import util.CreditChangeAction;
 
@@ -26,9 +27,9 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public void insert(CreditPO po) throws RemoteException {
+	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException {
 		if(po == null)
-			return;
+			return ResultMessage_CreditData.Update_Successful;
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -43,6 +44,8 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		
+		return ResultMessage_CreditData.Update_Successful;
 	}
 	
 	@Override

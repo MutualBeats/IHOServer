@@ -11,9 +11,19 @@ import java.util.ArrayList;
 import po.CreditPO;
 
 public interface CreditDataService extends Remote{
-	
-	public void insert(CreditPO po) throws RemoteException;
-	
+	/**
+	 * Update the credit of user
+	 * @param po
+	 * @throws RemoteException
+	 */
+	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException;
+	/**
+	 * Check the Credit Rrecord
+	 * @param clientID
+	 * @return
+	 * @throws RemoteException
+	 */
 	public ArrayList<CreditPO> find(String clientID) throws RemoteException;
+	
 	
 }

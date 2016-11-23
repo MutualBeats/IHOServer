@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.hoteldataservice.HotelDataService;
+import dataservice.hoteldataservice.ResultMessage_HotelData;
 import po.HotelEvaluationPO;
 import po.HotelPO;
 import util.SearchCondition;
@@ -27,7 +28,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public HotelPO findHotelData(String hotelID) throws RemoteException {
+	public HotelPO getHotelInfo(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT * FROM hotel WHERE hotel_id=?";
@@ -39,7 +40,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	
 	// TODO 根据房间信息搜索
 	@Override
-	public ArrayList<HotelPO> findHotelListData(SearchCondition sc) throws RemoteException {
+	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException {
+		// 必须明确地址和商圈才能进行搜索
 		if(sc == null || sc.region == null || sc.businessDistrict == null)
 			return null;
 		sqlManager.getConnection();
@@ -77,11 +79,11 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public void updateHotelData(HotelPO po) throws RemoteException {
+	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException {
 		if(po == null)
-			return;
+			return ResultMessage_HotelData.Update_Failed;
+		
 		sqlManager.getConnection();
-		// TODO 判断酒店是否存在
 		
 		String sql = "UPDATE hotel SET hotel_name=?, address=?, region=?, business_district=? WHERE hotel_id=?";
 		List<Object> params = new ArrayList<Object>();
@@ -90,13 +92,17 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		params.add(po.getRegion());
 		params.add(po.getBusinessDistrict());
 		params.add(po.getHotelID());
-		sqlManager.executeUpdateByList(sql, params);
 		
+		boolean isSuccess = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		
+		if(isSuccess)
+			return ResultMessage_HotelData.Update_Successful;
+		return ResultMessage_HotelData.Update_Failed;
 	}
 
 	@Override
-	public ArrayList<HotelEvaluationPO> findHotelEvaluation(String hotelID) throws RemoteException {
+	public ArrayList<HotelEvaluationPO> getHotelEvaluation(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<HotelEvaluationPO> evaluationList = new ArrayList<HotelEvaluationPO>();
@@ -111,9 +117,12 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public void insertHotelEvaluation(HotelEvaluationPO po) throws RemoteException {
+	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException {
 		if(po == null)
-			return;
+			return ResultMessage_HotelData.Evaluation_Failed;
+		if(getHotelInfo(po.getHotelID()) == null)
+			return ResultMessage_HotelData.Hotel_Not_Exists;
+		
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -127,16 +136,20 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		
+		// 更新酒店总评分
+		UpdateHotelScore(po.getHotelID(), po.getEvaluateScore());
+		
+		return ResultMessage_HotelData.Evaluation_Successful;
 	}
 	
 	@Override
-	public void insertHotel(HotelPO po) throws RemoteException {
+	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException {
 		if(po == null)
-			return;
-		if(findHotelData(po.getHotelID()) != null) {
-			// TODO hotelID已存在
-			// TODO 接口返回值类型修改 ResultMessage
-		}
+			return ResultMessage_HotelData.Add_Hotel_Successful;
+		if(getHotelInfo(po.getHotelID()) != null)
+			return ResultMessage_HotelData.Hotel_Already_Exists;
+		
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -152,6 +165,44 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		
+		return ResultMessage_HotelData.Add_Hotel_Successful;
+	}
+	
+	/**
+	 * 获得酒店评分和总评分数
+	 */
+	private Map<String, Object> getScoreAndTotalEvaluation(String hotelID) {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT score, total_evaluation FROM hotel WHERE hotel_id=?";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID});
+		sqlManager.releaseAll();
+		
+		return map;
+	}
+	
+	/**
+	 * 更新酒店总评分
+	 * TODO 待测试
+	 * @param hotelID
+	 * @param newScore
+	 */
+	private void UpdateHotelScore(String hotelID, int newScore) {
+		Map<String, Object> map = getScoreAndTotalEvaluation(hotelID);
+		double score = Double.parseDouble(map.get("score").toString());
+		int totalEvaluation = Integer.parseInt(map.get("total_evaluation").toString());
+		
+		sqlManager.getConnection();
+		
+		String sql = "UPDATE hotel SET score=?, total_evaluation=? WHERE hotel_id=?";
+		
+		score = (double)(score * totalEvaluation + newScore) / (totalEvaluation + 1);
+		totalEvaluation ++;
+		
+		sqlManager.executeUpdate(sql, new Object[]{score, totalEvaluation, hotelID});
+		sqlManager.releaseConnection();
+		
 	}
 	
 	private HotelPO getHotelPO(Map<String, Object> map) {

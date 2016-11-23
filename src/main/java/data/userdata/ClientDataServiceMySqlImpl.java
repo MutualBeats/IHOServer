@@ -84,17 +84,6 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		return ResultMessage.RegisterSuccess;
 	}
 	
-	private ClientPO getClientPO(Map<String, Object> map) {
-		if(map.size() == 0)
-			return null;
-		ClientPO po = new ClientPO();
-		po.setClientID(map.get("client_id").toString());
-		po.setClientname(map.get("client_name").toString());
-		po.setTel_number(map.get("contact_way").toString());
-		// TODO clientPO
-		return po;
-	}
-
 	/* (non-Javadoc)
 	 * @see dataservice.userdataservice.ClientDataService#businessRegister(po.ClientPO)
 	 */
@@ -138,6 +127,17 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	public ClientPO query(String name, ClientPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private ClientPO getClientPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
+		ClientPO po = new ClientPO();
+		po.setClientID(map.get("client_id").toString());
+		po.setClientname(map.get("client_name").toString());
+		po.setTel_number(map.get("contact_way").toString());
+		// TODO clientPO
+		return po;
 	}
 
 }

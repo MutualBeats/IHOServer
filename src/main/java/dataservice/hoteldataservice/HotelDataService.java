@@ -14,16 +14,17 @@ import util.SearchCondition;
 
 public interface HotelDataService extends Remote{
 
-	public HotelPO findHotelData(String hotelID) throws RemoteException;
+	public HotelPO getHotelInfo(String hotelID) throws RemoteException;
 	
-	public ArrayList<HotelPO> findHotelListData(SearchCondition sc) throws RemoteException;
+	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException;
 	
-	public void updateHotelData(HotelPO po) throws RemoteException;
-	
-	public ArrayList<HotelEvaluationPO> findHotelEvaluation(String hotelID) throws RemoteException;
+	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException;
 		
-	public void insertHotelEvaluation(HotelEvaluationPO po) throws RemoteException;
+	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException;
 	
-	public void insertHotel(HotelPO po) throws RemoteException;
+	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException;
+	
+	public ArrayList<HotelEvaluationPO> getHotelEvaluation(String hotelID) throws RemoteException;
+
 	
 }

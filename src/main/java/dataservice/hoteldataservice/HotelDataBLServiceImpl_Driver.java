@@ -22,14 +22,14 @@ public class HotelDataBLServiceImpl_Driver {
 		ArrayList<HotelEvaluationPO> evaluationList = new ArrayList<HotelEvaluationPO>();
 		evaluationList.add(evaluationPO);
 		
-		hotelDataService.insertHotel(hotelPO);
-		hotelDataService.insertHotelEvaluation(evaluationPO);
-		hotelDataService.findHotelData("00000001");
+		hotelDataService.addHotel(hotelPO);
+		hotelDataService.evaluation(evaluationPO);
+		hotelDataService.getHotelInfo("00000001");
 		
 		SearchCondition sc = new SearchCondition(null, "如皋市", "如城街道", "锦都金鼎大酒店", 0, 0);
-		hotelDataService.findHotelListData(sc);
+		hotelDataService.findHotelByCondition(sc);
 		
-		hotelDataService.updateHotelData(hotelPO);
+		hotelDataService.changeHotelInfo(hotelPO);
 	}
 	
 }

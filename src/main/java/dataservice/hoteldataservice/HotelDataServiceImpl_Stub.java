@@ -14,14 +14,14 @@ import util.SearchCondition;
 public class HotelDataServiceImpl_Stub implements HotelDataService {
 
 	@Override
-	public HotelPO findHotelData(String hotelID) throws RemoteException {
+	public HotelPO getHotelInfo(String hotelID) throws RemoteException {
 		System.out.println("Find Succeed!\n");
 		HotelPO po = new HotelPO(hotelID, "锦都金鼎大酒店", "如皋市如城镇解放路(如皋市政府对面)", "如皋市", "如城街道", 5, 4.5);
 		return po;
 	}
 
 	@Override
-	public ArrayList<HotelPO> findHotelListData(SearchCondition sc) throws RemoteException {
+	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException {
 		System.out.println("Find Succeed!\n");
 		ArrayList<HotelPO> hotelList = new ArrayList<HotelPO>();
 		HotelPO po = new HotelPO("00000001", sc.hotelName == null ? "锦都金鼎大酒店" : sc.hotelName,
@@ -32,23 +32,26 @@ public class HotelDataServiceImpl_Stub implements HotelDataService {
 	}
 
 	@Override
-	public void updateHotelData(HotelPO po) throws RemoteException {
+	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException {
 		System.out.println("Update Hotel Data Succeed!\n");
+		return ResultMessage_HotelData.Update_Successful;
+//		return null;
 	}
 
 	@Override
-	public void insertHotelEvaluation(HotelEvaluationPO po) throws RemoteException {
+	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException {
 		System.out.println("Insert Hotel Evaluation Succeed!\n");
+		return ResultMessage_HotelData.Evaluation_Successful;
 	}
 
 	@Override
-	public void insertHotel(HotelPO po) throws RemoteException {
+	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException {
 		System.out.println("Insert Hotel Succeed!");
+		return ResultMessage_HotelData.Add_Hotel_Successful;
 	}
 
 	@Override
-	public ArrayList<HotelEvaluationPO> findHotelEvaluation(String hotelID) throws RemoteException {
-		// TODO Auto-generated method stub
+	public ArrayList<HotelEvaluationPO> getHotelEvaluation(String hotelID) throws RemoteException {
 		return null;
 	}
 

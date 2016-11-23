@@ -29,7 +29,9 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	@Override
 	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_CreditData.Update_Successful;
+			return ResultMessage_CreditData.Update_Failed;
+		// TODO 用户不存在
+		
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();

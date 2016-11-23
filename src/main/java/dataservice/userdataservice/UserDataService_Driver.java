@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import po.ClientPO;
 import po.MarketerPO;
 import po.StaffPO;
+import util.MemberType;
 
 public class UserDataService_Driver {
 	public void drive(UserDataService userDataService) throws RemoteException{
@@ -13,8 +14,8 @@ public class UserDataService_Driver {
 		 */
 		ClientPO po1 = userDataService.findClientData("0000000001");
 		System.out.println(po1.getClientID());
-		System.out.println(po1.getClientname());
-		System.out.println(po1.getTel_number());
+		System.out.println(po1.getClientName());
+		System.out.println(po1.getContactWay());
 		System.out.println(po1.getCredit());
 		/*
 		 * 获取StaffPO内部数据
@@ -33,7 +34,7 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中更新一个ClientPO记录
 		 */
-		userDataService.updateClientData(new ClientPO("0000000001", "admin", "123456789", 100, "1234567890", "腾讯企业",2));
+		userDataService.updateClientData(new ClientPO("0000000001", "admin", "123456789", 100, MemberType.Enterprise, 2, "腾讯企业"));
 		/*
 		 * 在数据库中更新一个StaffPO记录
 		 */
@@ -61,6 +62,6 @@ public class UserDataService_Driver {
 		/*
 		 * 在数据库中生成一个clientPO记录
 		 */
-		userDataService.insertClient(new ClientPO("0000000001", "admin", "123456789", 100, "1234567890", "腾讯企业",2), "123456");
+		userDataService.insertClient(new ClientPO("0000000001", "admin", "123456789", 100, MemberType.Enterprise, 2, "腾讯企业"), "123456");
 	}
 }

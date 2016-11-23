@@ -4,15 +4,13 @@
  */
 package datatest;
 
-import java.util.ArrayList;
-
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.userdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.userdataservice.StaffDataService;
-import po.CreditPO;
+import po.HotelPO;
 
 public class DataTest {
 	
@@ -28,10 +26,17 @@ public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
-		ArrayList<CreditPO> list = test.creditDataService.find("0123456789");
-		for (CreditPO po : list) {
-			System.out.println(po.getAction());
-		}
+		
+		HotelPO po = new HotelPO();
+		po.setHotelID("11111111");
+		po.setRegion("南京市");
+		po.setBusinessDistrict("栖霞区");
+		po.setAddress("南大和园");
+		po.setHotelName("英尊宾馆");
+		po.setScore(3.56);
+		po.setStarLevel(3);
+		
+		test.hotelDataService.addHotel(po);
 	}
 
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
 import po.ClientPO;
+import util.MemberType;
 import util.ResultMessage;
 
 public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService {
@@ -132,11 +133,16 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	private ClientPO getClientPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;
+		
 		ClientPO po = new ClientPO();
 		po.setClientID(map.get("client_id").toString());
-		po.setClientname(map.get("client_name").toString());
-		po.setTel_number(map.get("contact_way").toString());
-		// TODO clientPO
+		po.setClientName(map.get("client_name").toString());
+		po.setContactWay(map.get("contact_way").toString());
+		po.setCredit(Integer.parseInt(map.get("credit").toString()));
+		po.setMemberType(MemberType.valueOf(map.get("member_type").toString()));
+		po.setLevel(Integer.parseInt(map.get("vip_level").toString()));
+		po.setMemberMessage(map.get("member_info").toString());
+		
 		return po;
 	}
 

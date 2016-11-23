@@ -5,6 +5,8 @@
  */
 package po;
 
+import util.MemberType;
+
 public class ClientPO {
 	/*
 	 * 用户ID
@@ -13,75 +15,51 @@ public class ClientPO {
 	/*
 	 * 用户姓名/名称
 	 */
-	private String clientname;
+	private String clientName;
 	/*
 	 * 用户联系方式
 	 */
-	private String tel_number;
+	private String ContactWay;
 	/*
 	 * 用户信用值
 	 */
 	private int credit;
 	/*
-	 * 用户会员ID
+	 * 用户会员类型
 	 */
-	private String memberID;
-	/*
-	 * 用户会员信息
-	 */
-	private String memberMessage;
+	private MemberType memberType;
 	/*
 	 * 用户会员等级
 	 */
 	private int level;
+	/*
+	 * 用户会员信息
+	 */
+	private String memberMessage;
 
 	/**
+	 * 构造方法
 	 * @param clientID
 	 * @param clientname
-	 * @param tel_number
+	 * @param contactWay
 	 * @param credit
-	 * @param memberID
-	 * @param memberMessage
+	 * @param memberType
 	 * @param level
+	 * @param memberMessage
 	 */
-	public ClientPO(String clientID, String clientname, String tel_number, int credit, String memberID,
-			String memberMessage, int level) {
+	public ClientPO(String clientID, String clientName, String contactWay, int credit, MemberType memberType, int level,
+			String memberMessage) {
 		super();
 		this.clientID = clientID;
-		this.clientname = clientname;
-		this.tel_number = tel_number;
+		this.clientName = clientName;
+		ContactWay = contactWay;
 		this.credit = credit;
-		this.memberID = memberID;
-		this.memberMessage = memberMessage;
+		this.memberType = memberType;
 		this.level = level;
+		this.memberMessage = memberMessage;
 	}
 
 	public ClientPO() {
-	}
-
-
-	public String getMemberID() {
-		return memberID;
-	}
-
-	public void setMemberID(String memberID) {
-		this.memberID = memberID;
-	}
-
-	public String getMemberMessage() {
-		return memberMessage;
-	}
-
-	public void setMemberMessage(String memberMessage) {
-		this.memberMessage = memberMessage;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	public String getClientID() {
@@ -92,20 +70,20 @@ public class ClientPO {
 		this.clientID = clientID;
 	}
 
-	public String getClientname() {
-		return clientname;
+	public String getClientName() {
+		return clientName;
 	}
 
-	public void setClientname(String clientname) {
-		this.clientname = clientname;
+	public void setClientName(String clientname) {
+		this.clientName = clientname;
 	}
 
-	public String getTel_number() {
-		return tel_number;
+	public String getContactWay() {
+		return ContactWay;
 	}
 
-	public void setTel_number(String tel_number) {
-		this.tel_number = tel_number;
+	public void setContactWay(String contactWay) {
+		ContactWay = contactWay;
 	}
 
 	public int getCredit() {
@@ -114,6 +92,30 @@ public class ClientPO {
 
 	public void setCredit(int credit) {
 		this.credit = credit;
+	}
+
+	public MemberType getMemberType() {
+		return memberType;
+	}
+
+	public void setMemberType(MemberType memberType) {
+		this.memberType = memberType;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public String getMemberMessage() {
+		return memberMessage;
+	}
+
+	public void setMemberMessage(String memberMessage) {
+		this.memberMessage = memberMessage;
 	}
 
 }

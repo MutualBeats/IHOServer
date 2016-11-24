@@ -17,15 +17,15 @@ public interface ClientDataService extends Remote{
 	/*
 	 * 在数据库中更新一个ClientPO记录
 	 */
-	public ResultMessage updateData(ClientPO po) throws RemoteException;
+	public ResultMessage_For_User updateData(String clientID, String clientName, String contactWay) throws RemoteException;
 	/*
 	 * 检测是否允许登陆
 	 */
-	public ResultMessage find(String ID, String password) throws RemoteException;
+	public ResultMessage_For_User find(String ID, String password) throws RemoteException;
 	/*
 	 * 在数据库中生成一个clientPO记录
 	 */
-	public ResultMessage insert(ClientPO po, String password) throws RemoteException;
+	public ResultMessage_For_User insert(ClientPO po, String password) throws RemoteException;
 	/*
 	 * 获取MemberPO内部数据
 	 */

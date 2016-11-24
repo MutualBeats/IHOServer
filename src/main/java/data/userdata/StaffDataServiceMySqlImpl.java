@@ -14,6 +14,7 @@ import data.databaseutility.SqlManager;
 import dataservice.userdataservice.StaffDataService;
 import po.StaffPO;
 import util.ResultMessage;
+import util.ResultMessage_For_User;
 
 public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements StaffDataService {
 
@@ -37,9 +38,9 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	}
 
 	@Override
-	public ResultMessage updateData(StaffPO po) throws RemoteException {
+	public ResultMessage_For_User updateData(StaffPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage.UpdateFailed;
+			return null;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE staff SET staff_name=?, hotel_id=? WHERE staff_id=? ";
@@ -47,11 +48,12 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		updateSuccess = sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getHotelId(), po.getStaffID()});
 		sqlManager.releaseConnection();
 		
-		return updateSuccess ? ResultMessage.UpdateSucceed : ResultMessage.UpdateFailed;
+		// TODO
+		return null;
 	}
 	
 	@Override
-	public ResultMessage find(String ID, String password) throws RemoteException {
+	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM staff WHERE staff_id=?";
@@ -67,12 +69,14 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	}
 	
 	@Override
-	public ResultMessage insert(StaffPO po, String password) throws RemoteException {
+	public ResultMessage_For_User insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
-			return ResultMessage.RegisterFail;
+			// TODO
+			return null;
 		// staff_id已存在
 		if(findData(po.getStaffID()) != null)
-			return ResultMessage.RegisterFail;
+			// TODO
+			return null;
 		
 		sqlManager.getConnection();
 		
@@ -88,7 +92,8 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return ResultMessage.RegisterSuccess;
+		// TODO
+		return null;
 	}
 	
 	private StaffPO getStaffPO(Map<String, Object> map) {

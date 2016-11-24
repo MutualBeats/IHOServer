@@ -10,7 +10,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ManagerDataService;
-import util.ResultMessage;
+import util.ResultMessage_For_User;
 
 public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements ManagerDataService {
 
@@ -23,7 +23,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 	}
 	
 	@Override
-	public ResultMessage find(String ID, String password) throws RemoteException {
+	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM manager WHERE manager_id=? ";

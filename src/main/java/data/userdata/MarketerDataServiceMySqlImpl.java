@@ -14,6 +14,7 @@ import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MarketerDataService;
 import po.MarketerPO;
 import util.ResultMessage;
+import util.ResultMessage_For_User;
 
 public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {
 
@@ -37,9 +38,10 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public ResultMessage updateData(MarketerPO po) throws RemoteException {
+	public ResultMessage_For_User updateData(MarketerPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage.UpdateFailed;
+			// TODO
+			return null;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE marketer SET marketer_name=?, contact_way=? WHERE marketer_id=? ";
@@ -47,11 +49,12 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		updateSuccess = sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
 		sqlManager.releaseConnection();
 		
-		return updateSuccess ? ResultMessage.UpdateSucceed : ResultMessage.UpdateFailed;
+		// TODO
+		return null;
 	}
 
 	@Override
-	public ResultMessage find(String ID, String password) throws RemoteException {
+	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM marketer WHERE marketer_id=?";
@@ -71,12 +74,13 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 			return null;
 	}
 	@Override
-	public ResultMessage insert(MarketerPO po,String password) throws RemoteException {
+	public ResultMessage_For_User insert(MarketerPO po,String password) throws RemoteException {
 		if(po == null)
-			return ResultMessage.RegisterFail;
+			// TODO
+			return null;
 		// TODO marketer_id已存在
 		if(findData(po.getMarketerID()) != null)
-			return ResultMessage.RegisterFail;
+			return null;
 		sqlManager.getConnection();
 		
 		String sql = "INSERT INTO marketer VALUES ";
@@ -91,7 +95,9 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return ResultMessage.RegisterSuccess;
+		// TODO
+		return null;
+		
 	}
 	
 	private MarketerPO getMarketerPO(Map<String, Object> map) {

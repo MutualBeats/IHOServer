@@ -5,7 +5,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.ClientPO;
+import po.MemberPO;
 import util.ResultMessage;
+import util.ResultMessage_For_User;
 
 public interface ClientDataService extends Remote{
 	/*
@@ -25,23 +27,15 @@ public interface ClientDataService extends Remote{
 	 */
 	public ResultMessage insert(ClientPO po, String password) throws RemoteException;
 	/*
-	 * 注册企业会员
+	 * 获取MemberPO内部数据
 	 */
-	public ResultMessage businessRegister (ClientPO po)throws RemoteException;
+	public ClientPO findMemberData (String clientID) throws RemoteException;
 	/*
-	 * 注册普通会员
+	 * 在数据库生成一个MemberPO记录
 	 */
-	public ResultMessage originalRegister (ClientPO po)throws RemoteException ;
+	public ResultMessage_For_User insertMember (MemberPO po)throws RemoteException;
 	/*
-	 * 会员信息更新
+	 *在数据库更新一个MemberPO记录
 	 */
-	public ClientPO update (String name,ClientPO po)throws RemoteException;
-	/*
-	 * 会员等级更新
-	 */
-	public ResultMessage levelUpdate (ArrayList <Integer> levelList,int level) throws RemoteException;
-	/*
-	 * 会员信息查看
-	 */
-	public ClientPO query (String name,ClientPO po) throws RemoteException;
+	public ClientPO updateMemberData (MemberPO po)throws RemoteException;
 }

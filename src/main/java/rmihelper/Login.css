@@ -1,6 +1,7 @@
 #window{  
  -fx-background-radius: 3px;  
- -fx-border-color:#95AFA6;  
+ -fx-border-color:  #FFB6C1;
  -fx-border-width:3px;  
  -fx-border-radius:3px;  
+ -fx-background-color:transparent;
 }  

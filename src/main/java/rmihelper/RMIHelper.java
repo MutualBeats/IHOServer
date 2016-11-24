@@ -46,12 +46,14 @@ public class RMIHelper {
 			try {
 				registry = LocateRegistry.createRegistry(port);
 				Naming.rebind(dealServerName(port, address), dataFactory);
+				QuickStart.sendMessage("Server Open Successfully");
 			}catch (RemoteException | MalformedURLException e) {
-				System.out.println("Fail to open server");
 //				e.printStackTrace();
+				QuickStart.sendMessage("Fail to Open the Server ! Please Check Any Other Server Run Now");
 			}
+			
 		}else {
-			System.out.println("Server Open Already");
+			QuickStart.sendMessage("Server Open Already");
 		}
 	}
 	/**
@@ -73,14 +75,16 @@ public class RMIHelper {
 				//Notice : the object to unexport is Registry .
 				UnicastRemoteObject.unexportObject(registry, true);
 				registry = null;
-				System.out.println("The server is closed");
+				QuickStart.sendMessage("Server Close Successfully");
 			} catch (RemoteException | MalformedURLException | NotBoundException e) {
 				System.err.println("Fail to close server");
 //				e.printStackTrace();
+				QuickStart.sendMessage("Fail to close server");
 			}
 		} else {
-			System.out.println("Server is not open");
+			QuickStart.sendMessage("No Server Found");
 		}
+		
 	}
 	
 	private String dealServerName(int port, String ip) {

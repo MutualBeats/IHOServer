@@ -35,7 +35,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 			return null;
 		}
 		
-		if(map.get("password").equals(password))
+		if(map.get("password").toString().equals(password))
 			// TODO 登录成功信息
 			return null;
 		else

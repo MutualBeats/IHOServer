@@ -6,10 +6,17 @@
  */
 package po;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
+
 import util.RoomCondition;
 import util.RoomType;
 
-public class RoomPO {
+public class RoomPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 所属酒店id
 	 */
@@ -37,9 +44,9 @@ public class RoomPO {
 	 * @param type
 	 * @param price
 	 * @param condition
+	 * @throws RemoteException 
 	 */
 	public RoomPO(String hotelID, String roomNumber, RoomType type, int price, RoomCondition condition) {
-		super();
 		this.hotelID = hotelID;
 		this.roomNumber = roomNumber;
 		this.type = type;

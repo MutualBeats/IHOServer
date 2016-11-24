@@ -58,7 +58,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
-		if(map.get("password").equals(password))
+		if(map.get("password").toString().equals(password))
 			// TODO 登录成功信息
 			return null;
 		else
@@ -76,7 +76,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		
 		sqlManager.getConnection();
 		
-		String sql = "INSERT INTO staff (staff_id, password, staff_name, hotel_id) VALUES ";
+		String sql = "INSERT INTO staff VALUES ";
 		
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getStaffID());

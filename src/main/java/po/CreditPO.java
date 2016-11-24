@@ -5,9 +5,16 @@
  */
 package po;
 
+import java.io.Serializable;
+
 import util.CreditChangeAction;
 
-public class CreditPO {
+public class CreditPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 客户id
 	 */

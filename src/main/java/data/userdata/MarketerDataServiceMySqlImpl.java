@@ -63,7 +63,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 			return null;
 		}
 		
-		if(map.get("password").equals(password))
+		if(map.get("password").toString().equals(password))
 			// TODO 登录成功信息
 			return null;
 		else
@@ -74,12 +74,12 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	public ResultMessage insert(MarketerPO po,String password) throws RemoteException {
 		if(po == null)
 			return ResultMessage.RegisterFail;
-		// marketer_id已存在
+		// TODO marketer_id已存在
 		if(findData(po.getMarketerID()) != null)
 			return ResultMessage.RegisterFail;
 		sqlManager.getConnection();
 		
-		String sql = "INSERT INTO marketer (marketer_id, password, marketer_name, contact_way) VALUES ";
+		String sql = "INSERT INTO marketer VALUES ";
 		
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getMarketerID());

@@ -13,7 +13,7 @@ public interface ClientDataService extends Remote{
 	/*
 	 * 获取ClientPO内部数据
 	 */
-	public ClientPO findData(String ClientID) throws RemoteException;
+	public ClientPO findData(String clientID) throws RemoteException;
 	/*
 	 * 在数据库中更新一个ClientPO记录
 	 */
@@ -21,7 +21,7 @@ public interface ClientDataService extends Remote{
 	/*
 	 * 检测是否允许登陆
 	 */
-	public ResultMessage_For_User find(String ID, String password) throws RemoteException;
+	public ResultMessage_For_User find(String clientID, String password) throws RemoteException;
 	/*
 	 * 在数据库中生成一个clientPO记录
 	 */

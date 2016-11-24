@@ -29,7 +29,7 @@ public interface ClientDataService extends Remote{
 	/*
 	 * 获取MemberPO内部数据
 	 */
-	public ClientPO findMemberData (String clientID) throws RemoteException;
+	public MemberPO findMemberData (String clientID) throws RemoteException;
 	/*
 	 * 在数据库生成一个MemberPO记录
 	 */
@@ -37,5 +37,5 @@ public interface ClientDataService extends Remote{
 	/*
 	 *在数据库更新一个MemberPO记录
 	 */
-	public ClientPO updateMemberData (MemberPO po)throws RemoteException;
+	public ResultMessage_For_User updateMemberData (MemberPO po)throws RemoteException;
 }

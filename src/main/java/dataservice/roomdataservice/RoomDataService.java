@@ -21,6 +21,8 @@ public interface RoomDataService extends Remote{
 	
 	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException;
 	
+	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException;
+	
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException;
 	
 	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException;

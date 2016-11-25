@@ -50,6 +50,12 @@ public class RoomDataServiceImpl_Stub implements RoomDataService {
 		return null;
 	}
 
+	@Override
+	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

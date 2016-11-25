@@ -13,7 +13,6 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.StaffDataService;
 import po.StaffPO;
-import util.ResultMessage;
 import util.ResultMessage_For_User;
 
 public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements StaffDataService {

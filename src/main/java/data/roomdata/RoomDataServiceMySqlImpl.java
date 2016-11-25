@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import dataservice.roomdataservice.ResultMessage_Room;
 import dataservice.roomdataservice.RoomDataService;
 import po.RoomPO;
+import po.RoomRecordPO;
 import util.RoomCondition;
 import util.RoomType;
 
@@ -29,7 +31,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	// TODO RoomDataService接口修改
 	
 	@Override
-	public ArrayList<RoomPO> find(String hotelID) throws RemoteException {
+	public ArrayList<RoomPO> getRoom(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
@@ -46,9 +48,9 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	}
 
 	@Override
-	public void insert(RoomPO po) throws RemoteException {
+	public ResultMessage_Room addRoom(RoomPO po) throws RemoteException {
 		if(po == null)
-			return;
+			return null;
 		sqlManager.getConnection();
 		// TODO 判断房间是否已存在
 		
@@ -62,26 +64,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		// TODO
+		return null;
 	}
 
-	@Override
-	public void update(RoomPO po) throws RemoteException {
-		if(po == null)
-			return;
-		sqlManager.getConnection();
-		// TODO 判断房间是否存在
-		
-		String sql = "UPDATE room SET room_number=?, room_type=?, price=? WHERE hotel_id=? AND room_number=? ";
-		List<Object> params = new ArrayList<Object>();
-		params.add(po.getRoomNumber());
-		params.add(po.getType().toString());
-		params.add(po.getPrice());
-		params.add(po.getHotelID());
-		params.add(po.getRoomNumber());
-		
-		sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
-	}
 	
 	private RoomPO getRoomPO(Map<String, Object> map) {
 		if(map.size() == 0)
@@ -93,6 +79,42 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		po.setPrice(Integer.parseInt(map.get("price").toString()));
 		po.setCondition(RoomCondition.valueOf(map.get("condition").toString()));
 		return po;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#checkIn(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ResultMessage_Room checkIn(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#checkOut(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#addRecord(po.RoomRecordPO)
+	 */
+	@Override
+	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#deleteRecord(java.lang.String)
+	 */
+	@Override
+	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

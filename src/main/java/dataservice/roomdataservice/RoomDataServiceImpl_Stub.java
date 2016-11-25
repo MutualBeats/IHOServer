@@ -8,26 +8,48 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.RoomPO;
+import po.RoomRecordPO;
 import util.RoomCondition;
 import util.RoomType;
 
 public class RoomDataServiceImpl_Stub implements RoomDataService {
 
 	@Override
-	public ArrayList<RoomPO> find(String HotelID) throws RemoteException {
-		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
-		roomList.add(new RoomPO("00000001", "1024", RoomType.Single, 100, RoomCondition.NotReserved));
-		return roomList;
+	public ArrayList<RoomPO> getRoom(String hotelID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void insert(RoomPO po) throws RemoteException {
-		System.out.println("Insert Succeed!\n");
+	public ResultMessage_Room addRoom(RoomPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void update(RoomPO po) throws RemoteException {
-		System.out.println("Update Succeed!\n");
+	public ResultMessage_Room checkIn(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

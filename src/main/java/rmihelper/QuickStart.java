@@ -27,6 +27,7 @@ public class QuickStart extends Application {
 			controller.sendMessage(message);
 		}
 	}
+	
 
 	@Override
 	public void start(Stage primaryStage) {

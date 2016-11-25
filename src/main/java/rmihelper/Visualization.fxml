@@ -11,7 +11,7 @@
    <children>
       <AnchorPane layoutY="25.0" prefHeight="352.0" prefWidth="600.0">
          <children>
-            <TextArea id="_message" fx:id="message" blendMode="DIFFERENCE" editable="false" layoutY="4.0" onScroll="#handleAbout" prefHeight="346.0" prefWidth="601.0" wrapText="true">
+            <TextArea id="_message" fx:id="message" blendMode="DIFFERENCE" editable="false" layoutY="4.0" prefHeight="346.0" prefWidth="601.0" wrapText="true">
                <font>
                   <Font name="Microsoft YaHei Bold" size="12.0" />
                </font>
@@ -28,12 +28,12 @@
                   <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
-  <!--          <Menu mnemonicParsing="false" text="Port">
-            <items>
-              <MenuItem fx:id="changeport" mnemonicParsing="false" onAction="#handleChangePort" text="Change" />
-                  <MenuItem fx:id="reset" mnemonicParsing="false" onAction="#handleReset" text="Reset" />
-            </items>
-          </Menu> -->
+            <Menu mnemonicParsing="false" text="Console">
+              <items>
+                <MenuItem fx:id="clear" mnemonicParsing="false" onAction="#handleClear" text="Clear" />
+                  <MenuItem fx:id="export" mnemonicParsing="false" onAction="#handleExport" text="Export" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="about" mnemonicParsing="false" onAction="#handleAbout" text="About" />

@@ -16,7 +16,7 @@ public interface CreditDataService extends Remote{
 	 * @param po
 	 * @throws RemoteException
 	 */
-	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException;
+	public ResultMessage_Credit insert(CreditPO po) throws RemoteException;
 	/**
 	 * Check the Credit Rrecord
 	 * @param clientID

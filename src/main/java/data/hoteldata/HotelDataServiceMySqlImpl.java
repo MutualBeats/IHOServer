@@ -12,7 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.hoteldataservice.HotelDataService;
-import dataservice.hoteldataservice.ResultMessage_HotelData;
+import dataservice.hoteldataservice.ResultMessage_Hotel;
 import po.HotelEvaluationPO;
 import po.HotelPO;
 import util.SearchCondition;
@@ -79,9 +79,9 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException {
+	public ResultMessage_Hotel changeHotelInfo(HotelPO po) throws RemoteException {
 		if (po == null)
-			return ResultMessage_HotelData.Update_Failed;
+			return ResultMessage_Hotel.Update_Failed;
 
 		sqlManager.getConnection();
 
@@ -97,8 +97,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		sqlManager.releaseConnection();
 
 		if (isSuccess)
-			return ResultMessage_HotelData.Update_Successful;
-		return ResultMessage_HotelData.Update_Failed;
+			return ResultMessage_Hotel.Update_Successful;
+		return ResultMessage_Hotel.Update_Failed;
 	}
 
 	@Override
@@ -117,11 +117,11 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException {
+	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException {
 		if (po == null)
-			return ResultMessage_HotelData.Evaluation_Failed;
+			return ResultMessage_Hotel.Evaluation_Failed;
 		if (getHotelInfo(po.getHotelID()) == null)
-			return ResultMessage_HotelData.Hotel_Not_Exists;
+			return ResultMessage_Hotel.Hotel_Not_Exists;
 
 		sqlManager.getConnection();
 
@@ -140,15 +140,15 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		// 更新酒店总评分
 		UpdateHotelScore(po.getHotelID(), po.getEvaluateScore());
 
-		return ResultMessage_HotelData.Evaluation_Successful;
+		return ResultMessage_Hotel.Evaluation_Successful;
 	}
 
 	@Override
-	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException {
+	public ResultMessage_Hotel addHotel(HotelPO po) throws RemoteException {
 		if (po == null)
-			return ResultMessage_HotelData.Add_Hotel_Successful;
+			return ResultMessage_Hotel.Add_Hotel_Successful;
 		if (getHotelInfo(po.getHotelID()) != null)
-			return ResultMessage_HotelData.Hotel_Already_Exists;
+			return ResultMessage_Hotel.Hotel_Already_Exists;
 
 		sqlManager.getConnection();
 
@@ -168,7 +168,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 
-		return ResultMessage_HotelData.Add_Hotel_Successful;
+		return ResultMessage_Hotel.Add_Hotel_Successful;
 	}
 
 	/**

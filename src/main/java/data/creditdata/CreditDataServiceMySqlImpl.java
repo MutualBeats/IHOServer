@@ -12,7 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.creditdataservice.CreditDataService;
-import dataservice.creditdataservice.ResultMessage_CreditData;
+import dataservice.creditdataservice.ResultMessage_Credit;
 import po.CreditPO;
 import util.CreditChangeAction;
 
@@ -27,9 +27,9 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException {
+	public ResultMessage_Credit insert(CreditPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_CreditData.Update_Failed;
+			return ResultMessage_Credit.Update_Failed;
 		// TODO 用户不存在
 		
 		sqlManager.getConnection();
@@ -47,7 +47,7 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_CreditData.Update_Successful;
+		return ResultMessage_Credit.Update_Successful;
 	}
 	
 	@Override

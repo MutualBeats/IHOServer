@@ -6,7 +6,7 @@ package dataservice.creditdataservice;
  * 
  * Result Message for Credit Data Module
  */
-public enum ResultMessage_CreditData {
+public enum ResultMessage_Credit {
 	Update_Successful,
 	Update_Failed,
 	

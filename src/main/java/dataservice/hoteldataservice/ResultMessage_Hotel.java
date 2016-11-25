@@ -1,6 +1,6 @@
 package dataservice.hoteldataservice;
 
-public enum ResultMessage_HotelData {
+public enum ResultMessage_Hotel {
 	
 	
 	Update_Successful, 

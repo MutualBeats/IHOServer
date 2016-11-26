@@ -3,7 +3,7 @@
  * @version 2016年10月15日
  * @version 2016年11月19日 添加空构造方法
  */
-package po;
+package po.credit;
 
 import java.io.Serializable;
 

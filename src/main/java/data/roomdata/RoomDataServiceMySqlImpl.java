@@ -13,8 +13,8 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import dataservice.roomdataservice.ResultMessage_Room;
 import dataservice.roomdataservice.RoomDataService;
-import po.RoomPO;
-import po.RoomRecordPO;
+import po.room.RoomPO;
+import po.room.RoomRecordPO;
 import util.RoomCondition;
 import util.RoomType;
 import util.Time;
@@ -83,6 +83,18 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		sqlManager.releaseConnection();
 		// TODO
 		return ResultMessage_Room.Room_Add_Successful;
+	}
+
+	@Override
+	public RoomPO getRoomInfo(String hotelID, String roomNumber) throws RemoteException {
+		if(!isRoomExists(hotelID, roomNumber))
+			return null;
+		sqlManager.getConnection();
+		
+		String sql = "SELECT * FROM room WHERE hotel_id=? AND room_number=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID, roomNumber});
+		
+		return getRoomPO(map);
 	}
 	
 	/**
@@ -262,10 +274,5 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return po;
 	}
 
-	@Override
-	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

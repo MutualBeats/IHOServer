@@ -8,8 +8,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.HotelEvaluationPO;
-import po.HotelPO;
+import po.hotel.HotelEvaluationPO;
+import po.hotel.HotelPO;
 import util.SearchCondition;
 
 public interface HotelDataService extends Remote{

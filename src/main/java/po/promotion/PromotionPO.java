@@ -1,7 +1,7 @@
 /**
  * @version 2016年11月19日 添加空构造方法
  */
-package po;
+package po.promotion;
 
 import java.util.ArrayList;
 

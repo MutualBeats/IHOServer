@@ -13,8 +13,8 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.hoteldataservice.ResultMessage_Hotel;
-import po.HotelEvaluationPO;
-import po.HotelPO;
+import po.hotel.HotelEvaluationPO;
+import po.hotel.HotelPO;
 import util.SearchCondition;
 
 public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService {

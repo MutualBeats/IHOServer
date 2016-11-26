@@ -7,8 +7,8 @@ package dataservice.roomdataservice;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.RoomPO;
-import po.RoomRecordPO;
+import po.room.RoomPO;
+import po.room.RoomRecordPO;
 
 public class RoomDataServiceImpl_Stub implements RoomDataService {
 
@@ -51,6 +51,15 @@ public class RoomDataServiceImpl_Stub implements RoomDataService {
 
 	@Override
 	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#getRoomInfo(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public RoomPO getRoomInfo(String hotelID, String roomNumber) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

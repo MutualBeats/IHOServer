@@ -6,7 +6,7 @@ package dataservice.roomdataservice;
 
 import java.rmi.RemoteException;
 
-import po.RoomPO;
+import po.room.RoomPO;
 import util.RoomCondition;
 import util.RoomType;
 

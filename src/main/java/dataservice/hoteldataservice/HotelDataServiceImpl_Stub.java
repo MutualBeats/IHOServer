@@ -7,8 +7,8 @@ package dataservice.hoteldataservice;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.HotelEvaluationPO;
-import po.HotelPO;
+import po.hotel.HotelEvaluationPO;
+import po.hotel.HotelPO;
 import util.SearchCondition;
 
 public class HotelDataServiceImpl_Stub implements HotelDataService {

@@ -3,7 +3,7 @@
  * @version 2016年10月16日
  * @version 2016年11月19日 添加空构造方法
  */
-package po;
+package po.hotel;
 
 import java.io.Serializable;
 

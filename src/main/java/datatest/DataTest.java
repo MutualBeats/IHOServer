@@ -12,7 +12,7 @@ import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.roomdataservice.RoomDataService;
 import dataservice.userdataservice.StaffDataService;
-import po.RoomPO;
+import po.room.RoomPO;
 import util.RoomCondition;
 import util.RoomType;
 

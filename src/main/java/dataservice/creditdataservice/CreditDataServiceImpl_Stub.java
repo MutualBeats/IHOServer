@@ -7,7 +7,7 @@ package dataservice.creditdataservice;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.CreditPO;
+import po.credit.CreditPO;
 import util.CreditChangeAction;
 
 public class CreditDataServiceImpl_Stub implements CreditDataService {

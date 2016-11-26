@@ -6,7 +6,7 @@ package dataservice.creditdataservice;
 
 import java.rmi.RemoteException;
 
-import po.CreditPO;
+import po.credit.CreditPO;
 import util.CreditChangeAction;
 
 public class CreditDataServiceImpl_Driver {

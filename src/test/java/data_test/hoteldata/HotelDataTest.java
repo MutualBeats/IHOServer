@@ -16,8 +16,8 @@ import org.junit.Test;
 
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.hoteldataservice.HotelDataService;
-import po.HotelEvaluationPO;
-import po.HotelPO;
+import po.hotel.HotelEvaluationPO;
+import po.hotel.HotelPO;
 import util.SearchCondition;
 
 public class HotelDataTest {

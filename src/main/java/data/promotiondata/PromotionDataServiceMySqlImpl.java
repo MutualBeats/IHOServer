@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import data.databaseutility.SqlManager;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.ClientPO;
-import po.PromotionPO;
+import po.promotion.PromotionPO;
 import util.ResultMessage;
 
 public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService {

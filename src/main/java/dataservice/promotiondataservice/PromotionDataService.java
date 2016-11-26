@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.ClientPO;
-import po.PromotionPO;
+import po.promotion.PromotionPO;
 import util.ResultMessage;
 
 public interface PromotionDataService extends Remote{

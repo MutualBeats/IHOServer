@@ -2,7 +2,7 @@
  * @author huangxiao
  * @version 2016年11月25日
  */
-package po;
+package po.room;
 
 import java.io.Serializable;
 

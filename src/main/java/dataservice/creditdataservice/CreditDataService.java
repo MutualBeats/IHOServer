@@ -8,7 +8,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.CreditPO;
+import po.credit.CreditPO;
 
 public interface CreditDataService extends Remote{
 	/**

@@ -4,7 +4,7 @@
  * @version 2016年11月19日 添加空构造方法
  * @version 2016年11月22日 po属性修改
  */
-package po;
+package po.room;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

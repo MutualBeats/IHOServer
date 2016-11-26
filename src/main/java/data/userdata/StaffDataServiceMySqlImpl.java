@@ -39,38 +39,54 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	@Override
 	public ResultMessage_For_User updateData(StaffPO po) throws RemoteException {
 		if(po == null)
-			return null;
+			return ResultMessage_For_User.UpdateFail;
 		sqlManager.getConnection();
 		
-		String sql = "UPDATE staff SET staff_name=?, hotel_id=? WHERE staff_id=? ";
-		boolean updateSuccess;
-		updateSuccess = sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getHotelId(), po.getStaffID()});
+		String sql = "UPDATE staff SET staff_name=? WHERE staff_id=? ";
+		
+		sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getHotelId(), po.getStaffID()});
 		sqlManager.releaseConnection();
 		
-		// TODO
-		return null;
+		return ResultMessage_For_User.UpdateSuccess;
 	}
 	
 	@Override
 	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT password FROM staff WHERE staff_id=?";
+		String sql = "SELECT password FROM staff WHERE staff_id=? ";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
-		if(map.get("password").toString().equals(password))
-			// TODO 登录成功信息
-			return null;
-		else
-			// TODO 登录失败信息
-			return null;
+		if(map.size() == 0)
+			return ResultMessage_For_User.Account_Not_Exist;
+		
+		if(!map.get("password").toString().equals(password))
+			return ResultMessage_For_User.PasswordWrong;
+		
+		return ResultMessage_For_User.LoginSuccess;
+	}
+	
+	/**
+	 * 获得某酒店的工作人员账号个数
+	 * @param hotelID
+	 * @return result
+	 */
+	private int getStaffNum(String hotelID) {
+		sqlManager.getConnection();
+		String sql = "SELECT * FROM staff WHERE hotel_id=? ";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID});
+		sqlManager.releaseAll();
+		return mapList.size();
 	}
 	
 	@Override
 	public ResultMessage_For_User insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
 			// TODO
+			return null;
+		// TODO 一个酒店只有一个工作人员账号
+		if(getStaffNum(po.getHotelId()) == 1)
 			return null;
 		// staff_id已存在
 		if(findData(po.getStaffID()) != null)
@@ -88,9 +104,12 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		params.add(po.getHotelId());
 		
 		sql = sqlManager.appendSQL(sql, params.size());
-		sqlManager.executeUpdateByList(sql, params);
+		
+		boolean result = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
+		if(!result)
+			return null;
 		// TODO
 		return null;
 	}

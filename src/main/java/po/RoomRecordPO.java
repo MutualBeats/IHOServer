@@ -23,17 +23,17 @@ public class RoomRecordPO implements Serializable {
 	private String roomNumber;
 	
 	/**
-	 * 订单号
+	 * 订单号（线下入住可为空）
 	 */
 	private String orderID;
 	
 	/**
-	 * 订单记录入住时间
+	 * 入住时间
 	 */
 	private String checkInDate;
 	
 	/**
-	 * 订单预计离开时间
+	 * 预计离开时间（若订单号为空则为实际离开时间）
 	 */
 	private String estimateCheckOutDate;
 	

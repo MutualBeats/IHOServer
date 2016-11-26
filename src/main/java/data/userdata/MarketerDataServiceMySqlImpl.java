@@ -39,17 +39,17 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	@Override
 	public ResultMessage_For_User updateData(MarketerPO po) throws RemoteException {
 		if(po == null)
-			// TODO
-			return null;
+			return ResultMessage_For_User.UpdateFail;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE marketer SET marketer_name=?, contact_way=? WHERE marketer_id=? ";
-		boolean updateSuccess;
-		updateSuccess = sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
+		boolean result = sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
 		sqlManager.releaseConnection();
 		
-		// TODO
-		return null;
+		if(!result)
+			return ResultMessage_For_User.UpdateFail;
+		
+		return ResultMessage_For_User.UpdateSuccess;
 	}
 
 	@Override
@@ -60,26 +60,24 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
-		if(map.size() == 0) {
-			// TODO marketer_id不存在
-			return null;
-		}
+		if(map.size() == 0)
+			return ResultMessage_For_User.Account_Not_Exist;
 		
-		if(map.get("password").toString().equals(password))
-			// TODO 登录成功信息
-			return null;
-		else
-			// TODO 登录失败信息
-			return null;
+		if(!map.get("password").toString().equals(password))
+			return ResultMessage_For_User.PasswordWrong;
+		
+		return ResultMessage_For_User.LoginSuccess;
 	}
+	
 	@Override
 	public ResultMessage_For_User insert(MarketerPO po,String password) throws RemoteException {
 		if(po == null)
 			// TODO
 			return null;
-		// TODO marketer_id已存在
+		
 		if(findData(po.getMarketerID()) != null)
-			return null;
+			return ResultMessage_For_User.Account_Exist;
+		
 		sqlManager.getConnection();
 		
 		String sql = "INSERT INTO marketer VALUES ";
@@ -91,12 +89,14 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		params.add(po.getTel_number());
 		
 		sql = sqlManager.appendSQL(sql, params.size());
-		sqlManager.executeUpdateByList(sql, params);
+		
+		boolean result = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
 		// TODO
+		if(!result)
+			return null;
 		return null;
-		
 	}
 	
 	private MarketerPO getMarketerPO(Map<String, Object> map) {

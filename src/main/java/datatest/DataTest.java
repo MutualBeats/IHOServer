@@ -6,37 +6,48 @@ package datatest;
 
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
+import data.roomdata.RoomDataServiceMySqlImpl;
 import data.userdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
+import dataservice.roomdataservice.RoomDataService;
 import dataservice.userdataservice.StaffDataService;
-import po.HotelPO;
+import po.RoomPO;
+import util.RoomCondition;
+import util.RoomType;
 
 public class DataTest {
 	
-	public CreditDataService creditDataService;
-	public HotelDataService hotelDataService;
-	public StaffDataService staffDataService;
+	public CreditDataService credit;
+	public HotelDataService hotel;
+	public StaffDataService staff;
+	public RoomDataService room;
 	
 	public DataTest() throws Exception {
-		creditDataService = new CreditDataServiceMySqlImpl();
-		hotelDataService = new HotelDataServiceMySqlImpl();
-		staffDataService = new StaffDataServiceMySqlImpl();
+		credit = new CreditDataServiceMySqlImpl();
+		hotel = new HotelDataServiceMySqlImpl();
+		staff = new StaffDataServiceMySqlImpl();
+		room = new RoomDataServiceMySqlImpl();
 	}
 	
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
+		// addRoom 测试
+		RoomPO po = new RoomPO();
+		po.setHotelID("00000001");
+		po.setRoomNumber("3B322");
+		po.setType(RoomType.Triple);
+		po.setPrice(512);
+		po.setCondition(RoomCondition.NotReserved);
 		
-		HotelPO po = new HotelPO();
-		po.setHotelID("11111111");
-		po.setRegion("南京市");
-		po.setBusinessDistrict("栖霞区");
-		po.setAddress("南大和园");
-		po.setHotelName("英尊宾馆");
-		po.setScore(3.56);
-		po.setStarLevel(3);
+		System.out.println(test.room.addRoom(po));
 		
-		test.hotelDataService.addHotel(po);
+		// checkIn 测试
+//		System.out.println(test.room.checkIn("00000001", "3B323"));
+		
+		// checkOut 测试
+//		System.out.println(test.room.checkOut("00000001", "3B323"));
+		
 	}
 
 }

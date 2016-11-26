@@ -30,17 +30,13 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
 		sqlManager.releaseAll();
 		
-		if(map.size() == 0) {
-			// TODO manager_id不存在
-			return null;
-		}
+		if(map.size() == 0)
+			return ResultMessage_For_User.Account_Not_Exist;
 		
-		if(map.get("password").toString().equals(password))
-			// TODO 登录成功信息
-			return null;
-		else
-			// TODO 登录失败信息
-			return null;
+		if(!map.get("password").toString().equals(password))
+			return ResultMessage_For_User.PasswordWrong;
+		
+		return ResultMessage_For_User.LoginSuccess;
 	}
 	
 }

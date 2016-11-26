@@ -50,6 +50,15 @@ public class RoomDataServiceImpl_Stub implements RoomDataService {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see dataservice.roomdataservice.RoomDataService#getOrderRecord(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

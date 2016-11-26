@@ -46,8 +46,11 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		
 		String sql = "UPDATE client SET client_name=?, contact_way=? WHERE client_id=?";
 		
-		sqlManager.executeUpdate(sql, new Object[]{clientName, contactWay, clientID});
+		boolean result = sqlManager.executeUpdate(sql, new Object[]{clientName, contactWay, clientID});
 		sqlManager.releaseConnection();
+		
+		if(!result)
+			return ResultMessage_For_User.UpdateFail;
 		
 		return ResultMessage_For_User.UpdateSuccess;
 	}
@@ -71,15 +74,31 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	@Override
 	public ResultMessage_For_User insert(ClientPO po, String password) throws RemoteException {
+		if(po == null)
+			// TODO
+			return null;
+		// ClientID 已存在
+		if(findData(po.getClientID()) != null)
+			return ResultMessage_For_User.Account_Exist;
+		
 		sqlManager.getConnection();
 		
 		String sql = "INSERT INTO client VALUES ";
 		
 		List<Object> params = new ArrayList<Object>();
-		// TODO
+		params.add(po.getClientID());
+		params.add(password);
+		params.add(po.getClientName());
+		params.add(po.getContactWay());
+		params.add(po.getCredit());
+		params.add(po.getMemberType().toString());
+		params.add(po.getLevel());
+		params.add(po.getMemberMessage());
+		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
-
+		boolean result = sqlManager.executeUpdateByList(sql, params);
+		// TODO
 		return null;
 	}
 
@@ -100,7 +119,8 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	@Override
 	public ResultMessage_For_User insertMember(MemberPO po) throws RemoteException {
 		if(po == null)
-			return null;
+			// TODO 注册何种会员判断
+			return ResultMessage_For_User.BusinessRegisterFail;
 		
 		sqlManager.getConnection();
 		
@@ -112,16 +132,20 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		params.add(po.getMemberMessage());
 		params.add(po.getClientID());
 		
-		sqlManager.executeUpdateByList(sql, params);
+		boolean result = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return null;
+		if(!result)
+			// TODO 注册何种会员判断
+			return ResultMessage_For_User.BusinessRegisterFail;
+		return ResultMessage_For_User.BusinessRegisterSuccess;
 	}
 
 	@Override
 	public ResultMessage_For_User updateMemberData(MemberPO po) throws RemoteException {
 		if(po == null)
 			return ResultMessage_For_User.UpdateFail;
+		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE client SET member_type=?, vip_level=?, member_info=? WHERE clinet_id=? ";
@@ -132,8 +156,11 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		params.add(po.getMemberMessage());
 		params.add(po.getClientID());
 		
-		sqlManager.executeUpdateByList(sql, params);
+		boolean result = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
+		
+		if(!result)
+			return ResultMessage_For_User.UpdateFail;
 		
 		return ResultMessage_For_User.UpdateSuccess;
 	}

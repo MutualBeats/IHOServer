@@ -32,22 +32,22 @@ public class HotelDataServiceImpl_Stub implements HotelDataService {
 	}
 
 	@Override
-	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException {
+	public ResultMessage_Hotel changeHotelInfo(HotelPO po) throws RemoteException {
 		System.out.println("Update Hotel Data Succeed!\n");
-		return ResultMessage_HotelData.Update_Successful;
+		return ResultMessage_Hotel.Update_Successful;
 //		return null;
 	}
 
 	@Override
-	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException {
+	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException {
 		System.out.println("Insert Hotel Evaluation Succeed!\n");
-		return ResultMessage_HotelData.Evaluation_Successful;
+		return ResultMessage_Hotel.Evaluation_Successful;
 	}
 
 	@Override
-	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException {
+	public ResultMessage_Hotel addHotel(HotelPO po) throws RemoteException {
 		System.out.println("Insert Hotel Succeed!");
-		return ResultMessage_HotelData.Add_Hotel_Successful;
+		return ResultMessage_Hotel.Add_Hotel_Successful;
 	}
 
 	@Override

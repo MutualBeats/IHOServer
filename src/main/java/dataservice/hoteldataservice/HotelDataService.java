@@ -18,11 +18,11 @@ public interface HotelDataService extends Remote{
 	
 	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException;
 	
-	public ResultMessage_HotelData changeHotelInfo(HotelPO po) throws RemoteException;
+	public ResultMessage_Hotel changeHotelInfo(HotelPO po) throws RemoteException;
 		
-	public ResultMessage_HotelData evaluation(HotelEvaluationPO po) throws RemoteException;
+	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException;
 	
-	public ResultMessage_HotelData addHotel(HotelPO po) throws RemoteException;
+	public ResultMessage_Hotel addHotel(HotelPO po) throws RemoteException;
 	
 	public ArrayList<HotelEvaluationPO> getHotelEvaluation(String hotelID) throws RemoteException;
 

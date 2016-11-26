@@ -56,7 +56,7 @@ public interface RoomDataService extends Remote{
 	 */
 	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException;
 	/**
-	 * 增加房间预定记录
+	 * 
 	 * 
 	 * @param po
 	 * @return

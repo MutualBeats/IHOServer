@@ -262,4 +262,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return po;
 	}
 
+	@Override
+	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

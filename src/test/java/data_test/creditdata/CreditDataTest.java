@@ -4,7 +4,7 @@
  */
 package data_test.creditdata;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

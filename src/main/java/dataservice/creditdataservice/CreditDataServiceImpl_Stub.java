@@ -13,9 +13,9 @@ import util.CreditChangeAction;
 public class CreditDataServiceImpl_Stub implements CreditDataService {
 
 	@Override
-	public ResultMessage_CreditData insert(CreditPO po) throws RemoteException {
+	public ResultMessage_Credit insert(CreditPO po) throws RemoteException {
 		System.out.print("Insert Succeed!\r\n");
-		return ResultMessage_CreditData.Update_Successful;
+		return ResultMessage_Credit.Update_Successful;
 	}
 
 	@Override

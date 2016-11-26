@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import po.RoomPO;
 import po.RoomRecordPO;
-import util.RoomCondition;
-import util.RoomType;
 
 public class RoomDataServiceImpl_Stub implements RoomDataService {
 

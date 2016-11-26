@@ -2,11 +2,9 @@ package dataservice.userdataservice;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import po.ClientPO;
 import po.MemberPO;
-import util.ResultMessage;
 import util.ResultMessage_For_User;
 
 public interface ClientDataService extends Remote{

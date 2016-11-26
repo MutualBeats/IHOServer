@@ -30,6 +30,7 @@ public class RMIHelper {
 	private RMIHelper() {
 		registry = null;
 		address = getIPAddress();
+//		address = "192.168.99.255";
 		dataFactory = DataFactoryMySqlImpl.getInstance();
 	}
 	
@@ -46,7 +47,9 @@ public class RMIHelper {
 			try {
 				registry = LocateRegistry.createRegistry(port);
 				Naming.rebind(dealServerName(port, address), dataFactory);
-				QuickStart.sendMessage("Server Open Successfully");
+				QuickStart.sendMessage("Server Open Successfully\r\n"
+						+ "IP : " + address + "\r\n"
+						+ "Port : " + port + "\r\n");
 			}catch (RemoteException | MalformedURLException e) {
 //				e.printStackTrace();
 				QuickStart.sendMessage("Fail to Open the Server ! Please Check Any Other Server Run Now");

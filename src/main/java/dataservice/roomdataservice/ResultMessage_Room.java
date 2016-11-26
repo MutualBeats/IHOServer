@@ -11,7 +11,9 @@ public enum ResultMessage_Room {
 	Check_In_Failed, 
 	Check_Out_Successful,
 	Check_Out_Failed,
-	Import_Successful,
-	Import_Failed,
+	Record_Add_Successful,
+	Record_Add_Failed,
+	Record_Delete_Successful,
+	Record_Delete_Failed,
 	Net_Error 
 }

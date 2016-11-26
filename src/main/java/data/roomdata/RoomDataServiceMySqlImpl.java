@@ -211,7 +211,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_Room.Import_Failed;
+			return ResultMessage_Room.Record_Add_Failed;
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -231,8 +231,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		sqlManager.releaseConnection();
 		
 		if(!result)
-			return ResultMessage_Room.Import_Failed;
-		return ResultMessage_Room.Import_Successful;
+			return ResultMessage_Room.Record_Add_Failed;
+		return ResultMessage_Room.Record_Add_Successful;
 	}
 
 	@Override
@@ -245,9 +245,9 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		if(!result)
 			// TODO ResultMessage 添加
-			return ResultMessage_Room.Import_Failed;
+			return ResultMessage_Room.Record_Delete_Failed;
 		
-		return ResultMessage_Room.Import_Successful;
+		return ResultMessage_Room.Record_Delete_Successful;
 	}
 	
 	private RoomPO getRoomPO(Map<String, Object> map) {

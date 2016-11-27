@@ -17,7 +17,7 @@ public class ManagerPO implements Serializable {
 	/**
 	 * 网站营销管理人员姓名
 	 */
-	private String managername;
+	private String managerName;
 	
 	/**
 	 * 构造方法
@@ -27,7 +27,7 @@ public class ManagerPO implements Serializable {
 	public ManagerPO(String managerID, String managername) {
 		super();
 		this.managerID = managerID;
-		this.managername = managername;
+		this.managerName = managername;
 	}
 	
 	public ManagerPO() {
@@ -40,9 +40,9 @@ public class ManagerPO implements Serializable {
 		this.managerID = managerID;
 	}
 	public String getManagername() {
-		return managername;
+		return managerName;
 	}
 	public void setManagername(String managername) {
-		this.managername = managername;
+		this.managerName = managername;
 	}
 }

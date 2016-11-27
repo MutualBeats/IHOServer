@@ -17,7 +17,7 @@ public class MarketerPO implements Serializable {
 	/**
 	 * 网站营销人员姓名
 	 */
-	private String marketername;
+	private String marketerName;
 	/**
 	 * 网站营销人员联系方式
 	 */
@@ -31,7 +31,7 @@ public class MarketerPO implements Serializable {
 	 */
 	public MarketerPO(String marketerID, String marketername, String tel_number){
 		this.marketerID = marketerID;
-		this.marketername = marketername;
+		this.marketerName = marketername;
 		this.contactWay = tel_number;
 	}
 	
@@ -45,10 +45,10 @@ public class MarketerPO implements Serializable {
 		this.marketerID = marketerID;
 	}
 	public String getMarketername() {
-		return marketername;
+		return marketerName;
 	}
 	public void setMarketername(String marketername) {
-		this.marketername = marketername;
+		this.marketerName = marketername;
 	}
 	public String getTel_number() {
 		return contactWay;

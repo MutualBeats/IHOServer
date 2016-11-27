@@ -17,11 +17,11 @@ public class StaffPO implements Serializable {
 	/**
 	 * 酒店工作人员姓名
 	 */
-	private String staffname;
+	private String staffName;
 	/**
 	 * 酒店工作人员所在酒店ID
 	 */
-	private String hotelId;
+	private String hotelID;
 	
 	/**
 	 * @param staffID
@@ -32,8 +32,8 @@ public class StaffPO implements Serializable {
 	public StaffPO(String staffID, String staffname, String hotelId) {
 		super();
 		this.staffID = staffID;
-		this.staffname = staffname;
-		this.hotelId = hotelId;
+		this.staffName = staffname;
+		this.hotelID = hotelId;
 	}
 	
 	public StaffPO() {
@@ -46,16 +46,16 @@ public class StaffPO implements Serializable {
 		this.staffID = staffID;
 	}
 	public String getStaffname() {
-		return staffname;
+		return staffName;
 	}
 	public void setStaffname(String staffname) {
-		this.staffname = staffname;
+		this.staffName = staffname;
 	}
 	public String getHotelId() {
-		return hotelId;
+		return hotelID;
 	}
 	public void setHotelId(String hotelId) {
-		this.hotelId = hotelId;
+		this.hotelID = hotelId;
 	}
 	
 }

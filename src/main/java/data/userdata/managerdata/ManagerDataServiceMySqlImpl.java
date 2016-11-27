@@ -2,7 +2,7 @@
  * @author huangxiao
  * 2016年11月17日
  */
-package data.userdata;
+package data.userdata.managerdata;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

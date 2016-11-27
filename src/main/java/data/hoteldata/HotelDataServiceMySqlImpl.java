@@ -11,13 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.userdata.staffdata.HotelInfo;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.hoteldataservice.ResultMessage_Hotel;
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
 import util.SearchCondition;
 
-public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService {
+public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService, HotelInfo {
 
 	private static final long serialVersionUID = 2L;
 

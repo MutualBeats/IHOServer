@@ -2,7 +2,7 @@
  * @author huangxiao
  * 2016年11月17日
  */
-package data.userdata;
+package data.userdata.staffdata;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffPO;
 import util.ResultMessage_For_User;
@@ -20,6 +21,9 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	// TODO
+	private HotelInfo hotelInfo = new HotelDataServiceMySqlImpl();
 	
 	public StaffDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -84,8 +88,9 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	public ResultMessage_For_User insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
 			return null;
-		// TODO 判断酒店是否存在
-		
+		// 判断酒店是否存在
+		if(hotelInfo.getHotelInfo(po.getHotelId()) == null)
+			return ResultMessage_For_User.Hotel_Not_Exist;
 		//一个酒店只有一个工作人员账号
 		if(getStaffNum(po.getHotelId()) == 1)
 			return ResultMessage_For_User.Hotel_Have_Staff;

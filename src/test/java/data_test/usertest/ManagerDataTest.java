@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import data.userdata.ManagerDataServiceMySqlImpl;
+import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
 import dataservice.userdataservice.ManagerDataService;
 import util.ResultMessage_For_User;
 

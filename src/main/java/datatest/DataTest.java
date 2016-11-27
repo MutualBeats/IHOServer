@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
-import data.userdata.StaffDataServiceMySqlImpl;
+import data.userdata.staffdata.StaffDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.roomdataservice.RoomDataService;

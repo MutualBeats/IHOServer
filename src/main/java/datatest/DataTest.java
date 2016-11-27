@@ -4,6 +4,8 @@
  */
 package datatest;
 
+import java.util.ArrayList;
+
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
@@ -33,14 +35,14 @@ public class DataTest {
 	public static void main(String[] args) throws Exception {
 		DataTest test = new DataTest();
 		// addRoom 测试
-		RoomPO po = new RoomPO();
-		po.setHotelID("00000001");
-		po.setRoomNumber("3B322");
-		po.setType(RoomType.Triple);
-		po.setPrice(512);
-		po.setCondition(RoomCondition.NotReserved);
-		
-		System.out.println(test.room.addRoom(po));
+//		RoomPO po = new RoomPO();
+//		po.setHotelID("00000001");
+//		po.setRoomNumber("3B322");
+//		po.setType(RoomType.Triple);
+//		po.setPrice(512);
+//		po.setCondition(RoomCondition.NotReserved);
+//		
+//		System.out.println(test.room.addRoom(po));
 		
 		// checkIn 测试
 //		System.out.println(test.room.checkIn("00000001", "3B323"));
@@ -48,6 +50,13 @@ public class DataTest {
 		// checkOut 测试
 //		System.out.println(test.room.checkOut("00000001", "3B323"));
 		
+//		ArrayList<RoomPO> list = test.room.getRoom("00000001");
+//		for (RoomPO roomPO : list) {
+//			System.out.println(roomPO.getRoomNumber() + "\t" + roomPO.getType() + "\t" + roomPO.getPrice());
+//		}
+		
+		System.out.println(test.room.checkOut("00000001", "3B323"));
+				
 	}
 
 }

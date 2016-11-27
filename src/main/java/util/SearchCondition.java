@@ -4,7 +4,13 @@
  */
 package util;
 
-public class SearchCondition {
+import java.io.Serializable;
+
+public class SearchCondition implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 酒店地址
 	 */

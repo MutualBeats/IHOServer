@@ -106,7 +106,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		sqlManager.getConnection();
 
 		ArrayList<HotelEvaluationPO> evaluationList = new ArrayList<HotelEvaluationPO>();
-		String sql = "SELECT * FROM hotel_evaluation WHERE hotel_id=?";
+		String sql = "SELECT * FROM hotel_evaluation WHERE hotel_id=? ORDER BY time DESC";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[] { hotelID });
 		for (Map<String, Object> map : mapList) {
 			evaluationList.add(getHotelEvaluationPO(map));
@@ -139,7 +139,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		sqlManager.releaseConnection();
 
 		// 更新酒店总评分
-		UpdateHotelScore(po.getHotelID(), po.getEvaluateScore());
+		updateHotelScore(po.getHotelID(), po.getEvaluateScore());
 
 		return ResultMessage_Hotel.Evaluate_Successful;
 	}
@@ -190,7 +190,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	 * @param hotelID
 	 * @param newScore
 	 */
-	private void UpdateHotelScore(String hotelID, int newScore) {
+	private void updateHotelScore(String hotelID, int newScore) {
 		Map<String, Object> map = getScoreAndTotalEvaluation(hotelID);
 		double score = Double.parseDouble(map.get("score").toString());
 		int totalEvaluation = Integer.parseInt(map.get("total_evaluation").toString());

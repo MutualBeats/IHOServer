@@ -24,7 +24,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
-
+		
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
@@ -35,7 +35,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
 		
-		String sql = "SELECT * FROM room WHERE hotel_id=? ";
+		String sql = "SELECT * FROM room WHERE hotel_id=? ORDER BY room_type, price ";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID});
 		sqlManager.releaseAll();
 		
@@ -73,7 +73,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getHotelID());
 		params.add(po.getRoomNumber());
-		params.add(po.getType().toString());
+		params.add(po.getType().ordinal());
 		params.add(po.getPrice());
 		params.add(po.getCondition().toString());
 		
@@ -81,7 +81,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
-		// TODO
+		
 		return ResultMessage_Room.Room_Add_Successful;
 	}
 
@@ -123,7 +123,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	 */
 	private boolean UpdateRoomCondition(String hotelID, String roomNumber, RoomCondition rc) {
 		sqlManager.getConnection();
-		String sql = "UPDATE room_condition FROM room WHERE hotel_id=? AND room_number=? ";
+		String sql = "UPDATE room SET room_condition=? WHERE hotel_id=? AND room_number=? ";
 		boolean result= sqlManager.executeUpdate(sql, new Object[]{rc.toString(), hotelID, roomNumber});
 		sqlManager.releaseAll();
 		return result;
@@ -171,7 +171,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		// 房间原先已有人住，更新记录
 		sqlManager.getConnection();
-		String sql = "UPDATE room_record SET record_conditon=?, actual_out_date=? WHERE hotel_id=? AND room_number=? ";
+		String sql = "UPDATE room_record SET record_condition=?, actual_out_date=? WHERE hotel_id=? AND room_number=? ";
 		List<Object> params = new ArrayList<Object>();
 		params.add("done");
 		params.add(Time.getCurrentDate());
@@ -213,10 +213,11 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		if(po == null)
 			return ResultMessage_Room.Record_Add_Failed;
 		// 获得房间未来预订记录
-		ArrayList<RoomRecordPO> list = getOrderRecord(po.getHotelID(), po.getRoomNumber());
-		for (RoomRecordPO roomRecordPO : list) {
-			
-		}
+//		ArrayList<RoomRecordPO> list = getOrderRecord(po.getHotelID(), po.getRoomNumber());
+//		for (RoomRecordPO roomRecordPO : list) {
+//			// TODO
+//		}
+		
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -255,7 +256,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	}
 	
 	/**
-	 * map转换为RoomPO
+	 * Map转换为RoomPO
 	 * @param map
 	 * @return RoomPO
 	 */
@@ -265,14 +266,14 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		RoomPO po = new RoomPO();
 		po.setHotelID(map.get("hotel_id").toString());
 		po.setRoomNumber(map.get("room_number").toString());
-		po.setType(RoomType.valueOf(map.get("room_type").toString()));
+		po.setType(RoomType.values()[Integer.parseInt(map.get("room_type").toString())]);
 		po.setPrice(Integer.parseInt(map.get("price").toString()));
-		po.setCondition(RoomCondition.valueOf(map.get("condition").toString()));
+		po.setCondition(RoomCondition.valueOf(map.get("room_condition").toString()));
 		return po;
 	}
 	
 	/**
-	 * map转换为RoomRecordPO
+	 * Map转换为RoomRecordPO
 	 * @param map
 	 * @return RoomRecordPO
 	 */

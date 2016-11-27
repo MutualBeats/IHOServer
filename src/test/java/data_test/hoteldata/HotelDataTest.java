@@ -86,7 +86,7 @@ public class HotelDataTest {
 	}
 	
 	@Test
-	public void testInsertHotelEvaluation() {
+	public void testEvaluation() {
 		HotelEvaluationPO po = new HotelEvaluationPO();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		po.setClientID("0000000001");
@@ -108,7 +108,7 @@ public class HotelDataTest {
 		po.setRegion("南京市");
 		po.setBusinessDistrict("栖霞区");
 		po.setAddress("南大和园");
-		po.setHotelName("英尊宾馆");
+		po.setHotelName("英尊假日宾馆");
 		po.setScore(3.56);
 		po.setStarLevel(3);
 		try {

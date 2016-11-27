@@ -3,7 +3,13 @@
  */
 package po.user;
 
-public class StaffPO {
+import java.io.Serializable;
+
+public class StaffPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 酒店工作人员ID
 	 */

@@ -5,9 +5,15 @@
  */
 package po.user;
 
+import java.io.Serializable;
+
 import util.MemberType;
 
-public class ClientPO {
+public class ClientPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * 用户ID
 	 */

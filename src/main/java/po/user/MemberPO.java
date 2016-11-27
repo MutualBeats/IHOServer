@@ -1,8 +1,14 @@
 package po.user;
 
+import java.io.Serializable;
+
 import util.MemberType;
 
-public class MemberPO {
+public class MemberPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * 用户ID
 	 */

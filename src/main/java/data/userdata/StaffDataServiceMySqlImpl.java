@@ -39,12 +39,12 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	@Override
 	public ResultMessage_For_User updateData(StaffPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_For_User.UpdateFail;
+			return null;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE staff SET staff_name=? WHERE staff_id=? ";
 		
-		sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getHotelId(), po.getStaffID()});
+		sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getStaffID()});
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_For_User.UpdateSuccess;
@@ -83,15 +83,12 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	@Override
 	public ResultMessage_For_User insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
-			// TODO
 			return null;
-		// TODO 一个酒店只有一个工作人员账号
+		// TODO 判断酒店是否存在
+		
+		//一个酒店只有一个工作人员账号
 		if(getStaffNum(po.getHotelId()) == 1)
-			return null;
-		// staff_id已存在
-		if(findData(po.getStaffID()) != null)
-			// TODO
-			return null;
+			return ResultMessage_For_User.Hotel_Have_Staff;
 		
 		sqlManager.getConnection();
 		
@@ -105,13 +102,10 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
-		boolean result = sqlManager.executeUpdateByList(sql, params);
+		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		if(!result)
-			return null;
-		// TODO
-		return null;
+		return ResultMessage_For_User.AddSucccess;
 	}
 	
 	private StaffPO getStaffPO(Map<String, Object> map) {

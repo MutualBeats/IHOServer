@@ -3,7 +3,13 @@
  */
 package po.user;
 
-public class ManagerPO {
+import java.io.Serializable;
+
+public class ManagerPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 网站管理人员ID
 	 */

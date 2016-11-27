@@ -3,7 +3,13 @@
  */
 package po.user;
 
-public class MarketerPO {
+import java.io.Serializable;
+
+public class MarketerPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 网站营销人员ID
 	 */

@@ -39,15 +39,13 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	@Override
 	public ResultMessage_For_User updateData(MarketerPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_For_User.UpdateFail;
+			return null;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE marketer SET marketer_name=?, contact_way=? WHERE marketer_id=? ";
-		boolean result = sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
-		sqlManager.releaseConnection();
 		
-		if(!result)
-			return ResultMessage_For_User.UpdateFail;
+		sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
+		sqlManager.releaseConnection();
 		
 		return ResultMessage_For_User.UpdateSuccess;
 	}
@@ -72,7 +70,6 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	@Override
 	public ResultMessage_For_User insert(MarketerPO po,String password) throws RemoteException {
 		if(po == null)
-			// TODO
 			return null;
 		
 		if(findData(po.getMarketerID()) != null)
@@ -90,13 +87,10 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
-		boolean result = sqlManager.executeUpdateByList(sql, params);
+		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		// TODO
-		if(!result)
-			return null;
-		return null;
+		return ResultMessage_For_User.AddSucccess;
 	}
 	
 	private MarketerPO getMarketerPO(Map<String, Object> map) {

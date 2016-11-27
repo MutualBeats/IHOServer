@@ -1,16 +1,17 @@
 package util;
 
 public enum ResultMessage_For_User {
-	GetDataSuccess,
-	GetDataFail,
-
-	UpdateSuccess,
-	UpdateFail,
 	
 	LoginSuccess,
 	LoginFail,
 	PasswordWrong,
 	Account_Not_Exist,
+	
+	GetDataSuccess,
+	GetDataFail,
+
+	UpdateSuccess,
+	UpdateFail,
 	
 	OriginalRegisterSuccess,
 	BusinessRegisterSuccess,
@@ -22,4 +23,7 @@ public enum ResultMessage_For_User {
 	AddSucccess,
 	AddFail,
 	Account_Exist,
+	
+	Hotel_Not_Exist,
+	Hotel_Have_Staff,//This hotel already has a staff.
 }

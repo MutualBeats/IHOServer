@@ -186,7 +186,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		// 更新房间当前状态
 		result = UpdateRoomCondition(hotelID, roomNumber, RoomCondition.NotReserved);
 		if(!result)
-			return ResultMessage_Room.Check_Out_Failed; 
+			return ResultMessage_Room.Check_Out_Failed;
 		
 		return ResultMessage_Room.Check_Out_Successful;
 	}
@@ -212,6 +212,11 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
 		if(po == null)
 			return ResultMessage_Room.Record_Add_Failed;
+		// 获得房间未来预订记录
+		ArrayList<RoomRecordPO> list = getOrderRecord(po.getHotelID(), po.getRoomNumber());
+		for (RoomRecordPO roomRecordPO : list) {
+			
+		}
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();
@@ -244,12 +249,16 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		sqlManager.releaseConnection();
 		
 		if(!result)
-			// TODO ResultMessage 添加
 			return ResultMessage_Room.Record_Delete_Failed;
 		
 		return ResultMessage_Room.Record_Delete_Successful;
 	}
 	
+	/**
+	 * map转换为RoomPO
+	 * @param map
+	 * @return RoomPO
+	 */
 	private RoomPO getRoomPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;
@@ -262,6 +271,11 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return po;
 	}
 	
+	/**
+	 * map转换为RoomRecordPO
+	 * @param map
+	 * @return RoomRecordPO
+	 */
 	private RoomRecordPO getRoomRecordPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;

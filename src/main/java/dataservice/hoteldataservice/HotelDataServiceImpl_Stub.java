@@ -34,14 +34,14 @@ public class HotelDataServiceImpl_Stub implements HotelDataService {
 	@Override
 	public ResultMessage_Hotel changeHotelInfo(HotelPO po) throws RemoteException {
 		System.out.println("Update Hotel Data Succeed!\n");
-		return ResultMessage_Hotel.Update_Successful;
+		return ResultMessage_Hotel.Change_Successful;
 //		return null;
 	}
 
 	@Override
 	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException {
 		System.out.println("Insert Hotel Evaluation Succeed!\n");
-		return ResultMessage_Hotel.Evaluation_Successful;
+		return ResultMessage_Hotel.Evaluate_Successful;
 	}
 
 	@Override

@@ -81,7 +81,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	@Override
 	public ResultMessage_Hotel changeHotelInfo(HotelPO po) throws RemoteException {
 		if (po == null)
-			return ResultMessage_Hotel.Update_Failed;
+			return null;
 
 		sqlManager.getConnection();
 
@@ -96,9 +96,9 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		boolean isSuccess = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 
-		if (isSuccess)
-			return ResultMessage_Hotel.Update_Successful;
-		return ResultMessage_Hotel.Update_Failed;
+		if (!isSuccess)
+			return ResultMessage_Hotel.Hotel_Not_Exists;
+		return ResultMessage_Hotel.Change_Successful;
 	}
 
 	@Override
@@ -119,7 +119,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	@Override
 	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException {
 		if (po == null)
-			return ResultMessage_Hotel.Evaluation_Failed;
+			return null;
+		// 酒店id不存在
 		if (getHotelInfo(po.getHotelID()) == null)
 			return ResultMessage_Hotel.Hotel_Not_Exists;
 
@@ -140,7 +141,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		// 更新酒店总评分
 		UpdateHotelScore(po.getHotelID(), po.getEvaluateScore());
 
-		return ResultMessage_Hotel.Evaluation_Successful;
+		return ResultMessage_Hotel.Evaluate_Successful;
 	}
 
 	@Override

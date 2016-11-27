@@ -3,7 +3,7 @@ package dataservice.userdataservice;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import po.MarketerPO;
+import po.user.MarketerPO;
 import util.ResultMessage_For_User;
 
 public interface MarketerDataService extends Remote{

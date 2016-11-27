@@ -1,7 +1,7 @@
 /**
  * @version 2016年11月19日 添加空构造方法
  */
-package po;
+package po.user;
 
 public class MarketerPO {
 	/**
@@ -15,7 +15,7 @@ public class MarketerPO {
 	/**
 	 * 网站营销人员联系方式
 	 */
-	private String tel_number;
+	private String contactWay;
 	
 	/**
 	 * 构造方法
@@ -26,7 +26,7 @@ public class MarketerPO {
 	public MarketerPO(String marketerID, String marketername, String tel_number){
 		this.marketerID = marketerID;
 		this.marketername = marketername;
-		this.tel_number = tel_number;
+		this.contactWay = tel_number;
 	}
 	
 	public MarketerPO() {
@@ -45,10 +45,10 @@ public class MarketerPO {
 		this.marketername = marketername;
 	}
 	public String getTel_number() {
-		return tel_number;
+		return contactWay;
 	}
 	public void setTel_number(String tel_number) {
-		this.tel_number = tel_number;
+		this.contactWay = tel_number;
 	}
 	
 }

@@ -3,8 +3,8 @@ package dataservice.promotiondataservice;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import po.ClientPO;
 import po.promotion.PromotionPO;
+import po.user.ClientPO;
 import util.ResultMessage;
 
 public class PromotionDataService_Stub implements PromotionDataService{

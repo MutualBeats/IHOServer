@@ -1,7 +1,7 @@
 package dataservice.promotiondataservice;
 
-import po.ClientPO;
 import po.promotion.PromotionPO;
+import po.user.ClientPO;
 import util.MemberType;
 
 public class PromotionDataService_Drive {

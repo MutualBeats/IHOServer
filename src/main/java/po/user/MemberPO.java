@@ -1,4 +1,4 @@
-package po;
+package po.user;
 
 import util.MemberType;
 

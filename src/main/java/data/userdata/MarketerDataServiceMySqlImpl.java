@@ -12,7 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MarketerDataService;
-import po.MarketerPO;
+import po.user.MarketerPO;
 import util.ResultMessage_For_User;
 
 public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {

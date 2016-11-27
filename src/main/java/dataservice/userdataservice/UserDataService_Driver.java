@@ -2,9 +2,9 @@ package dataservice.userdataservice;
 
 import java.rmi.RemoteException;
 
-import po.ClientPO;
-import po.MarketerPO;
-import po.StaffPO;
+import po.user.ClientPO;
+import po.user.MarketerPO;
+import po.user.StaffPO;
 import util.MemberType;
 
 public class UserDataService_Driver {

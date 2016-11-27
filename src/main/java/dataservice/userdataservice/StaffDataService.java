@@ -3,7 +3,7 @@ package dataservice.userdataservice;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import po.StaffPO;
+import po.user.StaffPO;
 import util.ResultMessage_For_User;
 
 public interface StaffDataService extends Remote{

@@ -12,8 +12,8 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
-import po.ClientPO;
-import po.MemberPO;
+import po.user.ClientPO;
+import po.user.MemberPO;
 import util.MemberType;
 import util.ResultMessage_For_User;
 

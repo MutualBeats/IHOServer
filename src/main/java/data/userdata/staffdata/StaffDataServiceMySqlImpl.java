@@ -22,7 +22,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
 	
-	// TODO
+	// TODO 对象获得
 	private HotelInfo hotelInfo = new HotelDataServiceMySqlImpl();
 	
 	public StaffDataServiceMySqlImpl() throws RemoteException {

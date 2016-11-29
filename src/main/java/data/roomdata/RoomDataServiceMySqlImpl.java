@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
-import dataservice.roomdataservice.ResultMessage_Room;
 import dataservice.roomdataservice.RoomDataService;
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
-import util.RoomCondition;
-import util.RoomType;
 import util.Time;
+import util.resultmessage.ResultMessage_Room;
+import util.room.RoomState;
+import util.room.RoomType;
 
 public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
 
@@ -113,7 +113,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	 * @param roomNumber
 	 * @return RoomCondition
 	 */
-	private RoomCondition getCurrentCondition(String hotelID, String roomNumber) {
+	private RoomState getCurrentCondition(String hotelID, String roomNumber) {
 		sqlManager.getConnection();
 		String sql = "SELECT room_condition FROM room WHERE hotel_id=? AND room_number=? ";
 
@@ -121,7 +121,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		sqlManager.releaseAll();
 		if(map.size() == 0)
 			return null;
-		return RoomCondition.valueOf(map.get("room_condition").toString());
+		return RoomState.valueOf(map.get("room_condition").toString());
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	 * @param rc
 	 * @return boolean
 	 */
-	private boolean updateRoomCondition(String hotelID, String roomNumber, RoomCondition rc) {
+	private boolean updateRoomCondition(String hotelID, String roomNumber, RoomState rc) {
 		sqlManager.getConnection();
 		String sql = "UPDATE room SET room_condition=? WHERE hotel_id=? AND room_number=? ";
 		boolean result= sqlManager.executeUpdate(sql, new Object[]{rc.toString(), hotelID, roomNumber});
@@ -142,10 +142,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public ResultMessage_Room checkIn(String hotelID, String roomNumber) throws RemoteException {
 		// 获得房间当前状态
-		RoomCondition currentCondition = getCurrentCondition(hotelID, roomNumber);
+		RoomState currentCondition = getCurrentCondition(hotelID, roomNumber);
 		
 		// 当天房间已有人住或未被预订，错误
-		if(!currentCondition.equals(RoomCondition.Reserved))
+		if(!currentCondition.equals(RoomState.Reserved))
 			return ResultMessage_Room.Check_In_Failed;
 				
 		// 房间当天已被预订，更新记录状态为执行中
@@ -164,7 +164,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Check_In_Failed;
 		
 		// 更新房间当前状态
-		updateRoomCondition(hotelID, roomNumber, RoomCondition.Occupied);
+		updateRoomCondition(hotelID, roomNumber, RoomState.Occupied);
 		
 		return ResultMessage_Room.Check_In_Successful;
 	}
@@ -172,10 +172,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException {
 		// 获得房间当前状态
-		RoomCondition currentCondition = getCurrentCondition(hotelID, roomNumber);
+		RoomState currentCondition = getCurrentCondition(hotelID, roomNumber);
 		
 		// 当天房间未有人住，错误
-		if(!currentCondition.equals(RoomCondition.Occupied))
+		if(!currentCondition.equals(RoomState.Occupied))
 			return ResultMessage_Room.Check_Out_Failed;
 		
 		// 房间原先已有人住，更新记录（状态更新为已执行同时记录实际离开时间）
@@ -195,7 +195,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Check_Out_Failed;
 		
 		// 更新房间当前状态
-		updateRoomCondition(hotelID, roomNumber, RoomCondition.NotReserved);
+		updateRoomCondition(hotelID, roomNumber, RoomState.NotReserved);
 		
 		return ResultMessage_Room.Check_Out_Successful;
 	}
@@ -296,7 +296,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		po.setRoomNumber(map.get("room_number").toString());
 		po.setType(RoomType.values()[Integer.parseInt(map.get("room_type").toString())]);
 		po.setPrice(Integer.parseInt(map.get("price").toString()));
-		po.setCondition(RoomCondition.valueOf(map.get("room_condition").toString()));
+		po.setCondition(RoomState.valueOf(map.get("room_condition").toString()));
 		return po;
 	}
 	

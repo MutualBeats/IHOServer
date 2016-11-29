@@ -12,7 +12,7 @@ import data.databaseutility.SqlManager;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.promotion.PromotionPO;
 import po.user.ClientPO;
-import util.ResultMessage;
+import util.resultmessage.ResultMessage_Promotion;
 
 public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService {
 
@@ -29,7 +29,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	 * @see dataservice.promotiondataservice.PromotionDataService#hotelAdd(po.PromotionPO)
 	 */
 	@Override
-	public ResultMessage hotelAdd(PromotionPO po) throws RemoteException {
+	public ResultMessage_Promotion hotelAdd(PromotionPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,7 +38,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	 * @see dataservice.promotiondataservice.PromotionDataService#webAdd(po.PromotionPO)
 	 */
 	@Override
-	public ResultMessage webAdd(PromotionPO po) throws RemoteException {
+	public ResultMessage_Promotion webAdd(PromotionPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,4 +1,4 @@
-package dataservice.hoteldataservice;
+package util.resultmessage;
 
 public enum ResultMessage_Hotel {
 	

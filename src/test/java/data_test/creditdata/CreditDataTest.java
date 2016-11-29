@@ -15,7 +15,7 @@ import org.junit.Test;
 import data.creditdata.CreditDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import po.credit.CreditPO;
-import util.CreditChangeAction;
+import util.credit.CreditChangeAction;
 
 public class CreditDataTest {
 	private CreditDataService creditDataService;

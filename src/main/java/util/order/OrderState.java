@@ -1,4 +1,4 @@
-package util;
+package util.order;
 
 public enum OrderState {
 

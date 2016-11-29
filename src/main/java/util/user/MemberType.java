@@ -1,4 +1,4 @@
-package util;
+package util.user;
 
 public enum MemberType {
 	Not,

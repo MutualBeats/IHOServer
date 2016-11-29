@@ -7,13 +7,13 @@ package po.order;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import util.OrderState;
+import util.order.OrderState;
 
 public class OrderPO implements Serializable {
 	/**
 	 * version id
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
 	/**
 	 * 订单id
 	 */
@@ -35,6 +35,10 @@ public class OrderPO implements Serializable {
 	 */
 	private ArrayList<String> roomNumberList;
 	/**
+	 * 使用促销策略列表
+	 */
+	private ArrayList<String> promotionIDList;
+	/**
 	 * 订单价格
 	 */
 	private double value;
@@ -42,6 +46,10 @@ public class OrderPO implements Serializable {
 	 * 下单时间
 	 */
 	private String makeTime;
+	/**
+	 * 订单执行时间
+	 */
+	private String executeTime;
 	/**
 	 * 结束时间（执行完成/撤销）
 	 */
@@ -68,14 +76,15 @@ public class OrderPO implements Serializable {
 	private boolean children;
 	
 	/**
-	 * Constructor
 	 * @param orderId
 	 * @param orderState
 	 * @param clientId
 	 * @param hotelId
 	 * @param roomNumberList
+	 * @param promotionIDList
 	 * @param value
 	 * @param makeTime
+	 * @param executeTime
 	 * @param finishTime
 	 * @param latestETime
 	 * @param checkInDate
@@ -84,16 +93,19 @@ public class OrderPO implements Serializable {
 	 * @param children
 	 */
 	public OrderPO(String orderId, OrderState orderState, String clientId, String hotelId,
-			ArrayList<String> roomNumberList, double value, String makeTime, String finishTime, String latestETime,
-			String checkInDate, String estimateCheckOutDate, int numOfPeople, boolean children) {
+			ArrayList<String> roomNumberList, ArrayList<String> promotionIDList, double value, String makeTime,
+			String executeTime, String finishTime, String latestETime, String checkInDate, String estimateCheckOutDate,
+			int numOfPeople, boolean children) {
 		super();
 		this.orderId = orderId;
 		this.orderState = orderState;
 		this.clientId = clientId;
 		this.hotelId = hotelId;
 		this.roomNumberList = roomNumberList;
+		this.promotionIDList = promotionIDList;
 		this.value = value;
 		this.makeTime = makeTime;
+		this.executeTime = executeTime;
 		this.finishTime = finishTime;
 		this.latestETime = latestETime;
 		this.checkInDate = checkInDate;
@@ -101,110 +113,94 @@ public class OrderPO implements Serializable {
 		this.numOfPeople = numOfPeople;
 		this.children = children;
 	}
-
-	public OrderPO() {
-	}
-
+	
 	public String getOrderId() {
 		return orderId;
 	}
-
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-
 	public OrderState getOrderState() {
 		return orderState;
 	}
-
 	public void setOrderState(OrderState orderState) {
 		this.orderState = orderState;
 	}
-
 	public String getClientId() {
 		return clientId;
 	}
-
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
-
 	public String getHotelId() {
 		return hotelId;
 	}
-
 	public void setHotelId(String hotelId) {
 		this.hotelId = hotelId;
 	}
-
 	public ArrayList<String> getRoomNumberList() {
 		return roomNumberList;
 	}
-
 	public void setRoomNumberList(ArrayList<String> roomNumberList) {
 		this.roomNumberList = roomNumberList;
 	}
-
+	public ArrayList<String> getPromotionIDList() {
+		return promotionIDList;
+	}
+	public void setPromotionIDList(ArrayList<String> promotionIDList) {
+		this.promotionIDList = promotionIDList;
+	}
 	public double getValue() {
 		return value;
 	}
-
 	public void setValue(double value) {
 		this.value = value;
 	}
-
 	public String getMakeTime() {
 		return makeTime;
 	}
-
 	public void setMakeTime(String makeTime) {
 		this.makeTime = makeTime;
 	}
-
+	public String getExecuteTime() {
+		return executeTime;
+	}
+	public void setExecuteTime(String executeTime) {
+		this.executeTime = executeTime;
+	}
 	public String getFinishTime() {
 		return finishTime;
 	}
-
 	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
 	}
-
 	public String getLatestETime() {
 		return latestETime;
 	}
-
 	public void setLatestETime(String latestETime) {
 		this.latestETime = latestETime;
 	}
-
 	public String getCheckInDate() {
 		return checkInDate;
 	}
-
 	public void setCheckInDate(String checkInDate) {
 		this.checkInDate = checkInDate;
 	}
-
 	public String getEstimateCheckOutDate() {
 		return estimateCheckOutDate;
 	}
-
 	public void setEstimateCheckOutDate(String estimateCheckOutDate) {
 		this.estimateCheckOutDate = estimateCheckOutDate;
 	}
-
 	public int getNumOfPeople() {
 		return numOfPeople;
 	}
-
 	public void setNumOfPeople(int numOfPeople) {
 		this.numOfPeople = numOfPeople;
 	}
-
 	public boolean isChildren() {
 		return children;
 	}
-
 	public void setChildren(boolean children) {
 		this.children = children;
 	}

@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.order.OrderPO;
-import util.ResultMessage;
+import util.resultmessage.ResultMessage_Order;
 
 public interface OrderDataService extends Remote{
 	/**
@@ -15,7 +15,7 @@ public interface OrderDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage putUpOrder(String orderId) throws RemoteException; 
+	public ResultMessage_Order putUpOrder(String orderId) throws RemoteException; 
 	/**
 	 * 添加订单
 	 * 
@@ -23,7 +23,7 @@ public interface OrderDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage insert(OrderPO po) throws RemoteException;
+	public ResultMessage_Order insert(OrderPO po) throws RemoteException;
 	/**
 	 * 更新订单
 	 * 
@@ -31,7 +31,7 @@ public interface OrderDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage update(OrderPO po) throws RemoteException;
+	public ResultMessage_Order update(OrderPO po) throws RemoteException;
 	/**
 	 * 根据orderId查询订单
 	 * 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
+import util.resultmessage.ResultMessage_Room;
 
 public class RoomDataServiceImpl_Stub implements RoomDataService {
 

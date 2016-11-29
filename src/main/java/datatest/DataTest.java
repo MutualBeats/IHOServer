@@ -15,8 +15,8 @@ import dataservice.hoteldataservice.HotelDataService;
 import dataservice.roomdataservice.RoomDataService;
 import dataservice.userdataservice.StaffDataService;
 import po.room.RoomPO;
-import util.RoomCondition;
-import util.RoomType;
+import util.room.RoomState;
+import util.room.RoomType;
 
 public class DataTest {
 	

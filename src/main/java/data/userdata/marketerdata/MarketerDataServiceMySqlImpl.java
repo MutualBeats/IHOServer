@@ -13,7 +13,7 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MarketerDataService;
 import po.user.MarketerPO;
-import util.ResultMessage_For_User;
+import util.resultmessage.ResultMessage_User;
 
 public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {
 
@@ -37,7 +37,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public ResultMessage_For_User updateData(MarketerPO po) throws RemoteException {
+	public ResultMessage_User updateData(MarketerPO po) throws RemoteException {
 		if(po == null)
 			return null;
 		sqlManager.getConnection();
@@ -47,11 +47,11 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_For_User.UpdateSuccess;
+		return ResultMessage_User.UpdateSuccess;
 	}
 
 	@Override
-	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
+	public ResultMessage_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM marketer WHERE marketer_id=?";
@@ -59,21 +59,21 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		sqlManager.releaseAll();
 		
 		if(map.size() == 0)
-			return ResultMessage_For_User.Account_Not_Exist;
+			return ResultMessage_User.Account_Not_Exist;
 		
 		if(!map.get("password").toString().equals(password))
-			return ResultMessage_For_User.PasswordWrong;
+			return ResultMessage_User.PasswordWrong;
 		
-		return ResultMessage_For_User.LoginSuccess;
+		return ResultMessage_User.LoginSuccess;
 	}
 	
 	@Override
-	public ResultMessage_For_User insert(MarketerPO po,String password) throws RemoteException {
+	public ResultMessage_User insert(MarketerPO po,String password) throws RemoteException {
 		if(po == null)
 			return null;
 		
 		if(findData(po.getMarketerID()) != null)
-			return ResultMessage_For_User.Account_Exist;
+			return ResultMessage_User.Account_Exist;
 		
 		sqlManager.getConnection();
 		
@@ -90,7 +90,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_For_User.AddSucccess;
+		return ResultMessage_User.AddSucccess;
 	}
 	
 	private MarketerPO getMarketerPO(Map<String, Object> map) {

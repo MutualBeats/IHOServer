@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import data.databaseutility.SqlManager;
 import dataservice.orderdataservice.OrderDataService;
 import po.order.OrderPO;
-import util.ResultMessage;
+import util.resultmessage.ResultMessage_Order;
 
 public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService {
 
@@ -27,7 +27,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 补录订单
 	 */
 	@Override
-	public ResultMessage putUpOrder(String orderId) throws RemoteException {
+	public ResultMessage_Order putUpOrder(String orderId) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,7 +36,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 生成订单
 	 */
 	@Override
-	public ResultMessage insert(OrderPO po) throws RemoteException {
+	public ResultMessage_Order insert(OrderPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -45,7 +45,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 更新订单
 	 */
 	@Override
-	public ResultMessage update(OrderPO po) throws RemoteException {
+	public ResultMessage_Order update(OrderPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

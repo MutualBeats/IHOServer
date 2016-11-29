@@ -1,6 +1,6 @@
-package util;
+package util.resultmessage;
 
-public enum ResultMessage_For_User {
+public enum ResultMessage_User {
 	
 	LoginSuccess,
 	LoginFail,

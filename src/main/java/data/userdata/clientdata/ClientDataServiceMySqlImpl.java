@@ -14,8 +14,8 @@ import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
 import po.user.ClientPO;
 import po.user.MemberPO;
-import util.MemberType;
-import util.ResultMessage_For_User;
+import util.resultmessage.ResultMessage_User;
+import util.user.MemberType;
 
 public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService {
 
@@ -39,9 +39,9 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public ResultMessage_For_User updateData(String clientID, String clientName, String contactWay) throws RemoteException {
+	public ResultMessage_User updateData(String clientID, String clientName, String contactWay) throws RemoteException {
 		if(clientID == null || clientName == null || contactWay == null)
-			return ResultMessage_For_User.UpdateFail;
+			return ResultMessage_User.UpdateFail;
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE client SET client_name=?, contact_way=? WHERE client_id=?";
@@ -50,13 +50,13 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.releaseConnection();
 		
 		if(!result)
-			return ResultMessage_For_User.UpdateFail;
+			return ResultMessage_User.UpdateFail;
 		
-		return ResultMessage_For_User.UpdateSuccess;
+		return ResultMessage_User.UpdateSuccess;
 	}
 
 	@Override
-	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
+	public ResultMessage_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM client WHERE client_id=?";
@@ -64,22 +64,22 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.releaseAll();
 		
 		if(map.size() == 0)
-			return ResultMessage_For_User.Account_Not_Exist;
+			return ResultMessage_User.Account_Not_Exist;
 		
 		if(!map.get("password").toString().equals(password))
-			return ResultMessage_For_User.PasswordWrong;
+			return ResultMessage_User.PasswordWrong;
 		
-		return ResultMessage_For_User.LoginSuccess;
+		return ResultMessage_User.LoginSuccess;
 	}
 
 	@Override
-	public ResultMessage_For_User insert(ClientPO po, String password) throws RemoteException {
+	public ResultMessage_User insert(ClientPO po, String password) throws RemoteException {
 		if(po == null)
 			// TODO
 			return null;
 		// ClientID 已存在
 		if(findData(po.getClientID()) != null)
-			return ResultMessage_For_User.Account_Exist;
+			return ResultMessage_User.Account_Exist;
 		
 		sqlManager.getConnection();
 		
@@ -117,10 +117,10 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public ResultMessage_For_User insertMember(MemberPO po) throws RemoteException {
+	public ResultMessage_User insertMember(MemberPO po) throws RemoteException {
 		if(po == null)
 			// TODO 注册何种会员判断
-			return ResultMessage_For_User.BusinessRegisterFail;
+			return ResultMessage_User.BusinessRegisterFail;
 		
 		sqlManager.getConnection();
 		
@@ -137,14 +137,14 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		
 		if(!result)
 			// TODO 注册何种会员判断
-			return ResultMessage_For_User.BusinessRegisterFail;
-		return ResultMessage_For_User.BusinessRegisterSuccess;
+			return ResultMessage_User.BusinessRegisterFail;
+		return ResultMessage_User.BusinessRegisterSuccess;
 	}
 
 	@Override
-	public ResultMessage_For_User updateMemberData(MemberPO po) throws RemoteException {
+	public ResultMessage_User updateMemberData(MemberPO po) throws RemoteException {
 		if(po == null)
-			return ResultMessage_For_User.UpdateFail;
+			return ResultMessage_User.UpdateFail;
 		
 		sqlManager.getConnection();
 		
@@ -160,9 +160,9 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.releaseConnection();
 		
 		if(!result)
-			return ResultMessage_For_User.UpdateFail;
+			return ResultMessage_User.UpdateFail;
 		
-		return ResultMessage_For_User.UpdateSuccess;
+		return ResultMessage_User.UpdateSuccess;
 	}
 	
 	private ClientPO getClientPO(Map<String, Object> map) {

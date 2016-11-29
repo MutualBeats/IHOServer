@@ -2,7 +2,7 @@
  * @author huangxiao
  * @version 2016年11月22日
  */
-package util;
+package util.credit;
 
 /**
  * 信用改变动作枚举类

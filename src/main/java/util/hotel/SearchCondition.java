@@ -2,7 +2,7 @@
  * @author huangxiao
  * 2016年10月16日
  */
-package util;
+package util.hotel;
 
 import java.io.Serializable;
 

@@ -7,13 +7,13 @@ package dataservice.roomdataservice;
 import java.rmi.RemoteException;
 
 import po.room.RoomPO;
-import util.RoomCondition;
-import util.RoomType;
+import util.room.RoomState;
+import util.room.RoomType;
 
 public class RoomDataServiceImpl_Driver {
 	
 	public void drive(RoomDataService roomDataService) throws RemoteException {
-		RoomPO po = new RoomPO("00000001", "1024", RoomType.Single, 100, RoomCondition.NotReserved);
+		RoomPO po = new RoomPO("00000001", "1024", RoomType.Single, 100, RoomState.NotReserved);
 		
 		roomDataService.addRoom(po);
 		roomDataService.getRoom("00000001");

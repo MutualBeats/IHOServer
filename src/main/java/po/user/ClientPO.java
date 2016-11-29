@@ -7,7 +7,7 @@ package po.user;
 
 import java.io.Serializable;
 
-import util.MemberType;
+import util.user.MemberType;
 
 public class ClientPO implements Serializable {
 	/**

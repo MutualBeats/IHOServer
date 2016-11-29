@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import po.user.ClientPO;
 import po.user.MarketerPO;
 import po.user.StaffPO;
-import util.MemberType;
+import util.user.MemberType;
 
 public class UserDataService_Driver {
 	public void drive(UserDataService userDataService) throws RemoteException{

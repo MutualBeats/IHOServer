@@ -12,9 +12,9 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.creditdataservice.CreditDataService;
-import dataservice.creditdataservice.ResultMessage_Credit;
 import po.credit.CreditPO;
-import util.CreditChangeAction;
+import util.credit.CreditChangeAction;
+import util.resultmessage.ResultMessage_Credit;
 
 public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService {
 

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
-import util.SearchCondition;
+import util.hotel.SearchCondition;
+import util.resultmessage.ResultMessage_Hotel;
 
 public class HotelDataServiceImpl_Stub implements HotelDataService {
 

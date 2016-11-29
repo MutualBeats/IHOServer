@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
-import util.SearchCondition;
+import util.hotel.SearchCondition;
 
 public class HotelDataBLServiceImpl_Driver {
 

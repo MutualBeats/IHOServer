@@ -2,7 +2,7 @@
  * @author huangxiao
  * @version 2016年11月25日
  */
-package dataservice.roomdataservice;
+package util.resultmessage;
 
 public enum ResultMessage_Room {
 	Room_Exist_Already, 

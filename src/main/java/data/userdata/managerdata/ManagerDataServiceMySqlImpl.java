@@ -10,7 +10,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ManagerDataService;
-import util.ResultMessage_For_User;
+import util.resultmessage.ResultMessage_User;
 
 public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements ManagerDataService {
 
@@ -23,7 +23,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 	}
 	
 	@Override
-	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
+	public ResultMessage_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM manager WHERE manager_id=? ";
@@ -31,12 +31,12 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 		sqlManager.releaseAll();
 		
 		if(map.size() == 0)
-			return ResultMessage_For_User.Account_Not_Exist;
+			return ResultMessage_User.Account_Not_Exist;
 		
 		if(!map.get("password").toString().equals(password))
-			return ResultMessage_For_User.PasswordWrong;
+			return ResultMessage_User.PasswordWrong;
 		
-		return ResultMessage_For_User.LoginSuccess;
+		return ResultMessage_User.LoginSuccess;
 	}
 	
 }

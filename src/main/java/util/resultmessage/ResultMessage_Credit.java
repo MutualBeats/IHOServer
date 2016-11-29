@@ -1,4 +1,4 @@
-package dataservice.creditdataservice;
+package util.resultmessage;
 
 /**
  * @author Saltwater

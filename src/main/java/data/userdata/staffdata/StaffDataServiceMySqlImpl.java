@@ -14,7 +14,7 @@ import data.databaseutility.SqlManager;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffPO;
-import util.ResultMessage_For_User;
+import util.resultmessage.ResultMessage_User;
 
 public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements StaffDataService {
 
@@ -41,7 +41,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	}
 
 	@Override
-	public ResultMessage_For_User updateData(StaffPO po) throws RemoteException {
+	public ResultMessage_User updateData(StaffPO po) throws RemoteException {
 		if(po == null)
 			return null;
 		sqlManager.getConnection();
@@ -51,11 +51,11 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getStaffID()});
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_For_User.UpdateSuccess;
+		return ResultMessage_User.UpdateSuccess;
 	}
 	
 	@Override
-	public ResultMessage_For_User find(String ID, String password) throws RemoteException {
+	public ResultMessage_User find(String ID, String password) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT password FROM staff WHERE staff_id=? ";
@@ -63,12 +63,12 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.releaseAll();
 		
 		if(map.size() == 0)
-			return ResultMessage_For_User.Account_Not_Exist;
+			return ResultMessage_User.Account_Not_Exist;
 		
 		if(!map.get("password").toString().equals(password))
-			return ResultMessage_For_User.PasswordWrong;
+			return ResultMessage_User.PasswordWrong;
 		
-		return ResultMessage_For_User.LoginSuccess;
+		return ResultMessage_User.LoginSuccess;
 	}
 	
 	/**
@@ -85,15 +85,15 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	}
 	
 	@Override
-	public ResultMessage_For_User insert(StaffPO po, String password) throws RemoteException {
+	public ResultMessage_User insert(StaffPO po, String password) throws RemoteException {
 		if(po == null)
 			return null;
 		// 判断酒店是否存在
 		if(hotelInfo.getHotelInfo(po.getHotelId()) == null)
-			return ResultMessage_For_User.Hotel_Not_Exist;
+			return ResultMessage_User.Hotel_Not_Exist;
 		//一个酒店只有一个工作人员账号
 		if(getStaffNum(po.getHotelId()) == 1)
-			return ResultMessage_For_User.Hotel_Have_Staff;
+			return ResultMessage_User.Hotel_Have_Staff;
 		
 		sqlManager.getConnection();
 		
@@ -110,7 +110,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_For_User.AddSucccess;
+		return ResultMessage_User.AddSucccess;
 	}
 	
 	private StaffPO getStaffPO(Map<String, Object> map) {

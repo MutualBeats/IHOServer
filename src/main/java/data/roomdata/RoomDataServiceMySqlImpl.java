@@ -208,7 +208,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		sqlManager.getConnection();
 		
-		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND check_out_date<=? ORDER BY check_in_date";
+		// TODO 待测试
+		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND check_out_date>=? ORDER BY check_in_date";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber, Time.getCurrentDate()});
 		
 		ArrayList<RoomRecordPO> roomRecordList = new ArrayList<RoomRecordPO>();
@@ -258,6 +259,15 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Record_Add_Failed;
 		return ResultMessage_Room.Record_Add_Successful;
 	}
+	
+//	private RoomRecordCondition getRecordCondition(String orderID) {
+//		sqlManager.getConnection();
+//		String sql = "SELECT record_condition FROM room_record WHERE orderID=? ";
+//		RoomRecordCondition res;
+//		res = RoomRecordCondition.valueOf(sqlManager.querySimple(sql, new Object[]{orderID}).toString());
+//		sqlManager.releaseAll();
+//		return res;
+//	}
 
 	@Override
 	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException {

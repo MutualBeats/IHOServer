@@ -23,8 +23,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.orderdataservice.OrderDataService#putUpOrder(java.lang.String)
+	/**
+	 * 补录订单
 	 */
 	@Override
 	public ResultMessage putUpOrder(String orderId) throws RemoteException {
@@ -32,17 +32,17 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.orderdataservice.OrderDataService#insert(po.OrderPO)
+	/**
+	 * 生成订单
 	 */
 	@Override
 	public ResultMessage insert(OrderPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	/* (non-Javadoc)
-	 * @see dataservice.orderdataservice.OrderDataService#update(po.OrderPO)
+ 
+	/**
+	 * 更新订单
 	 */
 	@Override
 	public ResultMessage update(OrderPO po) throws RemoteException {
@@ -50,8 +50,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.orderdataservice.OrderDataService#findById(java.lang.String)
+	/**
+	 * 根据orderID查询订单
 	 */
 	@Override
 	public OrderPO findById(String orderId) throws RemoteException {
@@ -59,8 +59,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dataservice.orderdataservice.OrderDataService#findByUser(java.lang.String)
+	/**
+	 * 查询用户订单
 	 */
 	@Override
 	public ArrayList<OrderPO> findByUser(String userId) throws RemoteException {

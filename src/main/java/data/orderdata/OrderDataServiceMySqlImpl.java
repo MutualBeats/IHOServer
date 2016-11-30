@@ -129,7 +129,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 生成订单
 	 */
 	@Override
-	public ResultMessage_Order insert(OrderPO po) throws RemoteException {
+	public ResultMessage_Order addOrder(OrderPO po) throws RemoteException {
 		if(po == null)
 			return null;
 		
@@ -270,7 +270,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 
 	// TODO 接口名修改 findUnexecutedOrder
 	@Override
-	public ArrayList<OrderPO> findUnexcutedOrder() throws RemoteException {
+	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT * FROM order_record WHERE order_state=? AND finish_time=? ORDER BY latest_execute_time";

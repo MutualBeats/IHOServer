@@ -11,11 +11,11 @@ public interface OrderDataService extends Remote{
 	/**
 	 * 补录订单
 	 * 
-	 * @param orderId
+	 * @param orderID
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Order putUpOrder(String orderId) throws RemoteException; 
+	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException; 
 	/**
 	 * 添加订单
 	 * 
@@ -23,7 +23,7 @@ public interface OrderDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Order insert(OrderPO po) throws RemoteException;
+	public ResultMessage_Order addOrder(OrderPO po) throws RemoteException;
 	/**
 	 * 更新订单
 	 * 
@@ -35,50 +35,50 @@ public interface OrderDataService extends Remote{
 	/**
 	 * 根据orderId查询订单
 	 * 
-	 * @param orderId
+	 * @param orderID
 	 * @return
 	 * @throws RemoteException
 	 */
-	public OrderPO findById(String orderId) throws RemoteException;
+	public OrderPO findById(String orderID) throws RemoteException;
 	/**
 	 * 查询用户订单 
 	 *  
-	 * @param userId
+	 * @param clientID
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findByUser(String userId) throws RemoteException;
+	public ArrayList<OrderPO> findByUser(String clientID) throws RemoteException;
 	/**
 	 * 查询房间订单
 	 * 
-	 * @param hotelId
-	 * @param roomId
+	 * @param hotelID
+	 * @param roomNumber
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findByRoom(String hotelId, String roomId) throws RemoteException;
+	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException;
 	/**
 	 * 用户查询在某酒店订单
 	 * 
-	 * @param hotelId
-	 * @param userId
+	 * @param hotelID
+	 * @param clientID
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findUOByHotel(String hotelId, String userId) throws RemoteException;
+	public ArrayList<OrderPO> findUOByHotel(String hotelID, String clientID) throws RemoteException;
 	/**
 	 * 查询酒店订单
 	 * 
-	 * @param hotelId
+	 * @param hotelID
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findHotelOrder(String hotelId) throws RemoteException;
+	public ArrayList<OrderPO> findHotelOrder(String hotelID) throws RemoteException;
 	/**
 	 * 查找网站未执行订单
 	 * 
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findUnexcutedOrder() throws RemoteException;
+	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException;
 }

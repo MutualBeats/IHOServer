@@ -8,14 +8,7 @@ import po.order.OrderPO;
 import util.resultmessage.ResultMessage_Order;
 
 public interface OrderDataService extends Remote{
-	/**
-	 * 补录订单
-	 * 
-	 * @param orderID
-	 * @return
-	 * @throws RemoteException
-	 */
-	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException; 
+	 
 	/**
 	 * 添加订单
 	 * 
@@ -25,13 +18,29 @@ public interface OrderDataService extends Remote{
 	 */
 	public ResultMessage_Order addOrder(OrderPO po) throws RemoteException;
 	/**
-	 * 更新订单
+	 * 补录订单
+	 * 
+	 * @param orderID
+	 * @return
+	 * @throws RemoteException
+	 */
+	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException;
+	/**
+	 * 撤销订单
 	 * 
 	 * @param po
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Order update(OrderPO po) throws RemoteException;
+	public ResultMessage_Order cancelOrder(String orderID) throws RemoteException;
+	/**
+	 * 执行订单
+	 * 
+	 * @param orderID
+	 * @return
+	 * @throws RemoteException
+	 */
+	public ResultMessage_Order executeOrder(String orderID) throws RemoteException;
 	/**
 	 * 根据orderId查询订单
 	 * 
@@ -81,4 +90,6 @@ public interface OrderDataService extends Remote{
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException;
+	
+	
 }

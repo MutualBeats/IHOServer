@@ -27,19 +27,19 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		super();
 	}
 	
-	/**
-	 * 判断orderID是否存在
-	 * @param orderID
-	 * @return boolean
-	 */
-	private boolean isOrderExists(String orderID) {
-		sqlManager.getConnection();
-		String sql = "SELECT order_id FROM order_record WHERE order_id=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
-		sqlManager.releaseAll();
-		
-		return map.size() > 0;
-	}
+//	/**
+//	 * 判断orderID是否存在
+//	 * @param orderID
+//	 * @return boolean
+//	 */
+//	private boolean isOrderExists(String orderID) {
+//		sqlManager.getConnection();
+//		String sql = "SELECT order_id FROM order_record WHERE order_id=? ";
+//		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
+//		sqlManager.releaseAll();
+//		
+//		return map.size() > 0;
+//	}
 	
 	/**
 	 * 获得订单状态
@@ -52,33 +52,6 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
 		sqlManager.releaseAll();
 		return OrderState.valueOf(map.get("order_state").toString());
-	}
-
-	/**
-	 * 补录订单
-	 */
-	@Override
-	public ResultMessage_Order putUpOrder(String orderId) throws RemoteException {
-		// 错误：订单状态正常
-		if(!getOrderState(orderId).equals(OrderState.Exception))
-			return ResultMessage_Order.Put_Up_Failed;
-		
-		sqlManager.getConnection();
-		
-		String sql = "UPDATE order_record SET order_state=?, execute_time=? WHERE order_id=? ";
-		List<Object> params = new ArrayList<Object>();
-		params.add(OrderState.Execute);
-		params.add(Time.getCurrentTime());
-		params.add(orderId);
-		
-		boolean res= sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
-		
-		// 错误：订单号不存在
-		if(!res)
-			return ResultMessage_Order.Order_Not_Exist;
-		
-		return ResultMessage_Order.Put_Up_Successful;
 	}
 	
 	/**
@@ -138,23 +111,29 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		String sql = "INSERT INTO order_record VALUES ";
 		
 		List<Object> params = new ArrayList<Object>();
-		params.add(po.getOrderId());
-		params.add(po.getOrderState());
-		params.add(po.getClientId());
-		params.add(po.getHotelId());
-		params.add(po.getValue());
-		params.add(po.getMakeTime());
-		params.add(po.getLatestETime());
-		// 订单执行时间初始为空
-		params.add("");
-		// 订单结束时间初始为空
-		params.add("");
-		params.add(po.getCheckInDate());
-		params.add(po.getEstimateCheckOutDate());
-		// 实际离开日期初始为空
-		params.add("");
-		params.add(po.getNumOfPeople());
-		params.add(po.isChildren());
+		try {
+			params.add(po.getOrderID());
+			params.add(po.getOrderState());
+			params.add(po.getClientID());
+			params.add(po.getHotelId());
+			params.add(po.getValue());
+			params.add(po.getMakeTime());
+			params.add(po.getLatestETime());
+			// 订单执行时间初始为空
+			params.add("");
+			// 订单结束时间初始为空
+			params.add("");
+			params.add(po.getCheckInDate());
+			params.add(po.getEstimateCheckOutDate());
+			// 实际离开日期初始为空
+			params.add("");
+			params.add(po.getNumOfPeople());
+			params.add(po.isChildren());
+		} catch (NullPointerException e) {
+			// 错误：信息不全
+			e.printStackTrace();
+			return ResultMessage_Order.Order_Create_Failed;
+		}
 		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
@@ -162,32 +141,106 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		sqlManager.releaseConnection();
 		
 		// 添加订单房间、促销策略记录
-		addOrderRoom(po.getOrderId(), po.getHotelId(), po.getRoomNumberList());
-		addOrderPromotion(po.getOrderId(), po.getPromotionIDList());
+		addOrderRoom(po.getOrderID(), po.getHotelId(), po.getRoomNumberList());
+		addOrderPromotion(po.getOrderID(), po.getPromotionIDList());
 		
 		return ResultMessage_Order.Order_Create_Successful;
 	}
- 
+	
 	/**
-	 * 更新订单
+	 * 补录订单
 	 */
 	@Override
-	public ResultMessage_Order update(OrderPO po) throws RemoteException {
-		if(po == null)
-			return null;
-		// TODO
-		return null;
+	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException {
+		// 错误：订单状态正常
+		if(!getOrderState(orderID).equals(OrderState.Exception))
+			return ResultMessage_Order.Put_Up_Failed;
+		
+		sqlManager.getConnection();
+		
+		String sql = "UPDATE order_record SET order_state=?, execute_time=?, finish_time=? WHERE order_id=? ";
+		List<Object> params = new ArrayList<Object>();
+		params.add(OrderState.Execute.toString());
+		params.add(Time.getCurrentTime());
+		// 订单结束时间重新设为空
+		params.add("");
+		params.add(orderID);
+		
+		boolean res= sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
+		
+		// 错误：订单号不存在
+		if(!res)
+			return ResultMessage_Order.Order_Not_Exist;
+		
+		return ResultMessage_Order.Put_Up_Successful;
+	}
+ 
+	/**
+	 * 撤销订单
+	 */
+	@Override
+	public ResultMessage_Order cancelOrder(String orderID) throws RemoteException {
+		// 错误：订单状态不为未执行
+		if (!getOrderState(orderID).equals(OrderState.Unexecuted))
+			return ResultMessage_Order.Cancel_Failed;
+		
+		sqlManager.getConnection();
+		
+		String sql = "UPDATE order_record SET order_state=?, finish_time=? WHERE order_id=? ";
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(OrderState.Canceled.toString());
+		params.add(Time.getCurrentTime());
+		params.add(orderID);
+		
+		boolean res = sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
+		
+		// 错误：订单号不存在
+		if(!res)
+			return ResultMessage_Order.Order_Not_Exist;
+		
+		return ResultMessage_Order.Cancel_Successful;
+	}
+	
+	/**
+	 * 执行订单
+	 */
+	@Override
+	public ResultMessage_Order executeOrder(String orderID) throws RemoteException {
+		// 错误：订单状态不为未执行
+		if (!getOrderState(orderID).equals(OrderState.Unexecuted))
+			return ResultMessage_Order.Execute_Failed;
+
+		sqlManager.getConnection();
+
+		String sql = "UPDATE order_record SET order_state=?, execute_time=? WHERE order_id=? ";
+
+		List<Object> params = new ArrayList<Object>();
+		params.add(OrderState.Execute.toString());
+		params.add(Time.getCurrentTime());
+		params.add(orderID);
+
+		boolean res = sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
+
+		// 错误：订单号不存在
+		if (!res)
+			return ResultMessage_Order.Order_Not_Exist;
+
+		return ResultMessage_Order.Execute_Successful;
 	}
 
 	/**
 	 * 根据orderID查询订单
 	 */
 	@Override
-	public OrderPO findById(String orderId) throws RemoteException {
+	public OrderPO findById(String orderID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT * FROM order_record WHERE order_id=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderId});
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
 		sqlManager.releaseAll();
 		
 		return getOrderPO(map);
@@ -197,14 +250,14 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 查询用户订单
 	 */
 	@Override
-	public ArrayList<OrderPO> findByUser(String userId) throws RemoteException {
+	public ArrayList<OrderPO> findByUser(String clientID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<OrderPO> clientOrderList = new ArrayList<OrderPO>();
 		
 		String sql = "SELECT * FROM order_record WHERE client_id=? ORDER BY create_time";
 		
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{userId});
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{clientID});
 		sqlManager.releaseAll();
 		
 		for (Map<String, Object> map : mapList) {
@@ -334,9 +387,9 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		
 		OrderPO po = new OrderPO();
 		
-		po.setOrderId(map.get("order_id").toString());
+		po.setOrderID(map.get("order_id").toString());
 		po.setOrderState(OrderState.valueOf(map.get("order_state").toString()));
-		po.setClientId(map.get("client_id").toString());
+		po.setClientID(map.get("client_id").toString());
 		po.setHotelId(map.get("hotel_id").toString());
 		po.setValue(Double.parseDouble(map.get("value").toString()));
 		po.setMakeTime(map.get("create_time").toString());
@@ -349,8 +402,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		po.setNumOfPeople(Integer.parseInt(map.get("num_of_people").toString()));
 		po.setChildren(Boolean.parseBoolean(map.get("children").toString()));
 		// 获得订单房间列表和促销策略信息
-		po.setRoomNumberList(getOrderRoom(po.getOrderId()));
-		po.setPromotionIDList(getOrderPromotion(po.getOrderId()));
+		po.setRoomNumberList(getOrderRoom(po.getOrderID()));
+		po.setPromotionIDList(getOrderPromotion(po.getOrderID()));
 		
 		return po;
 	}

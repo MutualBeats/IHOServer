@@ -17,7 +17,7 @@ public class OrderPO implements Serializable {
 	/**
 	 * 订单id
 	 */
-	private String orderId;
+	private String orderID;
 	/**
 	 * 订单状态
 	 */
@@ -25,11 +25,11 @@ public class OrderPO implements Serializable {
 	/**
 	 * 用户id
 	 */
-	private String clientId;
+	private String clientID;
 	/**
 	 * 酒店id
 	 */
-	private String hotelId;
+	private String hotelID;
 	/**
 	 * 订单预订房间号列表
 	 */
@@ -80,10 +80,10 @@ public class OrderPO implements Serializable {
 	private boolean children;
 	
 	/**
-	 * @param orderId
+	 * @param orderID
 	 * @param orderState
-	 * @param clientId
-	 * @param hotelId
+	 * @param clientID
+	 * @param hotelID
 	 * @param roomNumberList
 	 * @param promotionIDList
 	 * @param value
@@ -97,15 +97,15 @@ public class OrderPO implements Serializable {
 	 * @param numOfPeople
 	 * @param children
 	 */
-	public OrderPO(String orderId, OrderState orderState, String clientId, String hotelId,
+	public OrderPO(String orderID, OrderState orderState, String clientID, String hotelID,
 			ArrayList<String> roomNumberList, ArrayList<String> promotionIDList, double value, String makeTime,
 			String executeTime, String finishTime, String latestETime, String checkInDate, String estimateCheckOutDate,
 			String actualCheckOutDate, int numOfPeople, boolean children) {
 		super();
-		this.orderId = orderId;
+		this.orderID = orderID;
 		this.orderState = orderState;
-		this.clientId = clientId;
-		this.hotelId = hotelId;
+		this.clientID = clientID;
+		this.hotelID = hotelID;
 		this.roomNumberList = roomNumberList;
 		this.promotionIDList = promotionIDList;
 		this.value = value;
@@ -123,12 +123,12 @@ public class OrderPO implements Serializable {
 	public OrderPO() {
 	}
 
-	public String getOrderId() {
-		return orderId;
+	public String getOrderID() {
+		return orderID;
 	}
 
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
+	public void setOrderID(String orderID) {
+		this.orderID = orderID;
 	}
 
 	public OrderState getOrderState() {
@@ -139,20 +139,20 @@ public class OrderPO implements Serializable {
 		this.orderState = orderState;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getClientID() {
+		return clientID;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setClientID(String clientID) {
+		this.clientID = clientID;
 	}
 
 	public String getHotelId() {
-		return hotelId;
+		return hotelID;
 	}
 
-	public void setHotelId(String hotelId) {
-		this.hotelId = hotelId;
+	public void setHotelId(String hotelID) {
+		this.hotelID = hotelID;
 	}
 
 	public ArrayList<String> getRoomNumberList() {

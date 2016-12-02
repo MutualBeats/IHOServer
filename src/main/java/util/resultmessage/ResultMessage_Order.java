@@ -6,7 +6,11 @@ package util.resultmessage;
 
 public enum ResultMessage_Order {
 	
+	Order_State_Error,
+	
 	Order_Not_Exist,
+	
+	Date_Error,
 	
 	Cancel_Failed,
 	Cancel_Successful,

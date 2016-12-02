@@ -154,7 +154,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException {
 		// 错误：订单状态正常
 		if(!getOrderState(orderID).equals(OrderState.Exception))
-			return ResultMessage_Order.Put_Up_Failed;
+			return ResultMessage_Order.Order_State_Error;
 		
 		sqlManager.getConnection();
 		
@@ -183,7 +183,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	public ResultMessage_Order cancelOrder(String orderID) throws RemoteException {
 		// 错误：订单状态不为未执行
 		if (!getOrderState(orderID).equals(OrderState.Unexecuted))
-			return ResultMessage_Order.Cancel_Failed;
+			return ResultMessage_Order.Order_State_Error;
 		
 		sqlManager.getConnection();
 		
@@ -211,7 +211,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	public ResultMessage_Order executeOrder(String orderID) throws RemoteException {
 		// 错误：订单状态不为未执行
 		if (!getOrderState(orderID).equals(OrderState.Unexecuted))
-			return ResultMessage_Order.Execute_Failed;
+			return ResultMessage_Order.Order_State_Error;
 
 		sqlManager.getConnection();
 
@@ -321,19 +321,21 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		
 	}
 
-	// TODO 接口名修改 findUnexecutedOrder
 	@Override
 	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT * FROM order_record WHERE order_state=? AND finish_time=? ORDER BY latest_execute_time";
+		ArrayList<OrderPO> orderList = new ArrayList<OrderPO>();
 		
-		List<Object> params = new ArrayList<Object>();
-		params.add(OrderState.Exception.toString());
-		// TODO
-//		params.add(Time.getCurrentDate() + " " + "23:59:59");
+		String sql = "SELECT * FROM order_record WHERE order_state=? ORDER BY latest_execute_time DESC";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{OrderState.Unexecuted.toString()});
+		sqlManager.releaseAll();
 		
-		return null;
+		for (Map<String, Object> map : mapList) {
+			orderList.add(getOrderPO(map));
+		}
+		
+		return orderList;
 	}
 	
 	/**

@@ -147,11 +147,11 @@ public class OrderPO implements Serializable {
 		this.clientID = clientID;
 	}
 
-	public String getHotelId() {
+	public String getHotelID() {
 		return hotelID;
 	}
 
-	public void setHotelId(String hotelID) {
+	public void setHotelID(String hotelID) {
 		this.hotelID = hotelID;
 	}
 

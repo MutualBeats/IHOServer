@@ -115,7 +115,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 			params.add(po.getOrderID());
 			params.add(po.getOrderState());
 			params.add(po.getClientID());
-			params.add(po.getHotelId());
+			params.add(po.getHotelID());
 			params.add(po.getValue());
 			params.add(po.getMakeTime());
 			params.add(po.getLatestETime());
@@ -141,7 +141,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		sqlManager.releaseConnection();
 		
 		// 添加订单房间、促销策略记录
-		addOrderRoom(po.getOrderID(), po.getHotelId(), po.getRoomNumberList());
+		addOrderRoom(po.getOrderID(), po.getHotelID(), po.getRoomNumberList());
 		addOrderPromotion(po.getOrderID(), po.getPromotionIDList());
 		
 		return ResultMessage_Order.Order_Create_Successful;
@@ -390,7 +390,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		po.setOrderID(map.get("order_id").toString());
 		po.setOrderState(OrderState.valueOf(map.get("order_state").toString()));
 		po.setClientID(map.get("client_id").toString());
-		po.setHotelId(map.get("hotel_id").toString());
+		po.setHotelID(map.get("hotel_id").toString());
 		po.setValue(Double.parseDouble(map.get("value").toString()));
 		po.setMakeTime(map.get("create_time").toString());
 		po.setLatestETime(map.get("latest_execute_time").toString());

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.roomdataservice.RoomDataService;
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
@@ -24,6 +25,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	private OrderUpdate order = DataFactoryMySqlImpl.getDataServiceInstance().getOrderUpdate();
 		
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -128,13 +131,13 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	 * 更新房间当前状态
 	 * @param hotelID
 	 * @param roomNumber
-	 * @param rc
+	 * @param rs
 	 * @return boolean
 	 */
-	private boolean updateRoomCondition(String hotelID, String roomNumber, RoomState rc) {
+	private boolean updateRoomState(String hotelID, String roomNumber, RoomState rs) {
 		sqlManager.getConnection();
 		String sql = "UPDATE room SET room_condition=? WHERE hotel_id=? AND room_number=? ";
-		boolean result= sqlManager.executeUpdate(sql, new Object[]{rc.toString(), hotelID, roomNumber});
+		boolean result= sqlManager.executeUpdate(sql, new Object[]{rs.toString(), hotelID, roomNumber});
 		sqlManager.releaseAll();
 		return result;
 	}
@@ -164,7 +167,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Check_In_Failed;
 		
 		// 更新房间当前状态
-		updateRoomCondition(hotelID, roomNumber, RoomState.Occupied);
+		updateRoomState(hotelID, roomNumber, RoomState.Occupied);
 		
 		return ResultMessage_Room.Check_In_Successful;
 	}
@@ -179,11 +182,12 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Check_Out_Failed;
 		
 		// 房间原先已有人住，更新记录（状态更新为已执行同时记录实际离开时间）
+		String currentDate = Time.getCurrentDate();
 		sqlManager.getConnection();
 		String sql = "UPDATE room_record SET record_condition=?, actual_out_date=? WHERE hotel_id=? AND room_number=? AND record_condition=? ";
 		List<Object> params = new ArrayList<Object>();
 		params.add(RoomRecordCondition.done.toString());
-		params.add(Time.getCurrentDate());
+		params.add(currentDate);
 		params.add(hotelID);
 		params.add(roomNumber);
 		params.add(RoomRecordCondition.underway.toString());
@@ -195,7 +199,16 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			return ResultMessage_Room.Check_Out_Failed;
 		
 		// 更新房间当前状态
-		updateRoomCondition(hotelID, roomNumber, RoomState.NotReserved);
+		updateRoomState(hotelID, roomNumber, RoomState.NotReserved);
+		
+		// 如为线上入住，更新订单退房信息
+		sqlManager.getConnection();
+		sql = "SELECT order_id FROM room_record WHERE hotel_id=? AND room_number=? AND actual_out_date=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID, roomNumber, currentDate});
+		sqlManager.releaseAll();
+		String orderID = map.get("order_id").toString();
+		if(!orderID.equals(""))
+			order.updateOrderRecord(orderID, Time.getCurrentTime(), currentDate);
 		
 		return ResultMessage_Room.Check_Out_Successful;
 	}
@@ -209,7 +222,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		sqlManager.getConnection();
 		
 		// TODO 待测试
-		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND check_out_date>=? ORDER BY check_in_date";
+		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND estimate_out_date>=? ORDER BY check_in_date";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber, Time.getCurrentDate()});
 		
 		ArrayList<RoomRecordPO> roomRecordList = new ArrayList<RoomRecordPO>();
@@ -221,12 +234,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 
 	@Override
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
-		if(po == null)
-			return ResultMessage_Room.Record_Add_Failed;
 		
-		// TODO 判断是否需要改变房间当前状态
-		
-		// 判断能否添加记录 
+		// 判断能否添加记录
 		// TODO 待测试
 		ArrayList<RoomRecordPO> recordList = getOrderRecord(po.getHotelID(), po.getRoomNumber());
 		if(recordList == null)
@@ -239,6 +248,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			// 时间重叠
 			return ResultMessage_Room.Record_Add_Failed;
 		}
+		
+		// 如果入住时间为当天，改变房间当前状态为已预订
+		if(po.getCheckInDate().equals(Time.getCurrentDate()))
+			updateRoomState(po.getHotelID(), po.getRoomNumber(), RoomState.Reserved);
 		
 		sqlManager.getConnection();
 		
@@ -299,7 +312,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		String currentDate = Time.getCurrentDate();
 		for (RoomRecordPO each : roomRecordList) {
 			if(each.getCheckInDate().equals(currentDate))
-				updateRoomCondition(each.getHotelID(), each.getRoomNumber(), RoomState.NotReserved);
+				updateRoomState(each.getHotelID(), each.getRoomNumber(), RoomState.NotReserved);
 			else
 				break;
 		}

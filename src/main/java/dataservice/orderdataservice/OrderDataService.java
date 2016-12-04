@@ -89,7 +89,7 @@ public interface OrderDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException;
+	public ArrayList<OrderPO> findUnexecutedOrder(String date) throws RemoteException;
 	
 	
 }

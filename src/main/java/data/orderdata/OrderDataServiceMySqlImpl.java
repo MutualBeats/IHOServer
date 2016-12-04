@@ -11,18 +11,19 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.roomdata.OrderUpdate;
 import dataservice.orderdataservice.OrderDataService;
 import po.order.OrderPO;
 import util.Time;
 import util.order.OrderState;
 import util.resultmessage.ResultMessage_Order;
 
-public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService {
+public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService, OrderUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
-
+	
 	public OrderDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
@@ -148,14 +149,10 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	}
 	
 	/**
-	 * 补录订单
+	 * 补登记执行订单
 	 */
 	@Override
 	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException {
-		// 错误：订单状态正常
-		if(!getOrderState(orderID).equals(OrderState.Exception))
-			return ResultMessage_Order.Order_State_Error;
-		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE order_record SET order_state=?, execute_time=?, finish_time=? WHERE order_id=? ";
@@ -166,12 +163,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		params.add("");
 		params.add(orderID);
 		
-		boolean res= sqlManager.executeUpdateByList(sql, params);
+		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
-		
-		// 错误：订单号不存在
-		if(!res)
-			return ResultMessage_Order.Order_Not_Exist;
 		
 		return ResultMessage_Order.Put_Up_Successful;
 	}
@@ -268,13 +261,13 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	}
 
 	@Override
-	public ArrayList<OrderPO> findByRoom(String hotelId, String roomId) throws RemoteException {
+	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<OrderPO> roomOrderList = new ArrayList<OrderPO>();
 		
-		String sql = "SELECT order_id FROM order_room WHERE hotel_id=? AND room_number=? ";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelId, roomId});
+		String sql = "SELECT order_id FROM order_room WHERE hotel_id=? AND room_number=? ORDER BY check_in_date DESC";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber});
 		
 		for (Map<String, Object> map : mapList) {
 			sql = "SELECT * FROM order_record WHERE order_id=? ";
@@ -286,13 +279,13 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	}
 
 	@Override
-	public ArrayList<OrderPO> findUOByHotel(String hotelId, String userId) throws RemoteException {
+	public ArrayList<OrderPO> findUOByHotel(String hotelID, String clientID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<OrderPO> clientHotelOrderList = new ArrayList<OrderPO>();
 		
 		String sql = "SELECT * FROM order_record WHERE hotel_id=? AND client_id=? ORDER BY create_time";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelId, userId});
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, clientID});
 		sqlManager.releaseAll();
 		
 		for (Map<String, Object> map : mapList) {
@@ -321,14 +314,26 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		
 	}
 
+	/**
+	 * 获得某天未执行订单列表
+	 */
 	@Override
-	public ArrayList<OrderPO> findUnexecutedOrder() throws RemoteException {
+	public ArrayList<OrderPO> findUnexecutedOrder(String date) throws RemoteException {
 		sqlManager.getConnection();
 		
 		ArrayList<OrderPO> orderList = new ArrayList<OrderPO>();
+		// TODO 时间判断
+		String sql = "SELECT * FROM order_record "
+				+ "WHERE (order_state=? AND check_in_date=?) OR (order_state=? AND finish_time>?) "
+				+ "ORDER BY latest_execute_time DESC";
 		
-		String sql = "SELECT * FROM order_record WHERE order_state=? ORDER BY latest_execute_time DESC";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{OrderState.Unexecuted.toString()});
+		List<Object> params = new ArrayList<Object>();
+		params.add(OrderState.Unexecuted.toString());
+		params.add(date);
+		params.add(OrderState.Exception.toString());
+		params.add(date);
+		
+		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
 		sqlManager.releaseAll();
 		
 		for (Map<String, Object> map : mapList) {
@@ -408,6 +413,17 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		po.setPromotionIDList(getOrderPromotion(po.getOrderID()));
 		
 		return po;
+	}
+
+	/**
+	 * 更新订单退房信息
+	 */
+	@Override
+	public void updateOrderRecord(String orderID, String finishTime, String actualOutDate) {
+		sqlManager.getConnection();
+		String sql = "UPDATE order_record SET finish_time=?, actual_out_date=? WHERE order_id=? ";
+		sqlManager.executeUpdate(sql, new Object[]{finishTime, actualOutDate, orderID});
+		sqlManager.releaseConnection();
 	}
 
 }

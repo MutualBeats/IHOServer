@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import data.creditdata.ClientCreditUpdate;
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
 import po.user.ClientPO;
@@ -17,7 +18,7 @@ import po.user.MemberPO;
 import util.resultmessage.ResultMessage_User;
 import util.user.MemberType;
 
-public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService {
+public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -74,9 +75,6 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	@Override
 	public ResultMessage_User insert(ClientPO po, String password) throws RemoteException {
-		if(po == null)
-			// TODO
-			return null;
 		// ClientID 已存在
 		if(findData(po.getClientID()) != null)
 			return ResultMessage_User.Account_Exist;
@@ -97,8 +95,12 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
-		boolean result = sqlManager.executeUpdateByList(sql, params);
-		// TODO
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
+		
+		// TODO 信用记录添加（动作：客户注册）
+		
+		// TODO ResultMessage统一
 		return null;
 	}
 
@@ -190,6 +192,19 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		po.setMemberMessage(map.get("member_info").toString());
 		
 		return po;
+	}
+
+	@Override
+	public void creditUpdate(String clientID, int newCredit) {
+		// TODO 异常错误处理
+		
+		sqlManager.getConnection();
+		
+		String sql = "UPDATE client SET credit=? WHERE client_id=? ";
+		
+		sqlManager.executeUpdate(sql, new Object[]{newCredit, clientID});
+		sqlManager.releaseConnection();
+		
 	}
 
 }

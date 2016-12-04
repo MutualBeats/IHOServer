@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffPO;
@@ -22,8 +23,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
 	
-	// TODO 对象获得
-	private HotelInfo hotelInfo = new HotelDataServiceMySqlImpl();
+	private HotelInfo hotelInfo = DataFactoryMySqlImpl.getDataServiceInstance().getHotelInfo();
 	
 	public StaffDataServiceMySqlImpl() throws RemoteException {
 		super();

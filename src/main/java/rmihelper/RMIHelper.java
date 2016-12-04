@@ -31,7 +31,7 @@ public class RMIHelper {
 		registry = null;
 		address = getIPAddress();
 //		address = "192.168.99.255";
-		dataFactory = DataFactoryMySqlImpl.getInstance();
+		dataFactory = DataFactoryMySqlImpl.getDataFactoryInstance();
 	}
 	
 	

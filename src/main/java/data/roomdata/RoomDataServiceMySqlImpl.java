@@ -224,6 +224,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		if(po == null)
 			return ResultMessage_Room.Record_Add_Failed;
 		
+		// TODO 判断是否需要改变房间当前状态
+		
 		// 判断能否添加记录 
 		// TODO 待测试
 		ArrayList<RoomRecordPO> recordList = getOrderRecord(po.getHotelID(), po.getRoomNumber());
@@ -268,17 +270,46 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 //		sqlManager.releaseAll();
 //		return res;
 //	}
+	
+	/**
+	 * 根据订单号获得房间记录
+	 * @param orderID
+	 * @return
+	 */
+	private ArrayList<RoomRecordPO> getRoomRecordByOrderID(String orderID) {
+		sqlManager.getConnection();
+		ArrayList<RoomRecordPO> roomRecordList = new ArrayList<RoomRecordPO>();
+		String sql = "SELECT * FROM room_record WHERE order_id=? ";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{orderID});
+		sqlManager.releaseAll();
+		
+		for (Map<String, Object> map : mapList) {
+			roomRecordList.add(getRoomRecordPO(map));
+		}
+		return roomRecordList;
+	}
 
 	@Override
 	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException {
+		ArrayList<RoomRecordPO> roomRecordList = getRoomRecordByOrderID(orderID);
+		// TODO 订单号不存在 ResultMessage修改
+		if(roomRecordList.size() == 0)
+			return null;
+		// 判断是否需要改变房间状态
+		String currentDate = Time.getCurrentDate();
+		for (RoomRecordPO each : roomRecordList) {
+			if(each.getCheckInDate().equals(currentDate))
+				updateRoomCondition(each.getHotelID(), each.getRoomNumber(), RoomState.NotReserved);
+			else
+				break;
+		}
+		
+		// 删除房间记录
 		sqlManager.getConnection();
 		
 		String sql = "DELETE FROM room_record WHERE order_id=? ";
-		boolean result = sqlManager.executeUpdate(sql, new Object[]{ orderID });
+		sqlManager.executeUpdate(sql, new Object[]{ orderID });
 		sqlManager.releaseConnection();
-		
-		if(!result)
-			return ResultMessage_Room.Record_Delete_Failed;
 		
 		return ResultMessage_Room.Record_Delete_Successful;
 	}

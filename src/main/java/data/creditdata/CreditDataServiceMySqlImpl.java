@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import po.credit.CreditPO;
 import util.credit.CreditChangeAction;
@@ -21,6 +22,8 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	private ClientCreditUpdate client = DataFactoryMySqlImpl.getDataServiceInstance().getClientCreditUpdate();
 
 	public CreditDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -32,6 +35,10 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			return ResultMessage_Credit.Update_Failed;
 		// TODO 用户不存在
 		
+		// 更新信用
+		client.creditUpdate(po.getClientID(), po.getCredit());
+		
+		// 添加信用记录
 		sqlManager.getConnection();
 		
 		List<Object> params = new ArrayList<Object>();

@@ -44,7 +44,7 @@ public class RMIHelperCopyright {
 		port = DE_PORT;
 		registry = null;
 		address = getIPAddress();
-		dataFactory = DataFactoryMySqlImpl.getInstance();
+		dataFactory = DataFactoryMySqlImpl.getDataFactoryInstance();
 	}
 	
 	public static RMIHelperCopyright getInstance() {

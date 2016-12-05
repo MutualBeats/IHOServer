@@ -26,7 +26,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public MarketerPO findData(String marketerID) throws RemoteException {
+	public MarketerPO getMarketerInfo(String marketerID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT * FROM marketer WHERE marketer_id=? ";
@@ -38,13 +38,15 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 
 	@Override
 	public ResultMessage_User updateData(MarketerPO po) throws RemoteException {
-		if(po == null)
-			return null;
+		// 错误：marketerID不存在
+		if(getMarketerInfo(po.getMarketerID()) == null)
+			return ResultMessage_User.Account_Not_Exist;
+		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE marketer SET marketer_name=?, contact_way=? WHERE marketer_id=? ";
 		
-		sqlManager.executeUpdate(sql, new Object[]{po.getMarketername(), po.getTel_number(), po.getMarketerID()});
+		sqlManager.executeUpdate(sql, new Object[]{po.getMarketerName(), po.getContactWay(), po.getMarketerID()});
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_User.UpdateSuccess;
@@ -69,10 +71,7 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	
 	@Override
 	public ResultMessage_User insert(MarketerPO po,String password) throws RemoteException {
-		if(po == null)
-			return null;
-		
-		if(findData(po.getMarketerID()) != null)
+		if(getMarketerInfo(po.getMarketerID()) != null)
 			return ResultMessage_User.Account_Exist;
 		
 		sqlManager.getConnection();
@@ -82,8 +81,8 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getMarketerID());
 		params.add(password);
-		params.add(po.getMarketername());
-		params.add(po.getTel_number());
+		params.add(po.getMarketerName());
+		params.add(po.getContactWay());
 		
 		sql = sqlManager.appendSQL(sql, params.size());
 		
@@ -93,13 +92,33 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		return ResultMessage_User.AddSucccess;
 	}
 	
+
+	@Override
+	public ArrayList<MarketerPO> getMarketerList() throws RemoteException {
+		sqlManager.getConnection();
+		String sql = "SELECT * FROM marketer";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{});
+		sqlManager.releaseAll();
+		
+		ArrayList<MarketerPO> marketerList = new ArrayList<MarketerPO>();
+		for (Map<String, Object> map : mapList) {
+			marketerList.add(getMarketerPO(map));
+		}
+		return marketerList;
+	}
+	
+	/**
+	 * Map转换为MarketerPO
+	 * @param map
+	 * @return MarketerPO
+	 */
 	private MarketerPO getMarketerPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;
 		MarketerPO po = new MarketerPO();
 		po.setMarketerID(map.get("marketer_id").toString());
-		po.setMarketername(map.get("marketer_name").toString());
-		po.setTel_number(map.get("contact_way").toString());
+		po.setMarketerName(map.get("marketer_name").toString());
+		po.setContactWay(map.get("contact_way").toString());
 		return po;
 	}
 

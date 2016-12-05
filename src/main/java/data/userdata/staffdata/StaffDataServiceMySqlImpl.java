@@ -12,7 +12,6 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;
-import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffPO;
 import util.resultmessage.ResultMessage_User;
@@ -42,8 +41,10 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 
 	@Override
 	public ResultMessage_User updateData(StaffPO po) throws RemoteException {
-		if(po == null)
-			return null;
+		// 错误：酒店工作人员不存在
+		if(findData(po.getStaffID()) == null)
+			return ResultMessage_User.Account_Not_Exist;
+		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE staff SET staff_name=? WHERE staff_id=? ";
@@ -52,23 +53,6 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_User.UpdateSuccess;
-	}
-	
-	@Override
-	public ResultMessage_User find(String ID, String password) throws RemoteException {
-		sqlManager.getConnection();
-		
-		String sql = "SELECT password FROM staff WHERE staff_id=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
-		sqlManager.releaseAll();
-		
-		if(map.size() == 0)
-			return ResultMessage_User.Account_Not_Exist;
-		
-		if(!map.get("password").toString().equals(password))
-			return ResultMessage_User.PasswordWrong;
-		
-		return ResultMessage_User.LoginSuccess;
 	}
 	
 	/**
@@ -113,6 +97,28 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		return ResultMessage_User.AddSucccess;
 	}
 	
+	@Override
+	public ArrayList<StaffPO> getStaffList() throws RemoteException {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT * FROM staff ORDER BY staff_id";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{});
+		sqlManager.releaseAll();
+		
+		ArrayList<StaffPO> staffList = new ArrayList<StaffPO>();
+		
+		for (Map<String,Object> map : mapList) {
+			staffList.add(getStaffPO(map));
+		}
+		
+		return staffList;
+	}
+	
+	/**
+	 * Map转StaffPO
+	 * @param map
+	 * @return StaffPO
+	 */
 	private StaffPO getStaffPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;

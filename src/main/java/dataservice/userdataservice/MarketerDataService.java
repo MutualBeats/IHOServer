@@ -2,6 +2,7 @@ package dataservice.userdataservice;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import po.user.MarketerPO;
 import util.resultmessage.ResultMessage_User;
@@ -10,7 +11,7 @@ public interface MarketerDataService extends Remote{
 	/*
 	 * 获取MarketerPO内部数据
 	 */
-	public MarketerPO findData(String marketerID) throws RemoteException;
+	public MarketerPO getMarketerInfo(String marketerID) throws RemoteException;
 	/*
 	 * 在数据库中更新一个MarketerPO记录
 	 */
@@ -23,4 +24,6 @@ public interface MarketerDataService extends Remote{
 	 * 在数据库中生成一个marketerPO记录
 	 */
 	public ResultMessage_User insert (MarketerPO po, String password) throws RemoteException;
+	
+	public ArrayList<MarketerPO> getMarketerList() throws RemoteException;
 }

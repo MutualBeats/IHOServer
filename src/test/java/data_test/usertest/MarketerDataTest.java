@@ -46,12 +46,12 @@ public class MarketerDataTest {
 	public void testFindData() {
 		MarketerPO po = null;
 		try {
-			po = marketerDataService.findData("0000000001");
+			po = marketerDataService.getMarketerInfo("0000000001");
 		} catch (Exception e) {
 			fail("Exception!");
 			e.printStackTrace();
 		}
-		assertEquals(po.getTel_number(), "110");
+		assertEquals(po.getContactWay(), "110");
 	}
 
 }

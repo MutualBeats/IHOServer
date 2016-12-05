@@ -122,7 +122,7 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	public ResultMessage_User insertMember(MemberPO po) throws RemoteException {
 		if(po == null)
 			// TODO 注册何种会员判断
-			return ResultMessage_User.BusinessRegisterFail;
+			return ResultMessage_User.Regitster_Failed;
 		
 		sqlManager.getConnection();
 		
@@ -139,8 +139,8 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		
 		if(!result)
 			// TODO 注册何种会员判断
-			return ResultMessage_User.BusinessRegisterFail;
-		return ResultMessage_User.BusinessRegisterSuccess;
+			return ResultMessage_User.Regitster_Failed;
+		return ResultMessage_User.Register_Success;
 	}
 
 	@Override

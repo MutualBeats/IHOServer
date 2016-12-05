@@ -1,22 +1,21 @@
 package util.resultmessage;
 
 public enum ResultMessage_User {
-	
 	LoginSuccess,
 	LoginFail,
-	PasswordWrong,
-	Account_Not_Exist,
+	UserID_Invalid,//ID非法
+	PasswordWrong,//密码错误
+	Account_Not_Exist,//账户不存在
 	
 	GetDataSuccess,
 	GetDataFail,
 
 	UpdateSuccess,
 	UpdateFail,
-	
-	OriginalRegisterSuccess,
-	BusinessRegisterSuccess,
-	OriginalRegisterFail,
-	BusinessRegisterFail,
+	UserName_Invalid,
+
+	Register_Success,
+	Regitster_Failed,
 	OriginalMember_Exist,
 	BusinessMember_Exist,
 	
@@ -24,6 +23,9 @@ public enum ResultMessage_User {
 	AddFail,
 	Account_Exist,
 	
+	HotelID_Invalid,
 	Hotel_Not_Exist,
-	Hotel_Have_Staff,//This hotel already has a staff.
+	Hotel_Have_Staff,
+	
+	Net_Error,
 }

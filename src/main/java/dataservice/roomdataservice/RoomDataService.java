@@ -46,7 +46,7 @@ public interface RoomDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Room checkIn(String hotelID, String roomNumber) throws RemoteException;
+	public ResultMessage_Room checkIn(String hotelID, String roomNumber, boolean isOnline) throws RemoteException;
 	/**
 	 * 离开
 	 * 
@@ -55,7 +55,7 @@ public interface RoomDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException;
+	public ResultMessage_Room checkOut(String hotelID, String roomNumber, boolean isOnline) throws RemoteException;
 	/**
 	 * 获得预定记录
 	 * 

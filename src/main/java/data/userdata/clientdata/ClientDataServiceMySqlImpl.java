@@ -28,6 +28,39 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	public ClientDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
+	
+	@Override
+	public ResultMessage_User regist(ClientPO po, String password) throws RemoteException {
+		// ClientID 已存在
+		if(queryClient(po.getClientID()) != null)
+			return ResultMessage_User.Account_Exist;
+		
+		sqlManager.getConnection();
+		
+		String sql;
+		// 添加cleint记录
+		sql = "INSERT INTO client VALUES ";
+		List<Object> params = new ArrayList<Object>();
+		params.add(po.getClientID());
+		params.add(po.getClientName());
+		params.add(po.getContactWay());
+		params.add(po.getCredit());
+		params.add(po.getMemberType().toString());
+		params.add(po.getLevel());
+		params.add(po.getMemberMessage());
+		sql = sqlManager.appendSQL(sql, params.size());
+		sqlManager.executeUpdateByList(sql, params);
+		
+		// 添加user记录
+		sql = "INSERT INTO user VALUES (?,?)";
+		sqlManager.executeUpdate(sql, new Object[]{po.getClientID(), password});
+		
+		sqlManager.releaseConnection();
+		
+		// TODO 信用记录添加（动作：客户注册）
+		
+		return ResultMessage_User.Register_Success;
+	}
 
 	@Override
 	public ClientPO queryClient(String clientID) throws RemoteException {
@@ -59,37 +92,6 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_User.UpdateSuccess;
-	}
-
-	@Override
-	public ResultMessage_User regist(ClientPO po, String password) throws RemoteException {
-		// ClientID 已存在
-		if(queryClient(po.getClientID()) != null)
-			return ResultMessage_User.Account_Exist;
-		
-		sqlManager.getConnection();
-		
-		String sql = "INSERT INTO client VALUES ";
-		
-		List<Object> params = new ArrayList<Object>();
-		params.add(po.getClientID());
-		params.add(password);
-		params.add(po.getClientName());
-		params.add(po.getContactWay());
-		params.add(po.getCredit());
-		params.add(po.getMemberType().toString());
-		params.add(po.getLevel());
-		params.add(po.getMemberMessage());
-		
-		sql = sqlManager.appendSQL(sql, params.size());
-		
-		sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
-		
-		// TODO 信用记录添加（动作：客户注册）
-		
-		// TODO ResultMessage统一
-		return null;
 	}
 
 	@Override

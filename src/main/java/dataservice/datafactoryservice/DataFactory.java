@@ -16,6 +16,7 @@ import dataservice.userdataservice.ClientDataService;
 import dataservice.userdataservice.ManagerDataService;
 import dataservice.userdataservice.MarketerDataService;
 import dataservice.userdataservice.StaffDataService;
+import dataservice.utildataservice.Identify;
 
 public interface DataFactory extends Remote{
 	
@@ -36,5 +37,7 @@ public interface DataFactory extends Remote{
 	public StaffDataService getStaffDatabase() throws RemoteException;
 	
 	public ManagerDataService getManagerDatabase() throws RemoteException;
+	
+	public Identify getIdentityService() throws RemoteException;
 	
 }

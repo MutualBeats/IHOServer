@@ -12,7 +12,6 @@ import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.orderdata.OrderDataServiceMySqlImpl;
 import data.promotiondata.PromotionDataServiceMySqlImpl;
-import data.roomdata.OrderUpdate;
 import data.roomdata.RoomDataServiceMySqlImpl;
 import data.service.DataService;
 import data.userdata.clientdata.ClientDataServiceMySqlImpl;
@@ -20,6 +19,7 @@ import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
 import data.userdata.marketerdata.MarketerDataServiceMySqlImpl;
 import data.userdata.staffdata.HotelInfo;
 import data.userdata.staffdata.StaffDataServiceMySqlImpl;
+import data.utildata.UtilDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import dataservice.datafactoryservice.DataFactory;
 import dataservice.hoteldataservice.HotelDataService;
@@ -30,6 +30,7 @@ import dataservice.userdataservice.ClientDataService;
 import dataservice.userdataservice.ManagerDataService;
 import dataservice.userdataservice.MarketerDataService;
 import dataservice.userdataservice.StaffDataService;
+import dataservice.utildataservice.Identify;
 
 public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFactory, DataService {
 	
@@ -69,6 +70,7 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 	private ManagerDataServiceMySqlImpl managerDatabase;
 	private MarketerDataServiceMySqlImpl marketerDatabase;
 	private StaffDataServiceMySqlImpl staffDatabase;
+	private UtilDataServiceMySqlImpl utilDatabase;
 
 	
 	@Override
@@ -144,6 +146,14 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 	}
 	
 	@Override
+	public Identify getIdentityService() throws RemoteException {
+		if(utilDatabase == null) {
+			utilDatabase = new UtilDataServiceMySqlImpl();
+		}
+		return utilDatabase;
+	}
+	
+	@Override
 	public HotelInfo getHotelInfo() throws RemoteException {
 		if(hotelDatabase == null) {
 			hotelDatabase = new HotelDataServiceMySqlImpl();
@@ -157,14 +167,6 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 			clientDatabase = new ClientDataServiceMySqlImpl();
 		}
 		return clientDatabase;
-	}
-
-	@Override
-	public OrderUpdate getOrderUpdate() throws RemoteException {
-		if(orderDatabase == null) {
-			orderDatabase = new OrderDataServiceMySqlImpl();
-		}
-		return orderDatabase;
 	}
 
 }

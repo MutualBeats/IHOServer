@@ -42,6 +42,13 @@ public interface OrderDataService extends Remote{
 	 */
 	public ResultMessage_Order executeOrder(String orderID) throws RemoteException;
 	/**
+	 * 完成订单
+	 * @param orderID
+	 * @return
+	 * @throws RemoteException
+	 */
+	public ResultMessage_Order finishOrder(String orderID) throws RemoteException;
+	/**
 	 * 根据orderId查询订单
 	 * 
 	 * @param orderID

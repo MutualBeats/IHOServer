@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
-import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.roomdataservice.RoomDataService;
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
@@ -25,9 +24,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
-	
-	private OrderUpdate order = DataFactoryMySqlImpl.getDataServiceInstance().getOrderUpdate();
-		
+			
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
@@ -35,7 +32,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	/**
 	 * 房间记录状态枚举类
 	 */
-	private static enum RoomRecordCondition {
+	private enum RoomRecordCondition {
 		unexecuted, // 未执行
 		underway, // 执行中
 		done, // 已完成
@@ -122,8 +119,10 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID, roomNumber});
 		sqlManager.releaseAll();
+		// 房间不存在
 		if(map.size() == 0)
 			return null;
+		
 		return RoomState.valueOf(map.get("room_condition").toString());
 	}
 	
@@ -142,15 +141,37 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return result;
 	}
 
+	private RoomRecordPO getTodayCheckInRoomRecord(String hotelID, String roomNumber) {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND check_in_date=? ";
+		Object[] params = new Object[]{hotelID, roomNumber, Time.getCurrentDate()};
+		Map<String, Object> map = sqlManager.querySimple(sql, params);
+		sqlManager.releaseAll();
+		
+		return getRoomRecordPO(map);
+	}
+	
 	@Override
-	public ResultMessage_Room checkIn(String hotelID, String roomNumber) throws RemoteException {
+	public ResultMessage_Room checkIn(String hotelID, String roomNumber, boolean isOnline) throws RemoteException {
 		// 获得房间当前状态
 		RoomState currentCondition = getCurrentCondition(hotelID, roomNumber);
 		
 		// 当天房间已有人住或未被预订，错误
 		if(!currentCondition.equals(RoomState.Reserved))
-			return ResultMessage_Room.Check_In_Failed;
-				
+			return ResultMessage_Room.Room_State_Error;
+		
+		// 若直接操作房间，判断是否为线下入住
+		if (!isOnline) {
+			RoomRecordPO roomRecordPO = getTodayCheckInRoomRecord(hotelID, roomNumber);
+			// 错误：房间记录不存在
+			if(roomRecordPO == null)
+				return ResultMessage_Room.Room_Record_Not_Exist;
+			// 错误：线上入住不可直接操作房间
+			if (!roomRecordPO.getOrderID().equals(""))
+				return ResultMessage_Room.Not_Offline_Error;
+		}
+		
 		// 房间当天已被预订，更新记录状态为执行中
 		sqlManager.getConnection();
 		String sql = "UPDATE room_record SET record_condition=? WHERE hotel_id=? AND room_number=? AND check_in_date=? ";
@@ -159,12 +180,12 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		params.add(hotelID);
 		params.add(roomNumber);
 		params.add(Time.getCurrentDate());
-		boolean result = sqlManager.executeUpdateByList(sql, params);
+		
+		boolean res = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
-		// 未找到订房记录
-		if (!result)
-			// TODO ResultMessage详细说明
-			return ResultMessage_Room.Check_In_Failed;
+		
+		if(!res)
+			return ResultMessage_Room.Room_Record_Not_Exist;
 		
 		// 更新房间当前状态
 		updateRoomState(hotelID, roomNumber, RoomState.Occupied);
@@ -172,16 +193,47 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return ResultMessage_Room.Check_In_Successful;
 	}
 	
+	/**
+	 * 获取正在执行中的房间记录
+	 * @param hotelID
+	 * @param roomNumber
+	 * @return
+	 */
+	private RoomRecordPO getUnderWayRoomRecord(String hotelID, String roomNumber) {
+		sqlManager.getConnection();
+		
+		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND record_condition=? ";
+		Object[] params = new Object[]{hotelID, roomNumber, RoomRecordCondition.underway.toString()};
+		Map<String, Object> map = sqlManager.querySimple(sql, params);
+		sqlManager.releaseAll();
+		
+		return getRoomRecordPO(map);
+	}
+	
 	@Override
-	public ResultMessage_Room checkOut(String hotelID, String roomNumber) throws RemoteException {
+	public ResultMessage_Room checkOut(String hotelID, String roomNumber, boolean isOnline) throws RemoteException {
 		// 获得房间当前状态
 		RoomState currentCondition = getCurrentCondition(hotelID, roomNumber);
-		
-		// 当天房间未有人住，错误
+	
+		// 错误：房间不存在
+		if(currentCondition == null)
+			return ResultMessage_Room.Room_Not_Exist;	
+		// 错误：当天房间未有人住
 		if(!currentCondition.equals(RoomState.Occupied))
-			return ResultMessage_Room.Check_Out_Failed;
+			return ResultMessage_Room.Room_State_Error;
 		
-		// 房间原先已有人住，更新记录（状态更新为已执行同时记录实际离开时间）
+		// 若直接操作房间，判断是否为线下退房
+		if(!isOnline) {
+			RoomRecordPO roomRecordPO = getUnderWayRoomRecord(hotelID, roomNumber);
+			// 错误：房间记录不存在
+			if(roomRecordPO == null)
+				return ResultMessage_Room.Room_Record_Not_Exist;
+			// 错误：线上退房不可直接操作房间
+			if(!roomRecordPO.getOrderID().equals(""))
+				return ResultMessage_Room.Not_Offline_Error;
+		}
+		
+		// 更新记录（状态更新为已执行同时记录实际离开时间）
 		String currentDate = Time.getCurrentDate();
 		sqlManager.getConnection();
 		String sql = "UPDATE room_record SET record_condition=?, actual_out_date=? WHERE hotel_id=? AND room_number=? AND record_condition=? ";
@@ -191,24 +243,15 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		params.add(hotelID);
 		params.add(roomNumber);
 		params.add(RoomRecordCondition.underway.toString());
-		boolean result = sqlManager.executeUpdateByList(sql, params);
+		
+		boolean res = sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
-		// 未找到订房记录
-		if(!result)
-			// TODO ResultMessage详细说明
-			return ResultMessage_Room.Check_Out_Failed;
+		
+		if(!res)
+			return ResultMessage_Room.Room_Record_Not_Exist;
 		
 		// 更新房间当前状态
 		updateRoomState(hotelID, roomNumber, RoomState.NotReserved);
-		
-		// 如为线上入住，更新订单退房信息
-		sqlManager.getConnection();
-		sql = "SELECT order_id FROM room_record WHERE hotel_id=? AND room_number=? AND actual_out_date=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{hotelID, roomNumber, currentDate});
-		sqlManager.releaseAll();
-		String orderID = map.get("order_id").toString();
-		if(!orderID.equals(""))
-			order.updateOrderRecord(orderID, Time.getCurrentTime(), currentDate);
 		
 		return ResultMessage_Room.Check_Out_Successful;
 	}
@@ -234,19 +277,19 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 
 	@Override
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
-		
 		// 判断能否添加记录
 		// TODO 待测试
 		ArrayList<RoomRecordPO> recordList = getOrderRecord(po.getHotelID(), po.getRoomNumber());
 		if(recordList == null)
-			return ResultMessage_Room.Record_Add_Failed;
+			return ResultMessage_Room.Room_Not_Exist;
+		
 		for (RoomRecordPO each : recordList) {
 			// 时间无重叠判断
 			if(po.getEstimateCheckOutDate().compareTo(each.getCheckInDate()) < 0
 					|| po.getCheckInDate().compareTo(each.getEstimateCheckOutDate()) > 0)
 				continue;
 			// 时间重叠
-			return ResultMessage_Room.Record_Add_Failed;
+			return ResultMessage_Room.Time_Conflict_Error;
 		}
 		
 		// 如果入住时间为当天，改变房间当前状态为已预订
@@ -267,11 +310,9 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		params.add("");
 		
 		String sql = sqlManager.appendSQL("INSERT INTO room_record VALUES ", params.size());
-		boolean result = sqlManager.executeUpdateByList(sql, params);
+		sqlManager.executeUpdateByList(sql, params);
 		sqlManager.releaseConnection();
 		
-		if(!result)
-			return ResultMessage_Room.Record_Add_Failed;
 		return ResultMessage_Room.Record_Add_Successful;
 	}
 	
@@ -305,9 +346,8 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException {
 		ArrayList<RoomRecordPO> roomRecordList = getRoomRecordByOrderID(orderID);
-		// TODO 订单号不存在 ResultMessage修改
 		if(roomRecordList.size() == 0)
-			return null;
+			return ResultMessage_Room.Order_Not_Exist;
 		// 判断是否需要改变房间状态
 		String currentDate = Time.getCurrentDate();
 		for (RoomRecordPO each : roomRecordList) {

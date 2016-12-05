@@ -4,8 +4,10 @@
  */
 package data.creditdata;
 
+import util.resultmessage.ResultMessage_User;
+
 public interface ClientCreditUpdate {
 	
-	public void creditUpdate(String clientID, int newCredit);
+	public ResultMessage_User creditUpdate(String clientID, int newCredit);
 
 }

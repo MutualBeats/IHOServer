@@ -14,6 +14,7 @@ import data.databaseutility.SqlManager;
 import dataservice.userdataservice.MarketerDataService;
 import po.user.MarketerPO;
 import util.resultmessage.ResultMessage_User;
+import util.user.UserType;
 
 public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements MarketerDataService {
 
@@ -71,25 +72,36 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 	
 	@Override
 	public ResultMessage_User insert(MarketerPO po,String password) throws RemoteException {
+		// marketer已存在
 		if(getMarketerInfo(po.getMarketerID()) != null)
 			return ResultMessage_User.Account_Exist;
-		
 		sqlManager.getConnection();
 		
-		String sql = "INSERT INTO marketer VALUES ";
-		
-		List<Object> params = new ArrayList<Object>();
+		String sql;
+		List<Object> params;
+
+		// 添加marketer记录
+		sql = "INSERT INTO marketer VALUES ";
+		params = new ArrayList<Object>();
 		params.add(po.getMarketerID());
-		params.add(password);
 		params.add(po.getMarketerName());
 		params.add(po.getContactWay());
 		
 		sql = sqlManager.appendSQL(sql, params.size());
-		
 		sqlManager.executeUpdateByList(sql, params);
+		
+		// 添加user记录
+		sql = "INSERT INTO user VALUES ";
+		params = new ArrayList<Object>();
+		params.add(po.getMarketerID());
+		params.add(UserType.MARKETER.toString().toLowerCase());
+		params.add(password);
+		sql = sqlManager.appendSQL(sql, params.size());
+		sqlManager.executeUpdateByList(sql, params);
+		
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_User.AddSucccess;
+		return ResultMessage_User.Register_Success;
 	}
 	
 

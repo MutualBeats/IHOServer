@@ -14,5 +14,7 @@ public enum ResultMessage_Verify {
 	
 	MARKETER,
 	
+	MANAGER,
+	
 	NET_ERROR,
 }

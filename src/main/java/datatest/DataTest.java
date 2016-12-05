@@ -12,7 +12,6 @@ public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 
-//		OrderDataServiceMySqlImpl order = new OrderDataServiceMySqlImpl();
 		
 		ClientDataServiceMySqlImpl client = new ClientDataServiceMySqlImpl();
 		
@@ -27,6 +26,10 @@ public class DataTest {
 		po.setMemberMessage("");
 		
 		System.out.println(client.regist(po, "password"));
+		
+//		UtilDataServiceMySqlImpl util = new UtilDataServiceMySqlImpl();
+//		
+//		System.out.println(util.login("0000000001", "test"));
 		
 	}
 

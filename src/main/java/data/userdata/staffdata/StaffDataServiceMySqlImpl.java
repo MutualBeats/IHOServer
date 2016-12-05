@@ -15,6 +15,7 @@ import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffPO;
 import util.resultmessage.ResultMessage_User;
+import util.user.UserType;
 
 public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements StaffDataService {
 
@@ -70,8 +71,6 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	
 	@Override
 	public ResultMessage_User insert(StaffPO po, String password) throws RemoteException {
-		if(po == null)
-			return null;
 		// 判断酒店是否存在
 		if(hotelInfo.getHotelInfo(po.getHotelId()) == null)
 			return ResultMessage_User.Hotel_Not_Exist;
@@ -81,20 +80,30 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		
 		sqlManager.getConnection();
 		
-		String sql = "INSERT INTO staff VALUES ";
-		
-		List<Object> params = new ArrayList<Object>();
+		String sql;
+		List<Object> params;
+
+		// 添加staff记录
+		sql = "INSERT INTO staff VALUES ";
+		params = new ArrayList<Object>();
 		params.add(po.getStaffID());
-		params.add(password);
 		params.add(po.getStaffname());
 		params.add(po.getHotelId());
-		
 		sql = sqlManager.appendSQL(sql, params.size());
-		
 		sqlManager.executeUpdateByList(sql, params);
+		
+		// 添加user记录
+		sql = "INSERT INTO user VALUES ";
+		params = new ArrayList<Object>();
+		params.add(po.getStaffID());
+		params.add(UserType.STAFF.toString().toLowerCase());
+		params.add(password);
+		sql = sqlManager.appendSQL(sql, params.size());
+		sqlManager.executeUpdateByList(sql, params);
+		
 		sqlManager.releaseConnection();
 		
-		return ResultMessage_User.AddSucccess;
+		return ResultMessage_User.Register_Success;
 	}
 	
 	@Override

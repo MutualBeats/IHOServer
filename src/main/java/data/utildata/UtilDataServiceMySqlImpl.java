@@ -6,6 +6,7 @@ package data.utildata;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.utildataservice.Identify;
@@ -27,14 +28,34 @@ public class UtilDataServiceMySqlImpl extends UnicastRemoteObject implements Ide
 	@Override
 	public ResultMessage_Verify login(String userID, String password) {
 		sqlManager.getConnection();
-		// TODO
-		return null;
+		
+		String sql = "SELECT password, identity FROM user WHERE id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{userID});
+		sqlManager.releaseAll();
+		
+		// 错误：用户id不存在
+		if(map.size() == 0)
+			return ResultMessage_Verify.USER_NOT_EXIST;
+		// 错误：密码错误
+		if(!map.get("password").toString().equals(password))
+			return ResultMessage_Verify.PASSWORD_WRONG;
+		
+		String userType = map.get("identity").toString().toUpperCase();
+		return ResultMessage_Verify.valueOf(userType);
 	}
 
 	@Override
 	public ResultMessage_Verify checkUserName(String userID) {
-		// TODO Auto-generated method stub
-		return null;
+		sqlManager.getConnection();
+		
+		String sql = "SELECT id FROM user WHERE id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{userID});
+		sqlManager.releaseAll();
+		
+		if(map.size() == 0)
+			return ResultMessage_Verify.USER_NOT_EXIST;
+		
+		return ResultMessage_Verify.USER_EXIST_ALREADY;
 	}
 	
 

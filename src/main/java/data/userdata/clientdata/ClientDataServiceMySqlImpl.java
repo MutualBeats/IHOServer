@@ -18,13 +18,14 @@ import po.user.ClientPO;
 import po.user.MemberPO;
 import util.resultmessage.ResultMessage_User;
 import util.user.MemberType;
+import util.user.UserType;
 
 public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
-	
+		
 	public ClientDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
@@ -38,9 +39,11 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.getConnection();
 		
 		String sql;
+		List<Object> params;
+
 		// 添加cleint记录
 		sql = "INSERT INTO client VALUES ";
-		List<Object> params = new ArrayList<Object>();
+		params = new ArrayList<Object>();
 		params.add(po.getClientID());
 		params.add(po.getClientName());
 		params.add(po.getContactWay());
@@ -52,12 +55,15 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.executeUpdateByList(sql, params);
 		
 		// 添加user记录
-		sql = "INSERT INTO user VALUES (?,?)";
-		sqlManager.executeUpdate(sql, new Object[]{po.getClientID(), password});
+		sql = "INSERT INTO user VALUES ";
+		params = new ArrayList<Object>();
+		params.add(po.getClientID());
+		params.add(UserType.CLIENT.toString().toLowerCase());
+		params.add(password);
+		sql = sqlManager.appendSQL(sql, params.size());
+		sqlManager.executeUpdateByList(sql, params);
 		
 		sqlManager.releaseConnection();
-		
-		// TODO 信用记录添加（动作：客户注册）
 		
 		return ResultMessage_User.Register_Success;
 	}
@@ -162,15 +168,18 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 //	}
 
 	@Override
-	public void creditUpdate(String clientID, int newCredit) {
-		// TODO 异常错误处理
+	public ResultMessage_User creditUpdate(String clientID, int newCredit) {
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE client SET credit=? WHERE client_id=? ";
 		
-		sqlManager.executeUpdate(sql, new Object[]{newCredit, clientID});
+		boolean res = sqlManager.executeUpdate(sql, new Object[]{newCredit, clientID});
 		sqlManager.releaseConnection();
 		
+		if(!res)
+			return ResultMessage_User.Account_Not_Exist;
+		
+		return ResultMessage_User.UpdateSuccess;
 	}
 
 }

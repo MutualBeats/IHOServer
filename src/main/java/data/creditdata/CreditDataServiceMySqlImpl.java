@@ -16,6 +16,7 @@ import dataservice.creditdataservice.CreditDataService;
 import po.credit.CreditPO;
 import util.credit.CreditChangeAction;
 import util.resultmessage.ResultMessage_Credit;
+import util.resultmessage.ResultMessage_User;
 
 public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService {
 
@@ -31,12 +32,11 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	@Override
 	public ResultMessage_Credit insert(CreditPO po) throws RemoteException {
-		if(po == null)
-			return ResultMessage_Credit.Update_Failed;
-		// TODO 用户不存在
-		
 		// 更新信用
-		client.creditUpdate(po.getClientID(), po.getCredit());
+		ResultMessage_User res = client.creditUpdate(po.getClientID(), po.getCredit());
+		// 客户不存在
+		if(res.equals(ResultMessage_User.Account_Not_Exist))
+			return ResultMessage_Credit.Update_Failed;
 		
 		// 添加信用记录
 		sqlManager.getConnection();
@@ -84,5 +84,6 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		po.setCredit(Integer.parseInt(map.get("credit").toString()));
 		return po;
 	}
+
 
 }

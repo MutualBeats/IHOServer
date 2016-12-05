@@ -13,6 +13,7 @@ import java.util.Map;
 import data.creditdata.ClientCreditUpdate;
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
+import po.user.ClientInfoChangePO;
 import po.user.ClientPO;
 import po.user.MemberPO;
 import util.resultmessage.ResultMessage_User;
@@ -29,7 +30,7 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public ClientPO findData(String clientID) throws RemoteException {
+	public ClientPO queryClient(String clientID) throws RemoteException {
 		sqlManager.getConnection();
 		
 		String sql = "SELECT * FROM client WHERE client_id=? ";
@@ -40,43 +41,30 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public ResultMessage_User updateData(String clientID, String clientName, String contactWay) throws RemoteException {
-		if(clientID == null || clientName == null || contactWay == null)
-			return ResultMessage_User.UpdateFail;
+	public ResultMessage_User updateClientInfo(ClientInfoChangePO changePO) throws RemoteException {
+		// 错误：客户不存在
+		if(queryClient(changePO.getClientID()) == null)
+			return ResultMessage_User.Account_Not_Exist;
+		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE client SET client_name=?, contact_way=? WHERE client_id=?";
 		
-		boolean result = sqlManager.executeUpdate(sql, new Object[]{clientName, contactWay, clientID});
-		sqlManager.releaseConnection();
+		List<Object> params = new ArrayList<Object>();
+		params.add(changePO.getClientName());
+		params.add(changePO.getContactWay());
+		params.add(changePO.getClientID());
 		
-		if(!result)
-			return ResultMessage_User.UpdateFail;
+		sqlManager.executeUpdateByList(sql, params);
+		sqlManager.releaseConnection();
 		
 		return ResultMessage_User.UpdateSuccess;
 	}
 
 	@Override
-	public ResultMessage_User find(String ID, String password) throws RemoteException {
-		sqlManager.getConnection();
-		
-		String sql = "SELECT password FROM client WHERE client_id=?";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
-		sqlManager.releaseAll();
-		
-		if(map.size() == 0)
-			return ResultMessage_User.Account_Not_Exist;
-		
-		if(!map.get("password").toString().equals(password))
-			return ResultMessage_User.PasswordWrong;
-		
-		return ResultMessage_User.LoginSuccess;
-	}
-
-	@Override
-	public ResultMessage_User insert(ClientPO po, String password) throws RemoteException {
+	public ResultMessage_User regist(ClientPO po, String password) throws RemoteException {
 		// ClientID 已存在
-		if(findData(po.getClientID()) != null)
+		if(queryClient(po.getClientID()) != null)
 			return ResultMessage_User.Account_Exist;
 		
 		sqlManager.getConnection();
@@ -105,23 +93,8 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 
 	@Override
-	public MemberPO findMemberData(String clientID) throws RemoteException {
-		sqlManager.getConnection();
-		
-		String sql = "SELECT member_type, vip_level, member_info FROM client WHERE client_id=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{clientID});
-		
-		// clientID 不存在
-		if(map.size() == 0)
-			return null;
-		
-		return getMemberPO(clientID, map);
-	}
-
-	@Override
-	public ResultMessage_User insertMember(MemberPO po) throws RemoteException {
+	public ResultMessage_User registerMember(MemberPO po) throws RemoteException {
 		if(po == null)
-			// TODO 注册何种会员判断
 			return ResultMessage_User.Regitster_Failed;
 		
 		sqlManager.getConnection();
@@ -142,29 +115,21 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			return ResultMessage_User.Regitster_Failed;
 		return ResultMessage_User.Register_Success;
 	}
-
+	
+	
 	@Override
-	public ResultMessage_User updateMemberData(MemberPO po) throws RemoteException {
-		if(po == null)
-			return ResultMessage_User.UpdateFail;
-		
+	public ArrayList<ClientPO> getClientList() throws RemoteException {
 		sqlManager.getConnection();
+		String sql = "SELECT * FROM client ORDER BY client_id";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{});
+		sqlManager.releaseAll();
 		
-		String sql = "UPDATE client SET member_type=?, vip_level=?, member_info=? WHERE clinet_id=? ";
+		ArrayList<ClientPO> clientList = new ArrayList<ClientPO>();
+		for (Map<String, Object> map : mapList) {
+			clientList.add(getClientPO(map));
+		}
 		
-		List<Object> params = new ArrayList<Object>();
-		params.add(po.getMemberType().toString());
-		params.add(po.getLevel());
-		params.add(po.getMemberMessage());
-		params.add(po.getClientID());
-		
-		boolean result = sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
-		
-		if(!result)
-			return ResultMessage_User.UpdateFail;
-		
-		return ResultMessage_User.UpdateSuccess;
+		return clientList;
 	}
 	
 	private ClientPO getClientPO(Map<String, Object> map) {
@@ -183,21 +148,20 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		return po;
 	}
 	
-	private MemberPO getMemberPO(String clientID, Map<String, Object> map) {
-		MemberPO po = new MemberPO();
-		
-		po.setClientID(clientID);
-		po.setMemberType(MemberType.valueOf(map.get("member_type").toString()));
-		po.setLevel(Integer.parseInt(map.get("vip_level").toString()));
-		po.setMemberMessage(map.get("member_info").toString());
-		
-		return po;
-	}
+//	private MemberPO getMemberPO(String clientID, Map<String, Object> map) {
+//		MemberPO po = new MemberPO();
+//		
+//		po.setClientID(clientID);
+//		po.setMemberType(MemberType.valueOf(map.get("member_type").toString()));
+//		po.setLevel(Integer.parseInt(map.get("vip_level").toString()));
+//		po.setMemberMessage(map.get("member_info").toString());
+//		
+//		return po;
+//	}
 
 	@Override
 	public void creditUpdate(String clientID, int newCredit) {
 		// TODO 异常错误处理
-		
 		sqlManager.getConnection();
 		
 		String sql = "UPDATE client SET credit=? WHERE client_id=? ";

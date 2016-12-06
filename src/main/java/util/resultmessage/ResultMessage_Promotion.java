@@ -6,9 +6,12 @@ package util.resultmessage;
 
 public enum ResultMessage_Promotion {
 	
-	HotelAddSuccess,
-	HotelAddFail,
-	WebAddSuccess,
-	WebAddFail,
-
+	Add_Successful,
+	
+	Delete_Successful,
+	
+	Level_Make_Successful,
+	
+	Promotion_Not_Exist,
+	
 }

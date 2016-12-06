@@ -5,79 +5,132 @@ package po.promotion;
 
 import java.util.ArrayList;
 
+import util.promotion.PromotionType;
+
 public class PromotionPO {
-	private String promotionId;
-	private String message;
-	private String id;
-	private String startTime;
-	private String endTime;
-	private double discount;
-	private static ArrayList<Integer> levelList;
+	/**
+	 * 促销策略id
+	 */
+	private String promotionID;
+	/**
+	 * 促销策略名称
+	 */
+	private String promotionName;
+	/**
+	 * 促销策略类型
+	 */
+	private PromotionType type;
+	/**
+	 * 不同等级对应折扣
+	 */
+	private ArrayList<Double> discount;
+	/**
+	 * 酒店id（若网站促销策略则为空）
+	 */
+	private String hotelID;
+	/**
+	 * 开始时间
+	 */
+	private String startDate;
+	/**
+	 * 结束时间
+	 */
+	private String finishDate;
 	
 	/**
-	 * @param promotionId
-	 * @param message
-	 * @param id
-	 * @param startTime
-	 * @param endTime
+	 * @param promotionID
+	 * @param promotionName
+	 * @param type
 	 * @param discount
-	 * @param levelList
+	 * @param hotelID
+	 * @param startDate
+	 * @param finishDate
 	 */
-	public PromotionPO(String promotionId, String message, String id, String startTime, String endTime, double discount) {
+	public PromotionPO(String promotionID, String promotionName, PromotionType type, ArrayList<Double> discount,
+			String hotelID, String startDate, String finishDate) {
 		super();
-		this.promotionId = promotionId;
-		this.message = message;
-		this.id = id;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.promotionID = promotionID;
+		this.promotionName = promotionName;
+		this.type = type;
 		this.discount = discount;
+		this.hotelID = hotelID;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
 	}
 	
 	public PromotionPO() {
 	}
-	
-	public static ArrayList<Integer> getLevelList() {
-		return levelList;
+
+	public String getPromotionID() {
+		return promotionID;
 	}
-	public static void setLevelList(ArrayList<Integer> levelList) {
-		PromotionPO.levelList = levelList;
+
+	public void setPromotionID(String promotionID) {
+		this.promotionID = promotionID;
 	}
-	
-	public String getPromotionId() {
-		return promotionId;
+
+	public String getPromotionName() {
+		return promotionName;
 	}
-	public void setPromotionId(String promotionId) {
-		this.promotionId = promotionId;
+
+	public void setPromotionName(String promotionName) {
+		this.promotionName = promotionName;
 	}
-	public String getMessage() {
-		return message;
+
+	public PromotionType getType() {
+		return type;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	public void setType(PromotionType type) {
+		this.type = type;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-	public double getDiscount() {
+
+	public ArrayList<Double> getDiscount() {
 		return discount;
 	}
-	public void setDiscount(double discount) {
+
+	public void setDiscount(ArrayList<Double> discount) {
 		this.discount = discount;
+	}
+
+	public String getHotelID() {
+		return hotelID;
+	}
+
+	public void setHotelID(String hotelID) {
+		this.hotelID = hotelID;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(String finishDate) {
+		this.finishDate = finishDate;
+	}
+	
+	public ArrayList<String> getDistrictList() {
+		DistrictPromotionPO po = (DistrictPromotionPO)this;
+		return po.getDistrictList();
+	}
+	
+	public void setDistrictList(ArrayList<String> districtList) {
+	}
+	
+	public ArrayList<String> getEnterpriseList() {
+		EnterprisePromotionPO po = (EnterprisePromotionPO)this;
+		return po.getEnterpriseList();
+	}
+
+	public void setEnterpriseList(ArrayList<String> enterpriseList) {
 	}
 	
 }

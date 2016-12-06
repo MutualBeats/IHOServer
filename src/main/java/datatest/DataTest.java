@@ -4,19 +4,14 @@
  */
 package datatest;
 
-import java.util.ArrayList;
-
-import data.promotiondata.PromotionDataServiceMySqlImpl;
-import po.promotion.DistrictPromotionPO;
-import po.promotion.PromotionPO;
-import util.Time;
-import util.promotion.PromotionType;
+import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
+import po.user.ManagerPO;
 
 public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
+//		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
 		
 //		ArrayList<String> districtList = new ArrayList<>();
 //		districtList.add("如城镇");
@@ -32,17 +27,10 @@ public class DataTest {
 //		
 //		System.out.println(promotion.addPromotion(po));
 		
-		ArrayList<Integer> credit = new ArrayList<>();
-		ArrayList<Double> discount = new ArrayList<>();
-		credit.add(1000);
-		credit.add(2000);
-		credit.add(3000);
-		discount.add(10.0);
-		discount.add(9.9);
-		discount.add(9.8);
-		discount.add(9.7);
+		ManagerDataServiceMySqlImpl manager = new ManagerDataServiceMySqlImpl();
 		
-		System.out.println(promotion.levelMake(credit, discount));
+		ManagerPO po = manager.getManagerInfo();
+		System.out.println(po.getManagerID() + " " + po.getManagername());
 		
 	}
 

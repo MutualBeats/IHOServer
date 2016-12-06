@@ -13,6 +13,7 @@ import java.util.Map;
 import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
+import po.user.StaffChangePO;
 import po.user.StaffPO;
 import util.resultmessage.ResultMessage_User;
 import util.user.UserType;
@@ -39,18 +40,18 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		
 		return getStaffPO(map);
 	}
-
+	
 	@Override
-	public ResultMessage_User updateData(StaffPO po) throws RemoteException {
+	public ResultMessage_User updateData(StaffChangePO po) throws RemoteException {
 		// 错误：酒店工作人员不存在
-		if(findData(po.getStaffID()) == null)
+		if (findData(po.getStaffID()) == null)
 			return ResultMessage_User.Account_Not_Exist;
 		
 		sqlManager.getConnection();
 		
-		String sql = "UPDATE staff SET staff_name=? WHERE staff_id=? ";
+		String sql = "UPDATE staff SET staff_name=?, contact_way=? WHERE staff_id=? ";
 		
-		sqlManager.executeUpdate(sql, new Object[]{po.getStaffname(), po.getStaffID()});
+		sqlManager.executeUpdate(sql, new Object[]{po.getStaffName(), po.getContactWay(), po.getStaffID()});
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_User.UpdateSuccess;
@@ -72,10 +73,10 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	@Override
 	public ResultMessage_User insert(StaffPO po, String password) throws RemoteException {
 		// 判断酒店是否存在
-		if(hotelInfo.getHotelInfo(po.getHotelId()) == null)
+		if(hotelInfo.getHotelInfo(po.getHotelID()) == null)
 			return ResultMessage_User.Hotel_Not_Exist;
 		//一个酒店只有一个工作人员账号
-		if(getStaffNum(po.getHotelId()) == 1)
+		if(getStaffNum(po.getHotelID()) == 1)
 			return ResultMessage_User.Hotel_Have_Staff;
 		
 		sqlManager.getConnection();
@@ -87,8 +88,9 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 		sql = "INSERT INTO staff VALUES ";
 		params = new ArrayList<Object>();
 		params.add(po.getStaffID());
-		params.add(po.getStaffname());
-		params.add(po.getHotelId());
+		params.add(po.getStaffName());
+		params.add(po.getContactWay());
+		params.add(po.getHotelID());
 		sql = sqlManager.appendSQL(sql, params.size());
 		sqlManager.executeUpdateByList(sql, params);
 		
@@ -133,9 +135,11 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 			return null;
 		StaffPO po = new StaffPO();
 		po.setStaffID(map.get("staff_id").toString());
-		po.setHotelId(map.get("hotel_id").toString());
-		po.setStaffname(map.get("staff_name").toString());
+		po.setStaffName(map.get("staff_name").toString());
+		po.setContactWay(map.get("contact_way").toString());
+		po.setHotelID(map.get("hotel_id").toString());
 		return po;
 	}
+
 
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ManagerDataService;
+import po.user.ManagerPO;
 import util.resultmessage.ResultMessage_User;
 
 public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements ManagerDataService {
@@ -21,22 +22,34 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 	public ManagerDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
-	
+
 	@Override
-	public ResultMessage_User find(String ID, String password) throws RemoteException {
+	public ManagerPO getManagerInfo() throws RemoteException {
 		sqlManager.getConnection();
-		
-		String sql = "SELECT password FROM manager WHERE manager_id=? ";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
+		String sql = "SELECT * FROM manager";
+		Map<String, Object> map = sqlManager.querySimple(sql, null);
 		sqlManager.releaseAll();
-		
-		if(map.size() == 0)
-			return ResultMessage_User.Account_Not_Exist;
-		
-		if(!map.get("password").toString().equals(password))
-			return ResultMessage_User.PasswordWrong;
-		
-		return ResultMessage_User.LoginSuccess;
+		return getManagerPO(map);
 	}
+
+	@Override
+	public ResultMessage_User changeManagerInfo(ManagerPO po) throws RemoteException {
+		sqlManager.getConnection();
+		String sql = "UPDATE manager SET manager_name=? WHERE manager_id=? ";
+		boolean res = sqlManager.executeUpdate(sql, new Object[]{po.getManagername(), po.getManagerID()});
+		if(!res)
+			return ResultMessage_User.Account_Not_Exist;
+		return ResultMessage_User.UpdateSuccess;
+	}
+
+	private ManagerPO getManagerPO(Map<String, Object> map) {
+		if(map.size() == 0)
+			return null;
+		ManagerPO po = new ManagerPO();
+		po.setManagerID(map.get("manager_id").toString());
+		po.setManagername(map.get("manager_name").toString());
+		return po;
+	}
+	
 	
 }

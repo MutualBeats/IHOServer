@@ -1,11 +1,12 @@
 /**
- * @version 2016年11月19日 添加空构造方法
+ * @author huangxiao
+ * @version 2016年12月6日
  */
 package po.user;
 
 import java.io.Serializable;
 
-public class StaffPO implements Serializable {
+public class StaffChangePO implements Serializable {
 	/**
 	 * version id
 	 */
@@ -22,26 +23,12 @@ public class StaffPO implements Serializable {
 	 * Phone
 	 */
 	private String contactWay;
-	/**
-	 * 酒店工作人员所在酒店ID
-	 */
-	private String hotelID;
 	
-	/**
-	 * @param staffID
-	 * @param staffName
-	 * @param contactWay
-	 * @param hotelID
-	 */
-	public StaffPO(String staffID, String staffName, String contactWay, String hotelID) {
+	public StaffChangePO(String staffID, String staffName, String contactWay) {
 		super();
 		this.staffID = staffID;
 		this.staffName = staffName;
 		this.contactWay = contactWay;
-		this.hotelID = hotelID;
-	}
-	
-	public StaffPO() {
 	}
 
 	public String getStaffID() {
@@ -68,16 +55,4 @@ public class StaffPO implements Serializable {
 		this.contactWay = contactWay;
 	}
 
-	public String getHotelID() {
-		return hotelID;
-	}
-
-	public void setHotelID(String hotelID) {
-		this.hotelID = hotelID;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 }

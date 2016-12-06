@@ -27,18 +27,7 @@ public class ManagerDataTest {
 	
 	@Test
 	public void testFind() {
-		ResultMessage_User res1 = null, res2 = null, res3 = null;
-		try {
-			res1 = managerDataService.find("0000000001", "test");
-			res2 = managerDataService.find("1", "test");
-			res3 = managerDataService.find("0000000001", "t");
-		} catch (Exception e) {
-			fail("Exception!");
-			e.printStackTrace();
-		}
-		assertEquals(res1, ResultMessage_User.LoginSuccess);
-		assertEquals(res2, ResultMessage_User.Account_Not_Exist);
-		assertEquals(res3, ResultMessage_User.PasswordWrong);
+		// TODO
 	}
 
 }

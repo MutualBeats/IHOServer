@@ -28,8 +28,7 @@ public class DataTest {
 //		
 //		System.out.println(promotion.addPromotion(po));
 		
-		ArrayList<Integer> list = promotion.getMemberLevel();
-		System.out.println(list.size());
+		System.out.println(promotion.deletePromotion("abc"));
 		
 	}
 

@@ -13,15 +13,15 @@ public interface OrderDataService extends Remote{
 	 * 添加订单
 	 * 
 	 * @param po
-	 * @return
+	 * @return order_id
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Order addOrder(OrderPO po) throws RemoteException;
+	public String addOrder(OrderPO po) throws RemoteException;
 	/**
 	 * 补录订单
 	 * 
 	 * @param orderID
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException;
@@ -29,7 +29,7 @@ public interface OrderDataService extends Remote{
 	 * 撤销订单
 	 * 
 	 * @param po
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Order cancelOrder(String orderID) throws RemoteException;
@@ -37,14 +37,14 @@ public interface OrderDataService extends Remote{
 	 * 执行订单
 	 * 
 	 * @param orderID
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Order executeOrder(String orderID) throws RemoteException;
 	/**
 	 * 完成订单
 	 * @param orderID
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Order finishOrder(String orderID) throws RemoteException;
@@ -52,7 +52,7 @@ public interface OrderDataService extends Remote{
 	 * 根据orderId查询订单
 	 * 
 	 * @param orderID
-	 * @return
+	 * @return OrderPO
 	 * @throws RemoteException
 	 */
 	public OrderPO findById(String orderID) throws RemoteException;
@@ -60,7 +60,7 @@ public interface OrderDataService extends Remote{
 	 * 查询用户订单 
 	 *  
 	 * @param clientID
-	 * @return
+	 * @return ArrayList<OrderPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findByUser(String clientID) throws RemoteException;
@@ -69,7 +69,7 @@ public interface OrderDataService extends Remote{
 	 * 
 	 * @param hotelID
 	 * @param roomNumber
-	 * @return
+	 * @return ArrayList<OrderPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException;
@@ -78,7 +78,7 @@ public interface OrderDataService extends Remote{
 	 * 
 	 * @param hotelID
 	 * @param clientID
-	 * @return
+	 * @return ArrayList<OrderPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findUOByHotel(String hotelID, String clientID) throws RemoteException;
@@ -86,14 +86,14 @@ public interface OrderDataService extends Remote{
 	 * 查询酒店订单
 	 * 
 	 * @param hotelID
-	 * @return
+	 * @return ArrayList<OrderPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findHotelOrder(String hotelID) throws RemoteException;
 	/**
-	 * 查找网站未执行订单
+	 * 查找网站某天未执行订单
 	 * 
-	 * @return
+	 * @return ArrayList<OrderPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findUnexecutedOrder(String date) throws RemoteException;

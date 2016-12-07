@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import dataservice.orderdataservice.OrderDataService;
 import po.order.OrderPO;
@@ -22,6 +23,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	private static final int ORDER_ID_LENGTH = 16;
 	
 	public OrderDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -105,46 +108,51 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	 * 生成订单
 	 */
 	@Override
-	public ResultMessage_Order addOrder(OrderPO po) throws RemoteException {
+	public String addOrder(OrderPO po) throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "INSERT INTO order_record VALUES ";
-		
+		String sql;
+		// 生成order_record记录
 		List<Object> params = new ArrayList<Object>();
-		try {
-			params.add(po.getOrderID());
-			params.add(po.getOrderState());
-			params.add(po.getClientID());
-			params.add(po.getHotelID());
-			params.add(po.getValue());
-			params.add(po.getMakeTime());
-			params.add(po.getLatestETime());
-			// 订单执行时间初始为空
-			params.add("");
-			// 订单结束时间初始为空
-			params.add("");
-			params.add(po.getCheckInDate());
-			params.add(po.getEstimateCheckOutDate());
-			// 实际离开日期初始为空
-			params.add("");
-			params.add(po.getNumOfPeople());
-			params.add(po.isChildren());
-		} catch (NullPointerException e) {
-			// 错误：信息不全
-			e.printStackTrace();
-			return ResultMessage_Order.Order_Create_Failed;
-		}
+		params.add(null);
+		// order_id待生成
+		params.add("");
+		params.add(po.getOrderState());
+		params.add(po.getClientID());
+		params.add(po.getHotelID());
+		params.add(po.getValue());
+		params.add(po.getMakeTime());
+		params.add(po.getLatestETime());
+		// 订单执行时间初始为空
+		params.add("");
+		// 订单结束时间初始为空
+		params.add("");
+		params.add(po.getCheckInDate());
+		params.add(po.getEstimateCheckOutDate());
+		// 实际离开日期初始为空
+		params.add("");
+		params.add(po.getNumOfPeople());
+		params.add(po.isChildren());
 		
-		sql = sqlManager.appendSQL(sql, params.size());
-		
+		sql = sqlManager.appendSQL("INSERT INTO order_record VALUES ", params.size());
 		sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
+		
+		// 获取数据库自增id
+		sql = "SELECT id FROM order_record WHERE order_id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[] { "" });
+		int id = Integer.parseInt(map.get("id").toString());
+		// 设置promotion_id
+		sql = "UPDATE order_record SET order_id=? WHERE id=? ";
+		String orderID = ID.idToString(id, ORDER_ID_LENGTH);
+		sqlManager.executeUpdate(sql, new Object[] { orderID, id });
+		
+		sqlManager.releaseAll();
 		
 		// 添加订单房间、促销策略记录
 		addOrderRoom(po.getOrderID(), po.getHotelID(), po.getRoomNumberList());
 		addOrderPromotion(po.getOrderID(), po.getPromotionIDList());
 		
-		return ResultMessage_Order.Order_Create_Successful;
+		return orderID;
 	}
 	
 	/**

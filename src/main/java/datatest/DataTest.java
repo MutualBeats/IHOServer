@@ -4,32 +4,23 @@
  */
 package datatest;
 
-import java.util.ArrayList;
-
-import data.promotiondata.PromotionDataServiceMySqlImpl;
+import data.hoteldata.HotelDataServiceMySqlImpl;
+import po.hotel.HotelPO;
 
 public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
-
-		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
+		HotelDataServiceMySqlImpl hotel = new HotelDataServiceMySqlImpl();
 		
-//		ArrayList<String> districtList = new ArrayList<>();
-//		districtList.add("如城镇");
-//		districtList.add("栖霞区");
-//		
-//		PromotionPO po = new DistrictPromotionPO();
-//		po.setPromotionName("商圈活动");
-//		po.setType(PromotionType.BusinessDistrict);
-//		po.setDistrictList(districtList);
-//		po.setHotelID("");
-//		po.setStartDate(Time.getCurrentDate());
-//		po.setFinishDate(Time.getCurrentDate());
-//		
-//		System.out.println(promotion.addPromotion(po));
+		HotelPO po = new HotelPO();
+		po.setHotelName("测试");
+		po.setAddress("测试数据库酒店id自增");
+		po.setRegion("测试地区");
+		po.setBusinessDistrict("测试商圈");
+		po.setScore(4);
+		po.setStarLevel(0);
 		
-		System.out.println(promotion.deletePromotion("abc"));
-		
+		System.out.println(hotel.addHotel(po));
 	}
 
 }

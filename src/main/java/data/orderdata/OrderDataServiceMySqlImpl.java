@@ -141,7 +141,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		sql = "SELECT id FROM order_record WHERE order_id=? ";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[] { "" });
 		int id = Integer.parseInt(map.get("id").toString());
-		// 设置promotion_id
+		// 设置order_id
 		sql = "UPDATE order_record SET order_id=? WHERE id=? ";
 		String orderID = ID.idToString(id, ORDER_ID_LENGTH);
 		sqlManager.executeUpdate(sql, new Object[] { orderID, id });

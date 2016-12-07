@@ -23,7 +23,7 @@ public interface HotelDataService extends Remote{
 		
 	public ResultMessage_Hotel evaluation(HotelEvaluationPO po) throws RemoteException;
 	
-	public ResultMessage_Hotel addHotel(HotelPO po) throws RemoteException;
+	public String addHotel(HotelPO po) throws RemoteException;
 	
 	public ArrayList<HotelEvaluationPO> getHotelEvaluation(String hotelID) throws RemoteException;
 

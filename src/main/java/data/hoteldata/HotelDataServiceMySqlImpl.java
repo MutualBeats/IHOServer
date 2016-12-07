@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import data.userdata.staffdata.HotelInfo;
 import dataservice.hoteldataservice.HotelDataService;
@@ -23,6 +24,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	private static final long serialVersionUID = 2L;
 
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	private static final int HOTEL_ID_LENGTH = 8;
 
 	public HotelDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -146,16 +149,13 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	}
 
 	@Override
-	public ResultMessage_Hotel addHotel(HotelPO po) throws RemoteException {
-		if (po == null)
-			return ResultMessage_Hotel.Add_Hotel_Successful;
-		if (getHotelInfo(po.getHotelID()) != null)
-			return ResultMessage_Hotel.Hotel_Already_Exists;
-
+	public String addHotel(HotelPO po) throws RemoteException {
 		sqlManager.getConnection();
 
 		List<Object> params = new ArrayList<Object>();
-		params.add(po.getHotelID());
+		params.add(null);
+		// hotel_id待生成
+		params.add("");
 		params.add(po.getHotelName());
 		params.add(po.getAddress());
 		params.add(po.getRegion());
@@ -168,9 +168,17 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		String sql = sqlManager.appendSQL("INSERT INTO hotel VALUES ", params.size());
 
 		sqlManager.executeUpdateByList(sql, params);
-		sqlManager.releaseConnection();
-
-		return ResultMessage_Hotel.Add_Hotel_Successful;
+		// 获取数据库自增id
+		sql = "SELECT id FROM hotel WHERE hotel_id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[] { "" });
+		int id = Integer.parseInt(map.get("id").toString());
+		// 设置hotel_id
+		sql = "UPDATE hotel SET hotel_id=? WHERE id=? ";
+		String hotelID = ID.idToString(id, HOTEL_ID_LENGTH);
+		sqlManager.executeUpdate(sql, new Object[] { hotelID, id });
+		sqlManager.releaseAll();
+		
+		return hotelID;
 	}
 
 	/**

@@ -3,11 +3,16 @@
  */
 package po.promotion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import util.promotion.PromotionType;
 
-public class PromotionPO {
+public class PromotionPO implements Serializable {
+	/**
+	 * version id
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 促销策略id
 	 */

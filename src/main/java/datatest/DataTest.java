@@ -4,14 +4,15 @@
  */
 package datatest;
 
-import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
-import po.user.ManagerPO;
+import java.util.ArrayList;
+
+import data.promotiondata.PromotionDataServiceMySqlImpl;
 
 public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
 
-//		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
+		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
 		
 //		ArrayList<String> districtList = new ArrayList<>();
 //		districtList.add("如城镇");
@@ -27,10 +28,8 @@ public class DataTest {
 //		
 //		System.out.println(promotion.addPromotion(po));
 		
-		ManagerDataServiceMySqlImpl manager = new ManagerDataServiceMySqlImpl();
-		
-		ManagerPO po = manager.getManagerInfo();
-		System.out.println(po.getManagerID() + " " + po.getManagername());
+		ArrayList<Integer> list = promotion.getMemberLevel();
+		System.out.println(list.size());
 		
 	}
 

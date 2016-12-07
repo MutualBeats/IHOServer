@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import util.promotion.PromotionType;
 
 public class EnterprisePromotionPO extends PromotionPO {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 促销策略合作企业列表
 	 */

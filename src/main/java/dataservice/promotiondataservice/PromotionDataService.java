@@ -36,6 +36,16 @@ public interface PromotionDataService extends Remote{
 	 */
 	public ResultMessage_Promotion deletePromotion(String promotionID) throws RemoteException;
 	/**
+	 * 查看会员等级划分方案
+	 * @return ArrayList
+	 */
+	public ArrayList<Integer> getMemberLevel() throws RemoteException;
+	/**
+	 * 查看不同等级会员折扣
+	 * @return ArrayList
+	 */
+	public ArrayList<Double> getMemberDiscount() throws RemoteException;
+	/**
 	 * 制定会员等级制度
 	 * @param level
 	 * @return ResultMessage

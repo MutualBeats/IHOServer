@@ -40,7 +40,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 			String sql = "INSERT INTO promotion_district VALUES (?,?)";
 			for (String district : po.getDistrictList()) {
 				sqlManager.executeUpdate(sql, new Object[]{promotionID, district});
-			}	
+			}
 		} else if(po.getType().equals(PromotionType.Enterprise)) {
 			String sql = "INSERT INTO promotion_enterprise VALUES (?,?)";
 			for (String enterprise : po.getEnterpriseList()) {
@@ -90,11 +90,11 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	}
 
 	@Override
-	public ArrayList<PromotionPO> getHotelPromotion(String hotelId) throws RemoteException {
+	public ArrayList<PromotionPO> getHotelPromotion(String hotelID) throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT * FROM promotion WHERE hotel_id=? ";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelId});
+		String sql = "SELECT * FROM promotion WHERE hotel_id=? ORDER BY promotion_id DESC ";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID});
 		sqlManager.releaseAll();
 		
 		ArrayList<PromotionPO> promotionList = new ArrayList<PromotionPO>();
@@ -110,7 +110,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	public ArrayList<PromotionPO> getWebPromotion() throws RemoteException {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT * FROM promotion WHERE hotel_id=? ";
+		String sql = "SELECT * FROM promotion WHERE hotel_id=? ORDER BY promotion_id DESC ";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{""});
 		sqlManager.releaseAll();
 		
@@ -143,6 +143,32 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		sqlManager.releaseConnection();
 		
 		return ResultMessage_Promotion.Delete_Successful;
+	}
+
+	@Override
+	public ArrayList<Integer> getMemberLevel() throws RemoteException {
+		sqlManager.getConnection();
+		ArrayList<Integer> level = new ArrayList<Integer>();
+		String sql = "SELECT end_credit FROM member_level WHERE level=? ";
+		for (int i = 0; i < MAX_VIP_LEVEL; i++) {
+			Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{i});
+			level.add(Integer.parseInt(map.get("end_credit").toString()));
+		}
+		sqlManager.releaseAll();
+		return level;
+	}
+
+	@Override
+	public ArrayList<Double> getMemberDiscount() throws RemoteException {
+		sqlManager.getConnection();
+		ArrayList<Double> discount = new ArrayList<Double>();
+		String sql = "SELECT discount FROM member_level WHERE level=? ";
+		for (int i = 0; i <= MAX_VIP_LEVEL; i++) {
+			Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{i});
+			discount.add(Double.parseDouble(map.get("discount").toString()));
+		}
+		sqlManager.releaseAll();
+		return discount;
 	}
 
 	@Override
@@ -222,12 +248,11 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		
 		ArrayList<Double> discount = new ArrayList<Double>();
 		for(int i = 0; i <= MAX_VIP_LEVEL; i++) {
-			discount.add(Double.parseDouble(map.get("discount_vip" + i).toString()));
+			discount.add(Double.parseDouble(map.get("discount_lv" + i).toString()));
 		}
 		po.setDiscount(discount);
 		
 		return po;
-	}
-	
+	}	
 
 }

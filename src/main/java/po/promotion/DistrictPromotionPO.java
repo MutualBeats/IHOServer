@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import util.promotion.PromotionType;
 
 public class DistrictPromotionPO extends PromotionPO {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 促销策略作用商圈列表
 	 */

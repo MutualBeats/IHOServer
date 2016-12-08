@@ -117,7 +117,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		params.add(null);
 		// order_id待生成
 		params.add("");
-		params.add(po.getOrderState());
+		params.add(po.getOrderState().toString());
 		params.add(po.getClientID());
 		params.add(po.getHotelID());
 		params.add(po.getValue());
@@ -149,8 +149,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		sqlManager.releaseAll();
 		
 		// 添加订单房间、促销策略记录
-		addOrderRoom(po.getOrderID(), po.getHotelID(), po.getRoomNumberList());
-		addOrderPromotion(po.getOrderID(), po.getPromotionIDList());
+		addOrderRoom(orderID, po.getHotelID(), po.getRoomNumberList());
+		addOrderPromotion(orderID, po.getPromotionIDList());
 		
 		return orderID;
 	}

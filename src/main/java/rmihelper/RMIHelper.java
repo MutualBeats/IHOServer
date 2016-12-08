@@ -47,6 +47,10 @@ public class RMIHelper {
 			try {
 				registry = LocateRegistry.createRegistry(port);
 				Naming.rebind(dealServerName(port, address), dataFactory);
+				//后台更新服务开启
+				if(SystemCheckResponsibility.startBackRefreshServie()) {
+					return;
+				}
 				QuickStart.sendMessage("Server Open Successfully\r\n"
 						+ "IP : " + address + "\r\n"
 						+ "Port : " + port + "\r\n");
@@ -54,6 +58,7 @@ public class RMIHelper {
 //				e.printStackTrace();
 				QuickStart.sendMessage("Fail to Open the Server ! Please Check Any Other Server Run Now");
 			}
+			
 			
 		}else {
 			QuickStart.sendMessage("Server Open Already");
@@ -74,6 +79,10 @@ public class RMIHelper {
 	public void off() {
 		if(registry != null){
 			try {
+				//服务关闭
+				if(SystemCheckResponsibility.endBackRefreshService()) {
+					return;
+				}
 				Naming.unbind(dealServerName(port, address));
 				//Notice : the object to unexport is Registry .
 				UnicastRemoteObject.unexportObject(registry, true);

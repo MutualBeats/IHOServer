@@ -6,12 +6,13 @@ import java.util.ArrayList;
 
 import po.user.ClientInfoChangePO;
 import po.user.ClientPO;
+import po.user.ClientRegistPO;
 import po.user.MemberPO;
 import util.resultmessage.ResultMessage_User;
 
 public interface ClientDataService extends Remote{
 	
-	public ResultMessage_User regist(ClientPO po, String password) throws RemoteException;
+	public ResultMessage_User regist(ClientRegistPO po) throws RemoteException;
 	
 	/**
 	 * 查询用户

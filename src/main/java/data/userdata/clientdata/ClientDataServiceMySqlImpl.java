@@ -15,6 +15,7 @@ import data.databaseutility.SqlManager;
 import dataservice.userdataservice.ClientDataService;
 import po.user.ClientInfoChangePO;
 import po.user.ClientPO;
+import po.user.ClientRegistPO;
 import po.user.MemberPO;
 import util.resultmessage.ResultMessage_User;
 import util.user.MemberType;
@@ -31,9 +32,9 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	}
 	
 	@Override
-	public ResultMessage_User regist(ClientPO po, String password) throws RemoteException {
+	public ResultMessage_User regist(ClientRegistPO po) throws RemoteException {
 		// ClientID 已存在
-		if(queryClient(po.getClientID()) != null)
+		if(queryClient(po.getId()) != null)
 			return ResultMessage_User.Account_Exist;
 		
 		sqlManager.getConnection();
@@ -44,22 +45,22 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		// 添加cleint记录
 		sql = "INSERT INTO client VALUES ";
 		params = new ArrayList<Object>();
-		params.add(po.getClientID());
-		params.add(po.getClientName());
+		params.add(po.getId());
+		params.add(po.getName());
 		params.add(po.getContactWay());
-		params.add(po.getCredit());
-		params.add(po.getMemberType().toString());
-		params.add(po.getLevel());
-		params.add(po.getMemberMessage());
+		params.add(0);
+		params.add(MemberType.Not);
+		params.add(0);
+		params.add("");
 		sql = sqlManager.appendSQL(sql, params.size());
 		sqlManager.executeUpdateByList(sql, params);
 		
 		// 添加user记录
 		sql = "INSERT INTO user VALUES ";
 		params = new ArrayList<Object>();
-		params.add(po.getClientID());
+		params.add(po.getId());
 		params.add(UserType.CLIENT.toString().toLowerCase());
-		params.add(password);
+		params.add(po.getPsw());
 		sql = sqlManager.appendSQL(sql, params.size());
 		sqlManager.executeUpdateByList(sql, params);
 		

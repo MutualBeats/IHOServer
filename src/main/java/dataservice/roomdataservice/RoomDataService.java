@@ -12,7 +12,7 @@ import po.room.RoomPO;
 import po.room.RoomRecordPO;
 import util.resultmessage.ResultMessage_Room;
 
-public interface RoomDataService extends Remote{
+public interface RoomDataService extends Remote {
 	/**
 	 * 获取房间列表
 	 * 

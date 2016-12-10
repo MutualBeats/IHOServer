@@ -29,6 +29,13 @@ public interface PromotionDataService extends Remote{
 	 */
 	public ArrayList<PromotionPO> getWebPromotion() throws RemoteException;
 	/**
+	 * 根据id获取促销策略
+	 * @param promotionID
+	 * @return PromotionPO
+	 * @throws RemoteException
+	 */
+	public PromotionPO getPromotionById(String promotionID) throws RemoteException;
+	/**
 	 * 删除促销策略
 	 * @param promotionID
 	 * @return ResultMessage

@@ -25,7 +25,6 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	
 	// TODO 配置文件
 	private static final int PROMOTION_ID_LENGTH = 6;
-	
 	private static final int MAX_VIP_LEVEL = 3;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
@@ -121,6 +120,15 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		}
 		
 		return promotionList;
+	}
+	
+	@Override
+	public PromotionPO getPromotionById(String promotionID) throws RemoteException {
+		sqlManager.getConnection();
+		String sql = "SELECT * FROM promotion WHERE promotion_id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{promotionID});
+		sqlManager.releaseAll();
+		return getPromotionPO(map);
 	}
 	
 	@Override
@@ -234,18 +242,23 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		return po;
 	}
 	
+	/**
+	 * Map转换为PromotionPO
+	 * @param map
+	 * @return promotionPO
+	 */
 	private PromotionPO getPromotionPO(Map<String, Object> map) {
 		if(map.size() == 0)
 			return null;
 		String promotionID = map.get("promotion_id").toString();
 		PromotionType type = PromotionType.valueOf(map.get("type").toString());
-		
+		// 根据促销策略类型创建po对象
 		PromotionPO po = getPromotionByType(promotionID, type);
 		po.setPromotionName(map.get("promotion_name").toString());
 		po.setHotelID(map.get("hotel_id").toString());
 		po.setStartDate(map.get("start_date").toString());
 		po.setFinishDate(map.get("finish_date").toString());
-		
+		// 获取折扣列表
 		ArrayList<Double> discount = new ArrayList<Double>();
 		for(int i = 0; i <= MAX_VIP_LEVEL; i++) {
 			discount.add(Double.parseDouble(map.get("discount_lv" + i).toString()));

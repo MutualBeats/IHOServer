@@ -8,6 +8,8 @@ import po.order.OrderPO;
 
 public interface RoomUpdate {
 	
-	public void updateRoom(OrderPO abnormalOrder);
+	public void updateRoomForAbnormalOrder(OrderPO abnormalOrder);
+	
+	public void updateRoomForCheckInOrder(OrderPO todayCheckInOrder);
 
 }

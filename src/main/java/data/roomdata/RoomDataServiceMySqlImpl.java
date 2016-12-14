@@ -404,17 +404,25 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	}
 
 	@Override
-	public void updateRoom(OrderPO abnormalOrder) {
+	public void updateRoomForAbnormalOrder(OrderPO abnormalOrder) {
 		// 房间状态置为为未预定，删除房间记录
-		for (String roomNumber : abnormalOrder.getRoomNumberList()) {
-			updateRoomState(abnormalOrder.getHotelID(), roomNumber, RoomState.NotReserved);
-			try {
+		try {
+			for (String roomNumber : abnormalOrder.getRoomNumberList()) {
+				updateRoomState(abnormalOrder.getHotelID(), roomNumber, RoomState.NotReserved);
 				deleteRecord(abnormalOrder.getOrderID());
-			} catch (RemoteException e) {
-				e.printStackTrace();
 			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
 		}
-		
+
+	}
+
+	@Override
+	public void updateRoomForCheckInOrder(OrderPO todayCheckInOrder) {
+		// 更新房间状态为已预订
+		for (String roomNumber : todayCheckInOrder.getRoomNumberList()) {
+			updateRoomState(todayCheckInOrder.getHotelID(), roomNumber, RoomState.Reserved);
+		}
 	}
 
 }

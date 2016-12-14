@@ -508,4 +508,19 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		return ResultMessage_Order.Evaluate_Successful;
 	}
 
+	/**
+	 * 获取当天入住的订单列表
+	 */
+	@Override
+	public ArrayList<OrderPO> findTodayCheckInOrder() {
+		ArrayList<OrderPO> todayCheckInOrderList = new ArrayList<>();
+		sqlManager.getConnection();
+		String sql = "SELECT * FROM order_record WHERE check_in_date=? ";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{Time.getCurrentDate()});
+		for (Map<String, Object> map : mapList) {
+			todayCheckInOrderList.add(getOrderPO(map));
+		}
+		return todayCheckInOrderList;
+	}
+
 }

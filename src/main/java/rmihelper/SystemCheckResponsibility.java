@@ -49,39 +49,39 @@ public class SystemCheckResponsibility {
 			QuickStart.sendMessage("Refresh order service start");
 			// TODO : Finish the order state refresh.
 			check();
+			// 超过最晚执行时间的未执行订单置为异常订单
 			ArrayList<OrderPO> abnormalOrderList = order.updateOrderState();
 			for (OrderPO order : abnormalOrderList) {
+				// 扣除该客户信用
 				ClientPO clientPO = client.getClientInfo(order.getClientID());
 				CreditPO creditPO = new CreditPO();
 				creditPO.setClientID(order.getClientID());
 				creditPO.setOrderID(order.getOrderID());
 				creditPO.setAction(CreditChangeAction.AbnormalOrder);
-				creditPO.setChangeTime(Time.getCurrentDate() + " 00:00:00");
+				creditPO.setChangeTime(Time.getCurrentDate() + " " + "00:00:00");
 				creditPO.setChangeValue(-(int)order.getValue());
 				creditPO.setCredit(clientPO.getCredit() - (int)order.getValue());
 				credit.insertCreditRecord(creditPO);
-				// TODO
-				room.updateRoom(order);
+				// 更新异常订单中房间状态为未预订，并删除房间记录
+				room.updateRoomForAbnormalOrder(order);
 			}
-			
+			// 入住日期为当天的房间状态改为已预订
+			ArrayList<OrderPO> todayCheckInOrderList = order.findTodayCheckInOrder();
+			for (OrderPO order : todayCheckInOrderList) {
+				room.updateRoomForCheckInOrder(order);
+			}
 		}
 		
 		private void check() {
 			try {
-				if (order == null) {
+				if (order == null)
 					order = DataFactoryMySqlImpl.getDataServiceInstance().getOrderUpdate();
-				}
-				if (credit == null) {
+				if (credit == null)
 					credit = DataFactoryMySqlImpl.getDataServiceInstance().getCreditUpdate();
-				}
-				if (client == null) {
+				if (client == null)
 					client = DataFactoryMySqlImpl.getDataServiceInstance().getClientInfo();
-				}
-				if (room == null) {
-					room = DataFactoryMySqlImpl.getDataServiceInstance().getRoomUpdate();
-				}
-				// TODO
-				
+				if (room == null)
+					room = DataFactoryMySqlImpl.getDataServiceInstance().getRoomUpdate();				
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

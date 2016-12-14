@@ -17,11 +17,12 @@ import po.user.ClientInfoChangePO;
 import po.user.ClientPO;
 import po.user.ClientRegistPO;
 import po.user.MemberPO;
+import rmihelper.ClientInfo;
 import util.resultmessage.ResultMessage_User;
 import util.user.MemberType;
 import util.user.UserType;
 
-public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate {
+public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate, ClientInfo {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -181,6 +182,17 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			return ResultMessage_User.Account_Not_Exist;
 		
 		return ResultMessage_User.UpdateSuccess;
+	}
+
+	@Override
+	public ClientPO getClientInfo(String clientID) {
+		ClientPO clientPO = null;
+		try {
+			clientPO = queryClient(clientID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return clientPO;
 	}
 
 }

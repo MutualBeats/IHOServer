@@ -7,12 +7,21 @@ package data.service;
 import java.rmi.RemoteException;
 
 import data.creditdata.ClientCreditUpdate;
-import data.userdata.staffdata.HotelInfo;
+import rmihelper.ClientInfo;
+import rmihelper.CreditUpdate;
+import rmihelper.OrderUpdate;
+import rmihelper.RoomUpdate;
 
 public interface DataService {
-	
-	public HotelInfo getHotelInfo() throws RemoteException;
-	
+		
 	public ClientCreditUpdate getClientCreditUpdate() throws RemoteException;
+	
+	public OrderUpdate getOrderUpdate() throws RemoteException;
+	
+	public CreditUpdate getCreditUpdate() throws RemoteException;
+	
+	public ClientInfo getClientInfo() throws RemoteException;
+	
+	public RoomUpdate getRoomUpdate() throws RemoteException;
 		
 }

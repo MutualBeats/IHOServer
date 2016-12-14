@@ -17,7 +17,6 @@ import data.service.DataService;
 import data.userdata.clientdata.ClientDataServiceMySqlImpl;
 import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
 import data.userdata.marketerdata.MarketerDataServiceMySqlImpl;
-import data.userdata.staffdata.HotelInfo;
 import data.userdata.staffdata.StaffDataServiceMySqlImpl;
 import data.utildata.UtilDataServiceMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
@@ -31,6 +30,10 @@ import dataservice.userdataservice.ManagerDataService;
 import dataservice.userdataservice.MarketerDataService;
 import dataservice.userdataservice.StaffDataService;
 import dataservice.utildataservice.Identify;
+import rmihelper.ClientInfo;
+import rmihelper.CreditUpdate;
+import rmihelper.OrderUpdate;
+import rmihelper.RoomUpdate;
 
 public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFactory, DataService {
 	
@@ -154,19 +157,43 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 	}
 	
 	@Override
-	public HotelInfo getHotelInfo() throws RemoteException {
-		if(hotelDatabase == null) {
-			hotelDatabase = new HotelDataServiceMySqlImpl();
-		}
-		return hotelDatabase;
-	}
-	
-	@Override
 	public ClientCreditUpdate getClientCreditUpdate() throws RemoteException {
 		if(clientDatabase == null) {
 			clientDatabase = new ClientDataServiceMySqlImpl();
 		}
 		return clientDatabase;
+	}
+
+	@Override
+	public OrderUpdate getOrderUpdate() throws RemoteException {
+		if(orderDatabase == null) {
+			orderDatabase = new OrderDataServiceMySqlImpl();
+		}
+		return orderDatabase;
+	}
+
+	@Override
+	public CreditUpdate getCreditUpdate() throws RemoteException {
+		if(creditDatabase == null) {
+			creditDatabase = new CreditDataServiceMySqlImpl();
+		}
+		return creditDatabase;
+	}
+
+	@Override
+	public ClientInfo getClientInfo() throws RemoteException {
+		if(clientDatabase == null) {
+			clientDatabase = new ClientDataServiceMySqlImpl();
+		}
+		return clientDatabase;
+	}
+
+	@Override
+	public RoomUpdate getRoomUpdate() throws RemoteException {
+		if(roomDatabase == null) {
+			roomDatabase = new RoomDataServiceMySqlImpl();
+		}
+		return roomDatabase;
 	}
 
 

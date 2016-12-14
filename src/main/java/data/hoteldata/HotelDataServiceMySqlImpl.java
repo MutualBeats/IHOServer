@@ -12,14 +12,13 @@ import java.util.Map;
 
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
-import data.userdata.staffdata.HotelInfo;
 import dataservice.hoteldataservice.HotelDataService;
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
 import util.hotel.SearchCondition;
 import util.resultmessage.ResultMessage_Hotel;
 
-public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService, HotelInfo {
+public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements HotelDataService {
 
 	private static final long serialVersionUID = 2L;
 
@@ -133,6 +132,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		List<Object> params = new ArrayList<Object>();
 		params.add(po.getHotelID());
 		params.add(po.getClientID());
+		params.add(po.getOrderID());
 		params.add(po.getEvaluateTime());
 		params.add(po.getEvaluateScore());
 		params.add(po.getEvaluateInfo());
@@ -239,6 +239,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 
 		po.setHotelID(map.get("hotel_id").toString());
 		po.setClientID(map.get("client_id").toString());
+		po.setOrderID(map.get("order_id").toString());
 		po.setEvaluateTime(map.get("time").toString());
 		po.setEvaluateScore(Integer.parseInt(map.get("score").toString()));
 		po.setEvaluateInfo(map.get("evaluate_info").toString());

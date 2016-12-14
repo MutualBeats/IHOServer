@@ -14,17 +14,18 @@ import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.creditdataservice.CreditDataService;
 import po.credit.CreditPO;
+import rmihelper.CreditUpdate;
 import util.credit.CreditChangeAction;
 import util.resultmessage.ResultMessage_Credit;
 import util.resultmessage.ResultMessage_User;
 
-public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService {
+public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements CreditDataService, CreditUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
 	
-	private ClientCreditUpdate client = DataFactoryMySqlImpl.getDataServiceInstance().getClientCreditUpdate();
+	private ClientCreditUpdate client;
 
 	public CreditDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -33,6 +34,7 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	@Override
 	public ResultMessage_Credit insert(CreditPO po) throws RemoteException {
 		// 更新信用
+		client = DataFactoryMySqlImpl.getDataServiceInstance().getClientCreditUpdate();
 		ResultMessage_User res = client.creditUpdate(po.getClientID(), po.getCredit());
 		// 客户不存在
 		if(res.equals(ResultMessage_User.Account_Not_Exist))
@@ -83,6 +85,18 @@ public class CreditDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		po.setChangeValue(Integer.parseInt(map.get("value").toString()));
 		po.setCredit(Integer.parseInt(map.get("credit").toString()));
 		return po;
+	}
+
+	/**
+	 * 插入异常订单信用记录
+	 */
+	@Override
+	public void insertCreditRecord(CreditPO po) {
+		try {
+			insert(po);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 

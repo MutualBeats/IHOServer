@@ -12,14 +12,16 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.roomdataservice.RoomDataService;
+import po.order.OrderPO;
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
+import rmihelper.RoomUpdate;
 import util.Time;
 import util.resultmessage.ResultMessage_Room;
 import util.room.RoomState;
 import util.room.RoomType;
 
-public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService {
+public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService, RoomUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -36,7 +38,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		unexecuted, // 未执行
 		underway, // 执行中
 		done, // 已完成
-		abnormal, // 异常
+//		abnormal, // 异常
 	}
 		
 	@Override
@@ -401,5 +403,18 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		return po;
 	}
 
+	@Override
+	public void updateRoom(OrderPO abnormalOrder) {
+		// 房间状态置为为未预定，删除房间记录
+		for (String roomNumber : abnormalOrder.getRoomNumberList()) {
+			updateRoomState(abnormalOrder.getHotelID(), roomNumber, RoomState.NotReserved);
+			try {
+				deleteRecord(abnormalOrder.getOrderID());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 
 }

@@ -48,7 +48,7 @@ public class RMIHelper {
 				registry = LocateRegistry.createRegistry(port);
 				Naming.rebind(dealServerName(port, address), dataFactory);
 				//后台更新服务开启
-				if(SystemCheckResponsibility.startBackRefreshServie()) {
+				if(SystemCheckResponsibility.startBackRefreshService()) {
 					return;
 				}
 				QuickStart.sendMessage("Server Open Successfully\r\n"

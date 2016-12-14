@@ -97,6 +97,13 @@ public interface OrderDataService extends Remote{
 	 * @throws RemoteException
 	 */
 	public ArrayList<OrderPO> findUnexecutedOrder(String date) throws RemoteException;
+	/**
+	 * 更新订单为已评价状态
+	 * @param orderID
+	 * @return ResultMessage
+	 * @throws RemoteException
+	 */
+	public ResultMessage_Order orderEvaluate(String orderID) throws RemoteException;
 	
 	
 }

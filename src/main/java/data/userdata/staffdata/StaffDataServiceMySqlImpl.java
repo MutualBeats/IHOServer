@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
-import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.userdataservice.StaffDataService;
 import po.user.StaffChangePO;
 import po.user.StaffPO;
@@ -24,7 +23,7 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
 	
-	private HotelInfo hotelInfo = DataFactoryMySqlImpl.getDataServiceInstance().getHotelInfo();
+//	private HotelInfo hotelInfo;
 	
 	public StaffDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -73,8 +72,8 @@ public class StaffDataServiceMySqlImpl extends UnicastRemoteObject implements St
 	@Override
 	public ResultMessage_User insert(StaffPO po, String password) throws RemoteException {
 		// 判断酒店是否存在
-		if(hotelInfo.getHotelInfo(po.getHotelID()) == null)
-			return ResultMessage_User.Hotel_Not_Exist;
+//		if(hotelInfo.getHotelInfo(po.getHotelID()) == null)
+//			return ResultMessage_User.Hotel_Not_Exist;
 		//一个酒店只有一个工作人员账号
 		if(getStaffNum(po.getHotelID()) == 1)
 			return ResultMessage_User.Hotel_Have_Staff;

@@ -14,11 +14,12 @@ import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import dataservice.orderdataservice.OrderDataService;
 import po.order.OrderPO;
+import rmihelper.OrderUpdate;
 import util.Time;
 import util.order.OrderState;
 import util.resultmessage.ResultMessage_Order;
 
-public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService {
+public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements OrderDataService, OrderUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -30,19 +31,19 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		super();
 	}
 	
-//	/**
-//	 * 判断orderID是否存在
-//	 * @param orderID
-//	 * @return boolean
-//	 */
-//	private boolean isOrderExists(String orderID) {
-//		sqlManager.getConnection();
-//		String sql = "SELECT order_id FROM order_record WHERE order_id=? ";
-//		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
-//		sqlManager.releaseAll();
-//		
-//		return map.size() > 0;
-//	}
+	/**
+	 * 判断orderID是否存在
+	 * @param orderID
+	 * @return boolean
+	 */
+	private boolean isOrderExists(String orderID) {
+		sqlManager.getConnection();
+		String sql = "SELECT order_id FROM order_record WHERE order_id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{orderID});
+		sqlManager.releaseAll();
+		
+		return map.size() > 0;
+	}
 	
 	/**
 	 * 获得订单状态
@@ -133,6 +134,8 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		params.add("");
 		params.add(po.getNumOfPeople());
 		params.add(po.isChildren());
+		// 是否评价生成时为否
+		params.add(false);
 		
 		sql = sqlManager.appendSQL("INSERT INTO order_record VALUES ", params.size());
 		sqlManager.executeUpdateByList(sql, params);
@@ -452,11 +455,57 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		po.setActualCheckOutDate(map.get("actual_out_date").toString());
 		po.setNumOfPeople(Integer.parseInt(map.get("num_of_people").toString()));
 		po.setChildren(Boolean.parseBoolean(map.get("children").toString()));
+		po.setEvaluate(Boolean.parseBoolean(map.get("is_evaluate").toString()));
 		// 获得订单房间列表和促销策略信息
 		po.setRoomNumberList(getOrderRoom(po.getOrderID()));
 		po.setPromotionIDList(getOrderPromotion(po.getOrderID()));
 		
 		return po;
+	}
+	
+	private void changeOrderState(String orderID, OrderState state) {
+		sqlManager.getConnection();
+		String sql = "UPDATE order_record SET order_state=? WHERE order_id=? ";
+		sqlManager.executeUpdate(sql, new Object[]{state, orderID});
+		sqlManager.releaseConnection();
+	}
+
+	/**
+	 * 检测未执行订单是否超出最晚执行时间
+	 * 如果是，则置为异常
+	 * 返回置为异常的订单列表
+	 */
+	@Override
+	public ArrayList<OrderPO> updateOrderState() {
+		ArrayList<OrderPO> abnormalOrderList = new ArrayList<>();
+		try {
+			ArrayList<OrderPO> unexecutedOrderList = findUnexecutedOrder(Time.getYesterdayDate());
+			String currentTime = Time.getCurrentTime();
+			for (OrderPO order : unexecutedOrderList) {
+				if(order.getOrderState() == OrderState.Unexecuted && order.getLatestETime().compareTo(currentTime) < 0) {
+					changeOrderState(order.getOrderID(), OrderState.Exception);
+					abnormalOrderList.add(order);
+				}
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return abnormalOrderList;
+	}
+
+	@Override
+	public ResultMessage_Order orderEvaluate(String orderID) throws RemoteException {
+		if(!isOrderExists(orderID))
+			return ResultMessage_Order.Order_Not_Exist;
+		
+		sqlManager.getConnection();
+		String sql = "UPDATE order_record SET is_evaluate=? WHERE order_id=? ";
+		boolean res = sqlManager.executeUpdate(sql, new Object[]{true, orderID});
+		sqlManager.releaseConnection();
+		if(!res)
+			return ResultMessage_Order.Order_Already_Evaluate;
+		
+		return ResultMessage_Order.Evaluate_Successful;
 	}
 
 }

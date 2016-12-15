@@ -26,6 +26,13 @@ public interface OrderDataService extends Remote{
 	 */
 	public ResultMessage_Order putUpOrder(String orderID) throws RemoteException;
 	/**
+	 * 申诉订单
+	 * @param orderID
+	 * @return ResultMessage
+	 * @throws RemoteException
+	 */
+	public ResultMessage_Order appealOrder(String orderID) throws RemoteException;
+	/**
 	 * 撤销订单
 	 * 
 	 * @param po

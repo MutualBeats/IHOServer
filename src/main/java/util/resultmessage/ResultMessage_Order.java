@@ -23,6 +23,9 @@ public enum ResultMessage_Order {
 	Put_Up_Failed,
 	Put_Up_Successful,
 	
+	Appeal_Failed,
+	Appeal_Successful,
+	
 	Execute_Failed,
 	Execute_Successful,
 	

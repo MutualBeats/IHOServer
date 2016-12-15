@@ -13,5 +13,6 @@ public enum CreditChangeAction {
 	AbnormalOrder, // 异常订单
 	RepealOrder, // 撤销订单
 	PutUpOrder, // 补登记执行
+	AppealOrder, // 订单申诉
 	Deposit //充值信用
 }

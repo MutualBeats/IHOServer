@@ -62,8 +62,15 @@ public class UtilDataServiceMySqlImpl extends UnicastRemoteObject implements Ide
 	public ResultMessage_Verify checkIdentity(String user_name) {
 		sqlManager.getConnection();
 		
-		String sql = "SELECT id FROM";
-		return null;
+		String sql = "SELECT identity FROM user WHERE id=? ";
+		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{user_name});
+		sqlManager.releaseAll();
+		
+		if(map.size() == 0)
+			return ResultMessage_Verify.USER_NOT_EXIST;
+		
+		String userType = map.get("identity").toString().toUpperCase();
+		return ResultMessage_Verify.valueOf(userType);
 	}
 	
 

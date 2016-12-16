@@ -389,16 +389,34 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		ArrayList<OrderPO> orderList = new ArrayList<OrderPO>();
 		// TODO 时间判断
 		String sql = "SELECT * FROM order_record "
-				+ "WHERE (order_state=? AND check_in_date=?) OR (order_state=? AND finish_time>?) "
-				+ "ORDER BY latest_execute_time DESC";
+				+ "WHERE order_state=? AND check_in_date=?"
+				+ "ORDER BY create_time DESC";
 		
 		List<Object> params = new ArrayList<Object>();
 		params.add(OrderState.Unexecuted.toString());
 		params.add(date);
-		params.add(OrderState.Exception.toString());
-		params.add(date);
 		
 		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
+		sqlManager.releaseAll();
+		
+		for (Map<String, Object> map : mapList) {
+			orderList.add(getOrderPO(map));
+		}
+		
+		return orderList;
+	}
+	
+	/**
+	 * 获得全网站异常订单
+	 */
+	@Override
+	public ArrayList<OrderPO> findAbnormalOrder() throws RemoteException {
+		sqlManager.getConnection();
+		
+		ArrayList<OrderPO> orderList = new ArrayList<OrderPO>();
+		
+		String sql = "SELECT * FROM order_record WHERE order_state=? ORDER BY finish_time DESC";
+		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{OrderState.Exception.toString()});
 		sqlManager.releaseAll();
 		
 		for (Map<String, Object> map : mapList) {
@@ -540,5 +558,6 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		}
 		return todayCheckInOrderList;
 	}
+
 
 }

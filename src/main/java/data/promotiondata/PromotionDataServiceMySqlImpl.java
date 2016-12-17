@@ -50,7 +50,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 	}
 
 	@Override
-	public ResultMessage_Promotion addPromotion(PromotionPO po) throws RemoteException {
+	public String addPromotion(PromotionPO po) throws RemoteException {
 		sqlManager.getConnection();
 		String sql;
 		// 添加promotion记录
@@ -85,7 +85,7 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		// 子表记录添加
 		addSonTable(promotionID, po);
 		
-		return ResultMessage_Promotion.Add_Successful;
+		return promotionID;
 	}
 
 	@Override

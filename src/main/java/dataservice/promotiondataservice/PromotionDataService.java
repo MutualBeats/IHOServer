@@ -14,7 +14,7 @@ public interface PromotionDataService extends Remote{
 	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
-	public ResultMessage_Promotion addPromotion(PromotionPO po) throws RemoteException;
+	public String addPromotion(PromotionPO po) throws RemoteException;
 	/**
 	 * 查看酒店促销策略
 	 * @param hotelID

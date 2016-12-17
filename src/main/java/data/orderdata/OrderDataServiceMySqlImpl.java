@@ -389,7 +389,7 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		ArrayList<OrderPO> orderList = new ArrayList<OrderPO>();
 		// TODO 时间判断
 		String sql = "SELECT * FROM order_record "
-				+ "WHERE order_state=? AND check_in_date=?"
+				+ "WHERE order_state=? AND check_in_date=? "
 				+ "ORDER BY create_time DESC";
 		
 		List<Object> params = new ArrayList<Object>();

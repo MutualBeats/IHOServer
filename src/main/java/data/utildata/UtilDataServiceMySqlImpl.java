@@ -10,7 +10,6 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.utildataservice.Identify;
-import rmihelper.QuickStart;
 import util.resultmessage.ResultMessage_Verify;
 
 public class UtilDataServiceMySqlImpl extends UnicastRemoteObject implements Identify {

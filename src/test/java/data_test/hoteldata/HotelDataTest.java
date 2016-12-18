@@ -18,7 +18,6 @@ import data.hoteldata.HotelDataServiceMySqlImpl;
 import dataservice.hoteldataservice.HotelDataService;
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
-import util.hotel.SearchCondition;
 
 public class HotelDataTest {
 	private HotelDataService hotelDataService;

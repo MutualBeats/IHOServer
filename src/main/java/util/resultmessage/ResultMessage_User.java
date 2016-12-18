@@ -19,8 +19,8 @@ public enum ResultMessage_User {
 	OriginalMember_Exist,
 	BusinessMember_Exist,
 	
-	AddSucccess,
-	AddFail,
+	PEOPLE_ADD_SUCCESS,
+	PEOPLE_ADD_FAILED,
 	Account_Exist,
 	
 	HotelID_Invalid,

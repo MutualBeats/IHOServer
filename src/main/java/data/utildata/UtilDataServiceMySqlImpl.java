@@ -10,6 +10,7 @@ import java.util.Map;
 
 import data.databaseutility.SqlManager;
 import dataservice.utildataservice.Identify;
+import rmihelper.QuickStart;
 import util.resultmessage.ResultMessage_Verify;
 
 public class UtilDataServiceMySqlImpl extends UnicastRemoteObject implements Identify {
@@ -51,7 +52,6 @@ public class UtilDataServiceMySqlImpl extends UnicastRemoteObject implements Ide
 		String sql = "SELECT id FROM user WHERE id=? ";
 		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{user_name});
 		sqlManager.releaseAll();
-		
 		if(map.size() == 0)
 			return ResultMessage_Verify.USER_NOT_EXIST;
 		

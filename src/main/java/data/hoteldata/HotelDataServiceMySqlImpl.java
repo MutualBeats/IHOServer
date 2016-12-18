@@ -44,9 +44,6 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	// TODO 根据房间信息搜索
 	@Override
 	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException {
-		// 必须明确地址和商圈才能进行搜索
-//		if (sc.region == null || sc.businessDistrict == null)
-//			return null;
 		sqlManager.getConnection();
 
 		ArrayList<HotelPO> hotelList = new ArrayList<HotelPO>();
@@ -54,10 +51,6 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		List<Object> params = new ArrayList<Object>();
 		params.add(sc.region);
 		params.add(sc.businessDistrict);
-//		if (sc.address != null) {
-//			sql += " AND address=? ";
-//			params.add(sc.address);
-//		}
 		if (sc.hotelName != null) {
 			sql += " AND hotel_name=? ";
 			params.add(sc.hotelName);
@@ -78,6 +71,11 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		}
 		sqlManager.releaseAll();
 
+		if(hotelList.size() == 0)
+			return hotelList;
+		
+		// TODO 其他条件
+		
 		return hotelList;
 	}
 

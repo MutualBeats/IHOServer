@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.hoteldataservice.HotelDataService;
 import po.hotel.HotelEvaluationPO;
 import po.hotel.HotelPO;
@@ -25,6 +26,8 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 	private SqlManager sqlManager = SqlManager.getInstance();
 	
 	private static final int HOTEL_ID_LENGTH = 8;
+	
+	private RoomInfo room;
 
 	public HotelDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -40,43 +43,72 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 
 		return getHotelPO(map);
 	}
+	
+	private boolean checkHotelCondition(HotelPO hotel, SearchCondition sc) {
+		if(!sc.region.equals(hotel.getRegion()) || !sc.businessDistrict.equals(hotel.getBusinessDistrict()))
+			return false;
+		if(sc.hotelName != null && !hotel.getHotelName().equals(sc.hotelName))
+			return false;
+		if(sc.starLevel >= 0 && hotel.getStarLevel() < sc.starLevel)
+			return false;
+		if(sc.score > 0 && hotel.getScore() < sc.score)
+			return false;
+		
+		return true;
+	}
 
-	// TODO 根据房间信息搜索
 	@Override
 	public ArrayList<HotelPO> findHotelByCondition(SearchCondition sc) throws RemoteException {
 		sqlManager.getConnection();
-
+		
 		ArrayList<HotelPO> hotelList = new ArrayList<HotelPO>();
-		String sql = "SELECT * FROM hotel WHERE region=? AND business_district=? ";
-		List<Object> params = new ArrayList<Object>();
-		params.add(sc.region);
-		params.add(sc.businessDistrict);
-		if (sc.hotelName != null) {
-			sql += " AND hotel_name=? ";
-			params.add(sc.hotelName);
+		// 预定过
+		if(sc.order_before) {
+			String sql = "SELECT hotel_id FROM order_record WHERE client_id=? ";
+			List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{sc.clientID});
+			for (Map<String, Object> map : mapList) {
+				HotelPO hotel = getHotelPO(map);
+				if(checkHotelCondition(hotel, sc))
+					hotelList.add(hotel);
+			}
 		}
-		if (sc.starLevel >= 0) {
-			sql += " AND star_level=? ";
-			params.add(sc.starLevel);
-		}
-		if (sc.score >= 0) {
-			sql += " AND score>=? ";
-			params.add(sc.score);
-		}
-		sql += " ORDER BY score DESC";
-
-		ArrayList<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
-		for (Map<String, Object> map : mapList) {
-			hotelList.add(getHotelPO(map));
+		// 未预定过
+		else {
+			String sql = "SELECT * FROM hotel WHERE region=? AND business_district=? ";
+			List<Object> params = new ArrayList<Object>();
+			params.add(sc.region);
+			params.add(sc.businessDistrict);
+			if (sc.hotelName != null) {
+				sql += " AND hotel_name=? ";
+				params.add(sc.hotelName);
+			}
+			if (sc.starLevel >= 0) {
+				sql += " AND star_level=? ";
+				params.add(sc.starLevel);
+			}
+			if (sc.score >= 0) {
+				sql += " AND score>=? ";
+				params.add(sc.score);
+			}
+			sql += " ORDER BY score DESC";
+			ArrayList<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
+			for (Map<String, Object> map : mapList)
+				hotelList.add(getHotelPO(map));
 		}
 		sqlManager.releaseAll();
-
+		
 		if(hotelList.size() == 0)
 			return hotelList;
 		
-		// TODO 其他条件
+		// 房间条件
+		ArrayList<HotelPO> searchResult = new ArrayList<>();
+		checkRoom();
+		for (HotelPO hotel : hotelList) {
+			if(room.checkRoomCondition(hotel.getHotelID(), sc))
+				searchResult.add(hotel);
+		}
 		
-		return hotelList;
+		return searchResult;
 	}
 
 	@Override
@@ -243,6 +275,11 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		po.setEvaluateInfo(map.get("evaluate_info").toString());
 
 		return po;
+	}
+	
+	private void checkRoom() throws RemoteException {
+		if(room == null) 
+			room = DataFactoryMySqlImpl.getDataServiceInstance().getRoomInfo();
 	}
 
 }

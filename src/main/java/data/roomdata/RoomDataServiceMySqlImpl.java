@@ -11,17 +11,19 @@ import java.util.List;
 import java.util.Map;
 
 import data.databaseutility.SqlManager;
+import data.hoteldata.RoomInfo;
 import dataservice.roomdataservice.RoomDataService;
 import po.order.OrderPO;
 import po.room.RoomPO;
 import po.room.RoomRecordPO;
 import rmihelper.RoomUpdate;
 import util.Time;
+import util.hotel.SearchCondition;
 import util.resultmessage.ResultMessage_Room;
 import util.room.RoomState;
 import util.room.RoomType;
 
-public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService, RoomUpdate {
+public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements RoomDataService, RoomUpdate, RoomInfo {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -414,7 +416,21 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	@Override
+	public boolean checkRoomCondition(String hotelID, SearchCondition sc) {
+		sqlManager.getConnection();
+		String sql = "SELECT * FROM room WHERE hotel_id=? AND room_type=? AND room_price>=? AND room_price<=? ";
+		List<Object> params = new ArrayList<>();
+		params.add(sc.type.toString());
+		params.add(sc.min_price);
+		params.add(sc.max_price);
+		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
+		sqlManager.releaseAll();
+		if(mapList.size() > 0)
+			return true;
+		return false;
 	}
 
 	@Override
@@ -424,5 +440,6 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 			updateRoomState(todayCheckInOrder.getHotelID(), roomNumber, RoomState.Reserved);
 		}
 	}
+
 
 }

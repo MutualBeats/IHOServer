@@ -10,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import data.creditdata.ClientCreditUpdate;
 import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
+import data.hoteldata.RoomInfo;
 import data.orderdata.OrderDataServiceMySqlImpl;
 import data.promotiondata.PromotionDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
@@ -190,6 +191,14 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 
 	@Override
 	public RoomUpdate getRoomUpdate() throws RemoteException {
+		if(roomDatabase == null) {
+			roomDatabase = new RoomDataServiceMySqlImpl();
+		}
+		return roomDatabase;
+	}
+
+	@Override
+	public RoomInfo getRoomInfo() throws RemoteException {
 		if(roomDatabase == null) {
 			roomDatabase = new RoomDataServiceMySqlImpl();
 		}

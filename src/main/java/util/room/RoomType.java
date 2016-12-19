@@ -4,5 +4,6 @@ public enum RoomType {
 	Single,
 	Double,
 	Triple,
-	Four
+	Four,
+	ALL
 }

@@ -65,9 +65,11 @@ public class SearchCondition implements Serializable {
 	 * 是否曾经预定
 	 */
 	public boolean order_before;
+	
+	public String clientID;
 
 	public SearchCondition(String region, String businessDistrict, String hotelName, int starLevel, double score,
-			String in_time, String out_time, int min_price, int max_price, RoomType type, boolean order_before) {
+			String in_time, String out_time, int min_price, int max_price, RoomType type, boolean order_before, String clientID) {
 		super();
 		this.region = region;
 		this.businessDistrict = businessDistrict;
@@ -80,6 +82,7 @@ public class SearchCondition implements Serializable {
 		this.max_price = max_price;
 		this.type = type;
 		this.order_before = order_before;
+		this.clientID = clientID;
 	}
 
 	

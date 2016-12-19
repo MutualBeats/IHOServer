@@ -50,7 +50,7 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		params.add(po.getName());
 		params.add(po.getContactWay());
 		params.add(0);
-		params.add(MemberType.Not);
+		params.add(MemberType.Not.toString());
 		params.add(0);
 		params.add("");
 		sql = sqlManager.appendSQL(sql, params.size());

@@ -49,8 +49,8 @@ public class SqlManager {
 			USER = prop.getProperty("db_user");
 			PASSWORD = prop.getProperty("db_password");
 			DB = prop.getProperty("db");
-			URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DB + "?"
-					+ "useUnicode=true&characterEncoding=UTF8&useSSL=false";
+			URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DB 
+					+"?serverTimezone=UTC&useSSL=false";
 		} catch (Exception e) {
 			System.out.println(e);
 		}

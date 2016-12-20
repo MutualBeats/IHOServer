@@ -268,9 +268,16 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		sqlManager.getConnection();
 		
-		// TODO 待测试
-		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? AND estimate_out_date>=? ORDER BY check_in_date";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber, Time.getCurrentDate()});
+		String sql = "SELECT * FROM room_record WHERE hotel_id=? AND room_number=? "
+				+ " AND (record_condition=? OR record_condition=?) "
+				+ " ORDER BY check_in_date";
+		List<Object> params = new ArrayList<Object>();
+		params.add(hotelID);
+		params.add(roomNumber);
+		params.add(RoomRecordCondition.unexecuted.toString());
+		params.add(RoomRecordCondition.underway.toString());
+		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
+		sqlManager.releaseAll();
 		
 		ArrayList<RoomRecordPO> roomRecordList = new ArrayList<RoomRecordPO>();
 		for (Map<String, Object> map : mapList)

@@ -189,12 +189,11 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 	
 	/**
 	 * 申诉订单
-	 * TODO 未测试
 	 */
 	@Override
 	public ResultMessage_Order appealOrder(String orderID) throws RemoteException {
 		sqlManager.getConnection();
-		String sql = "UPDATE order SET order_state=?, finish_time=? WHERE order_id=?";
+		String sql = "UPDATE order_record SET order_state=?, finish_time=? WHERE order_id=?";
 		List<Object> params = new ArrayList<Object>();
 		params.add(OrderState.Canceled.toString());
 		params.add(Time.getCurrentTime());

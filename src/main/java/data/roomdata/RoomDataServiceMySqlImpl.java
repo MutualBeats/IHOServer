@@ -420,12 +420,15 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public boolean checkRoomCondition(String hotelID, SearchCondition sc) throws RemoteException {
 		sqlManager.getConnection();
-		String sql = "SELECT * FROM room WHERE hotel_id=? AND room_type=? AND price>=? AND price<=? ";
+		String sql = "SELECT * FROM room WHERE hotel_id=? AND price>=? AND price<=? ";
 		List<Object> params = new ArrayList<>();
 		params.add(hotelID);
-		params.add(sc.type.toString());
 		params.add(sc.min_price);
 		params.add(sc.max_price);
+		if(sc.type != RoomType.ALL) {
+			sql += " AND room_type=? ";
+			params.add(sc.type.ordinal());
+		}
 		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
 		sqlManager.releaseAll();
 		

@@ -13,6 +13,8 @@ public class SearchCondition implements Serializable {
 	 * version id
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public String clientID;
 	/**
 	 * 酒店所属地区
 	 */
@@ -35,12 +37,12 @@ public class SearchCondition implements Serializable {
 	public double score;
 
 	/*-------------------------------------------*/
-	
+
 	/**
 	 * 入住日期
 	 */
 	public String in_time;
-	
+
 	/**
 	 * 离开日期
 	 */
@@ -65,12 +67,12 @@ public class SearchCondition implements Serializable {
 	 * 是否曾经预定
 	 */
 	public boolean order_before;
-	
-	public String clientID;
 
-	public SearchCondition(String region, String businessDistrict, String hotelName, int starLevel, double score,
-			String in_time, String out_time, int min_price, int max_price, RoomType type, boolean order_before, String clientID) {
+	public SearchCondition(String clientID, String region, String businessDistrict, String hotelName, int starLevel,
+			double score, String in_time, String out_time, int min_price, int max_price, RoomType type,
+			boolean order_before) {
 		super();
+		this.clientID = clientID;
 		this.region = region;
 		this.businessDistrict = businessDistrict;
 		this.hotelName = hotelName;
@@ -82,8 +84,6 @@ public class SearchCondition implements Serializable {
 		this.max_price = max_price;
 		this.type = type;
 		this.order_before = order_before;
-		this.clientID = clientID;
 	}
 
-	
 }

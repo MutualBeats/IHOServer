@@ -4,23 +4,28 @@
  */
 package datatest;
 
-import data.hoteldata.HotelDataServiceMySqlImpl;
-import po.hotel.HotelPO;
+import java.util.ArrayList;
+
+import data.promotiondata.PromotionDataServiceMySqlImpl;
 
 public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
-		HotelDataServiceMySqlImpl hotel = new HotelDataServiceMySqlImpl();
 		
-		HotelPO po = new HotelPO();
-		po.setHotelName("测试");
-		po.setAddress("测试数据库酒店id自增");
-		po.setRegion("测试地区");
-		po.setBusinessDistrict("测试商圈");
-		po.setScore(4);
-		po.setStarLevel(0);
+		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
 		
-		System.out.println(hotel.addHotel(po));
+		ArrayList<Integer> level = new ArrayList<>();
+		level.add(0);
+		level.add(200);
+		level.add(400);
+		ArrayList<Double> discount = new ArrayList<>();
+		discount.add(10.0);
+		discount.add(9.5);
+		discount.add(9.0);
+		discount.add(8.5);
+		promotion.levelMake(level, discount);
+		
+		
 	}
 
 }

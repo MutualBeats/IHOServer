@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.promotion.DistrictPromotionPO;
 import po.promotion.EnterprisePromotionPO;
@@ -195,7 +196,9 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 			sqlManager.executeUpdateByList(sql, params);
 		}
 		sqlManager.releaseConnection();
-		// TODO 更新所有客户等级
+		
+		// 更新所有客户等级
+		DataFactoryMySqlImpl.getDataServiceInstance().getMemberLevelUpdate().updateMemberLevel(level);
 		
 		return ResultMessage_Promotion.Level_Make_Successful;
 	}

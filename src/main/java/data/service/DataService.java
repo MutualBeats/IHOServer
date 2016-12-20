@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import data.creditdata.ClientCreditUpdate;
 import data.hoteldata.RoomInfo;
+import data.promotiondata.MemberLevelUpdate;
 import rmihelper.ClientInfo;
 import rmihelper.CreditUpdate;
 import rmihelper.OrderUpdate;
@@ -22,6 +23,8 @@ public interface DataService {
 	public CreditUpdate getCreditUpdate() throws RemoteException;
 	
 	public ClientInfo getClientInfo() throws RemoteException;
+	
+	public MemberLevelUpdate getMemberLevelUpdate() throws RemoteException;
 	
 	public RoomUpdate getRoomUpdate() throws RemoteException;
 	

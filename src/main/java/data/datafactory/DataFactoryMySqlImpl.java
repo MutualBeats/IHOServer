@@ -12,6 +12,7 @@ import data.creditdata.CreditDataServiceMySqlImpl;
 import data.hoteldata.HotelDataServiceMySqlImpl;
 import data.hoteldata.RoomInfo;
 import data.orderdata.OrderDataServiceMySqlImpl;
+import data.promotiondata.MemberLevelUpdate;
 import data.promotiondata.PromotionDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
 import data.service.DataService;
@@ -203,6 +204,14 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 			roomDatabase = new RoomDataServiceMySqlImpl();
 		}
 		return roomDatabase;
+	}
+
+	@Override
+	public MemberLevelUpdate getMemberLevelUpdate() throws RemoteException {
+		if(clientDatabase == null) {
+			clientDatabase = new ClientDataServiceMySqlImpl();
+		}
+		return clientDatabase;
 	}
 
 

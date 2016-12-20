@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.creditdata.ClientCreditUpdate;
 import data.databaseutility.SqlManager;
+import data.promotiondata.MemberLevelUpdate;
 import dataservice.userdataservice.ClientDataService;
 import po.user.ClientInfoChangePO;
 import po.user.ClientPO;
@@ -22,7 +23,7 @@ import util.resultmessage.ResultMessage_User;
 import util.user.MemberType;
 import util.user.UserType;
 
-public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate, ClientInfo {
+public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements ClientDataService, ClientCreditUpdate, ClientInfo, MemberLevelUpdate {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -193,6 +194,28 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 			e.printStackTrace();
 		}
 		return clientPO;
+	}
+
+	/**
+	 * 更新所有客户会员等级
+	 */
+	@Override
+	public void updateMemberLevel(ArrayList<Integer> memberLevel) {
+		sqlManager.getConnection();
+		String sql;
+		List<Object> params = new ArrayList<Object>();
+		
+		for (int i = 0; i <= memberLevel.size(); i++) {
+			sql = "UPDATE client SET vip_level=? WHERE credit>? AND credit<=? AND member_type<>? ";
+			params.clear();
+			params.add(i);
+			params.add(i == 0 ? Integer.MIN_VALUE : memberLevel.get(i - 1));
+			params.add(i == memberLevel.size() ? Integer.MAX_VALUE : memberLevel.get(i));
+			params.add(MemberType.Not.toString());
+			sqlManager.executeUpdateByList(sql, params);
+		}
+		
+		sqlManager.releaseConnection();
 	}
 
 }

@@ -282,7 +282,6 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	@Override
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException {
 		// 判断能否添加记录
-		// TODO 待测试
 		ArrayList<RoomRecordPO> recordList = getOrderRecord(po.getHotelID(), po.getRoomNumber());
 		if(recordList == null)
 			return ResultMessage_Room.Room_Not_Exist;
@@ -419,17 +418,39 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	}
 	
 	@Override
-	public boolean checkRoomCondition(String hotelID, SearchCondition sc) {
+	public boolean checkRoomCondition(String hotelID, SearchCondition sc) throws RemoteException {
 		sqlManager.getConnection();
-		String sql = "SELECT * FROM room WHERE hotel_id=? AND room_type=? AND room_price>=? AND room_price<=? ";
+		String sql = "SELECT * FROM room WHERE hotel_id=? AND room_type=? AND price>=? AND price<=? ";
 		List<Object> params = new ArrayList<>();
+		params.add(hotelID);
 		params.add(sc.type.toString());
 		params.add(sc.min_price);
 		params.add(sc.max_price);
 		List<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
 		sqlManager.releaseAll();
-		if(mapList.size() > 0)
-			return true;
+		
+		// 未找到合适房间
+		if(mapList.size() == 0)
+			return false;
+		
+		// 判断所选日期能否预订
+		if(sc.in_time != null && sc.out_time != null) {
+			for (Map<String, Object> map : mapList) {
+				ArrayList<RoomRecordPO> roomRecordList = getOrderRecord(hotelID, map.get("room_number").toString());
+				boolean isTimeConflict = false;
+				for (RoomRecordPO each : roomRecordList) {
+					if(sc.out_time.compareTo(each.getCheckInDate()) < 0
+						|| sc.in_time.compareTo(each.getEstimateCheckOutDate()) > 0)
+						continue;
+					else {
+						isTimeConflict = true;
+						break;
+					}
+				}
+				if(!isTimeConflict)
+					return true;
+			}
+		}
 		return false;
 	}
 
@@ -438,6 +459,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		// 更新房间状态为已预订
 		for (String roomNumber : todayCheckInOrder.getRoomNumberList()) {
 			updateRoomState(todayCheckInOrder.getHotelID(), roomNumber, RoomState.Reserved);
+			
 		}
 	}
 

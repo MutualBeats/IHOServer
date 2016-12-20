@@ -49,9 +49,9 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 			return false;
 		if(sc.hotelName != null && !hotel.getHotelName().equals(sc.hotelName))
 			return false;
-		if(sc.starLevel >= 0 && hotel.getStarLevel() < sc.starLevel)
+		if(sc.starLevel >= 0 && hotel.getStarLevel() != sc.starLevel)
 			return false;
-		if(sc.score > 0 && hotel.getScore() < sc.score)
+		if(hotel.getScore() < sc.score)
 			return false;
 		
 		return true;
@@ -66,18 +66,20 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		if(sc.order_before) {
 			String sql = "SELECT hotel_id FROM order_record WHERE client_id=? ";
 			List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{sc.clientID});
+			
 			for (Map<String, Object> map : mapList) {
-				HotelPO hotel = getHotelPO(map);
+				HotelPO hotel = getHotelInfo(map.get("hotel_id").toString());
 				if(checkHotelCondition(hotel, sc))
 					hotelList.add(hotel);
 			}
 		}
 		// 未预定过
 		else {
-			String sql = "SELECT * FROM hotel WHERE region=? AND business_district=? ";
+			String sql = "SELECT * FROM hotel WHERE region=? AND business_district=? AND score>=?";
 			List<Object> params = new ArrayList<Object>();
 			params.add(sc.region);
 			params.add(sc.businessDistrict);
+			params.add(sc.score);
 			if (sc.hotelName != null) {
 				sql += " AND hotel_name=? ";
 				params.add(sc.hotelName);
@@ -85,10 +87,6 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 			if (sc.starLevel >= 0) {
 				sql += " AND star_level=? ";
 				params.add(sc.starLevel);
-			}
-			if (sc.score >= 0) {
-				sql += " AND score>=? ";
-				params.add(sc.score);
 			}
 			sql += " ORDER BY score DESC";
 			ArrayList<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);

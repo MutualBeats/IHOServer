@@ -6,25 +6,20 @@ package datatest;
 
 import java.util.ArrayList;
 
-import data.promotiondata.PromotionDataServiceMySqlImpl;
+import data.hoteldata.HotelDataServiceMySqlImpl;
+import po.hotel.HotelPO;
+import util.hotel.SearchCondition;
+import util.room.RoomType;
 
 public class DataTest {
 	
 	public static void main(String[] args) throws Exception {
+		HotelDataServiceMySqlImpl hotel = new HotelDataServiceMySqlImpl();
 		
-		PromotionDataServiceMySqlImpl promotion = new PromotionDataServiceMySqlImpl();
+		SearchCondition searchCondition =  new SearchCondition("江苏省 南京市 南京市", "鼓楼商圈", null, -1, -1, null, null, 0, Integer.MAX_VALUE, RoomType.ALL, false, null);
 		
-		ArrayList<Integer> level = new ArrayList<>();
-		level.add(0);
-		level.add(200);
-		level.add(400);
-		ArrayList<Double> discount = new ArrayList<>();
-		discount.add(10.0);
-		discount.add(9.5);
-		discount.add(9.0);
-		discount.add(8.5);
-		promotion.levelMake(level, discount);
-		
+		ArrayList<HotelPO> hotelList = hotel.findHotelByCondition(searchCondition);
+		System.out.println(hotelList.size());
 		
 	}
 

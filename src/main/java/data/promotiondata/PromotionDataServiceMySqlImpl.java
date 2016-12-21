@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.mysql.cj.mysqlx.protobuf.MysqlxCrud.Delete;
+
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;
@@ -141,8 +143,10 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		sql = "DELETE FROM promotion WHERE promotion_id=? ";
 		boolean res = sqlManager.executeUpdate(sql, param);
 		// 错误：促销策略id不存在
-		if(!res)
+		if(!res) {
+			sqlManager.releaseConnection();
 			return ResultMessage_Promotion.Promotion_Not_Exist;
+		}
 		
 		sql = "DELETE FROM promotion_district WHERE promotion_id=? ";
 		sqlManager.executeUpdate(sql, param);

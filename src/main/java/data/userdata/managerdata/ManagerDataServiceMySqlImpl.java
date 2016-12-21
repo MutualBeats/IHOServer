@@ -35,8 +35,9 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 	@Override
 	public ResultMessage_User changeManagerInfo(ManagerPO po) throws RemoteException {
 		sqlManager.getConnection();
-		String sql = "UPDATE manager SET manager_name=? WHERE manager_id=? ";
-		boolean res = sqlManager.executeUpdate(sql, new Object[]{po.getManagername(), po.getManagerID()});
+		String sql = "UPDATE manager SET manager_name=?, contact_way=? WHERE manager_id=? ";
+		boolean res = sqlManager.executeUpdate(sql, new Object[]{po.getManagerName(), po.getContactWay(), po.getManagerID()});
+		sqlManager.releaseConnection();
 		if(!res)
 			return ResultMessage_User.Account_Not_Exist;
 		return ResultMessage_User.UpdateSuccess;
@@ -47,7 +48,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 			return null;
 		ManagerPO po = new ManagerPO();
 		po.setManagerID(map.get("manager_id").toString());
-		po.setManagername(map.get("manager_name").toString());
+		po.setManagerName(map.get("manager_name").toString());
 		return po;
 	}
 	

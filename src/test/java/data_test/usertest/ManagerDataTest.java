@@ -32,7 +32,7 @@ public class ManagerDataTest {
 		ManagerPO po;
 		try {
 			po = managerDataService.getManagerInfo();
-			assertEquals("manager_ac", po.getManagername());
+			assertEquals("manager_ac", po.getManagerName());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

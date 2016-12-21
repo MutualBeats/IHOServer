@@ -15,19 +15,24 @@ public class ManagerPO implements Serializable {
 	 */
 	private String managerID;
 	/**
-	 * 网站营销管理人员姓名
+	 * 网站管理人员姓名
 	 */
 	private String managerName;
+	/**
+	 * 网站管理人员联系方式
+	 */
+	private String contactWay;
 	
 	/**
-	 * 构造方法
 	 * @param managerID
-	 * @param managername
+	 * @param managerName
+	 * @param contactWay
 	 */
-	public ManagerPO(String managerID, String managername) {
+	public ManagerPO(String managerID, String managerName, String contactWay) {
 		super();
 		this.managerID = managerID;
-		this.managerName = managername;
+		this.managerName = managerName;
+		this.contactWay = contactWay;
 	}
 	
 	public ManagerPO() {
@@ -39,10 +44,17 @@ public class ManagerPO implements Serializable {
 	public void setManagerID(String managerID) {
 		this.managerID = managerID;
 	}
-	public String getManagername() {
+	public String getManagerName() {
 		return managerName;
 	}
-	public void setManagername(String managername) {
-		this.managerName = managername;
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
+	public String getContactWay() {
+		return contactWay;
+	}
+	public void setContactWay(String contactWay) {
+		this.contactWay = contactWay;
+	}
+	
 }

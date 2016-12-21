@@ -236,7 +236,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 
 		String sql = "UPDATE hotel SET score=?, total_evaluation=? WHERE hotel_id=?";
 
-		score = (double) (score * totalEvaluation + newScore) / (totalEvaluation + 1);
+		score = (int)(((double) (score * totalEvaluation + newScore) / (totalEvaluation + 1)) * 100) / 100.0;
 		totalEvaluation++;
 
 		sqlManager.executeUpdate(sql, new Object[] { score, totalEvaluation, hotelID });

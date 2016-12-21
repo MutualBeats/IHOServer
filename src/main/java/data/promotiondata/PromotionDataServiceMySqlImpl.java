@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.mysql.cj.mysqlx.protobuf.MysqlxCrud.Delete;
-
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;

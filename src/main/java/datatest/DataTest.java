@@ -17,17 +17,17 @@ public class DataTest {
 		HotelDataServiceMySqlImpl hotel = new HotelDataServiceMySqlImpl();
 		
 		SearchCondition searchCondition =  new SearchCondition(
+				"huangxiao", 
+				"江苏省 南通市 如皋市", 
+				"如城商圈", 
 				null, 
-				"江苏省 南京市 南京市", 
-				"鼓楼商圈", 
-				null, 
-				5, 
-				0, 
-				null, null, 
-				0, Integer.MAX_VALUE, 
+				-1, 
+				-1, 
+				"2018/12/12", "2018/12/12", 
+				-1, Integer.MAX_VALUE, 
 				RoomType.ALL, 
 				false);
-		
+
 		ArrayList<HotelPO> hotelList = hotel.findHotelByCondition(searchCondition);
 		System.out.println(hotelList.size());
 		

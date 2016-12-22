@@ -49,6 +49,7 @@ public class ManagerDataServiceMySqlImpl extends UnicastRemoteObject implements 
 		ManagerPO po = new ManagerPO();
 		po.setManagerID(map.get("manager_id").toString());
 		po.setManagerName(map.get("manager_name").toString());
+		po.setContactWay(map.get("contact_way").toString());
 		return po;
 	}
 	

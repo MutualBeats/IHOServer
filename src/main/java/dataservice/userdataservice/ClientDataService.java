@@ -12,13 +12,20 @@ import util.resultmessage.ResultMessage_User;
 
 public interface ClientDataService extends Remote{
 	
+	/**
+	 * 用户注册
+	 * 
+	 * @param po
+	 * @return ResultMessage
+	 * @throws RemoteException
+	 */
 	public ResultMessage_User regist(ClientRegistPO po) throws RemoteException;
-	
+
 	/**
 	 * 查询用户
 	 * 
 	 * @param clientID
-	 * @return
+	 * @return ClientPO
 	 * @throws RemoteException
 	 */
 	public ClientPO queryClient(String clientID) throws RemoteException;
@@ -27,7 +34,7 @@ public interface ClientDataService extends Remote{
 	 * 更新用户信息
 	 * 
 	 * @param changePO
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_User updateClientInfo(ClientInfoChangePO changePO) throws RemoteException;
@@ -36,16 +43,17 @@ public interface ClientDataService extends Remote{
 	 * Register Member
 	 * 
 	 * @param po
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_User registerMember(MemberPO po) throws RemoteException;
-	
+
 	/**
-	 * Get all the client info 
+	 * Get all the client info
 	 * 
-	 * @return
+	 * @return ArrayList<ClientPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<ClientPO> getClientList() throws RemoteException;
+	
 }

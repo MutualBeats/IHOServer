@@ -52,23 +52,6 @@ public class MarketerDataServiceMySqlImpl extends UnicastRemoteObject implements
 		
 		return ResultMessage_User.UpdateSuccess;
 	}
-
-	@Override
-	public ResultMessage_User find(String ID, String password) throws RemoteException {
-		sqlManager.getConnection();
-		
-		String sql = "SELECT password FROM marketer WHERE marketer_id=?";
-		Map<String, Object> map = sqlManager.querySimple(sql, new Object[]{ID});
-		sqlManager.releaseAll();
-		
-		if(map.size() == 0)
-			return ResultMessage_User.Account_Not_Exist;
-		
-		if(!map.get("password").toString().equals(password))
-			return ResultMessage_User.PasswordWrong;
-		
-		return ResultMessage_User.LoginSuccess;
-	}
 	
 	@Override
 	public ResultMessage_User insert(MarketerPO po,String password) throws RemoteException {

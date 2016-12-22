@@ -13,7 +13,6 @@ import org.junit.Test;
 import data.userdata.marketerdata.MarketerDataServiceMySqlImpl;
 import dataservice.userdataservice.MarketerDataService;
 import po.user.MarketerPO;
-import util.resultmessage.ResultMessage_User;
 
 public class MarketerDataTest {
 	private MarketerDataService marketerDataService;
@@ -29,18 +28,7 @@ public class MarketerDataTest {
 	
 	@Test
 	public void testFind() {
-		ResultMessage_User res1 = null, res2 = null, res3 = null;
-		try {
-			res1 = marketerDataService.find("0000000001", "test");
-			res2 = marketerDataService.find("1", "test");
-			res3 = marketerDataService.find("0000000001", "t");
-		} catch (Exception e) {
-			fail("Exception!");
-			e.printStackTrace();
-		}
-		assertEquals(res1, ResultMessage_User.LoginSuccess);
-		assertEquals(res2, ResultMessage_User.Account_Not_Exist);
-		assertEquals(res3, ResultMessage_User.PasswordWrong);
+
 	}
 
 	@Test

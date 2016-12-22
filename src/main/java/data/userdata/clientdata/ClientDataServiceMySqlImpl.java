@@ -12,6 +12,7 @@ import java.util.Map;
 
 import data.creditdata.ClientCreditUpdate;
 import data.databaseutility.SqlManager;
+import data.datafactory.DataFactoryMySqlImpl;
 import data.promotiondata.MemberLevelUpdate;
 import dataservice.userdataservice.ClientDataService;
 import po.user.ClientInfoChangePO;
@@ -28,6 +29,8 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
+	
+	private GetMemberLevel memberLevel;
 		
 	public ClientDataServiceMySqlImpl() throws RemoteException {
 		super();
@@ -122,7 +125,6 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 		sqlManager.releaseConnection();
 		
 		if(!result)
-			// TODO 注册何种会员判断
 			return ResultMessage_User.Regitster_Failed;
 		return ResultMessage_User.Register_Success;
 	}
@@ -172,11 +174,23 @@ public class ClientDataServiceMySqlImpl extends UnicastRemoteObject implements C
 
 	@Override
 	public ResultMessage_User creditUpdate(String clientID, int newCredit) {
+		// 获取新信用对应会员等级
+		int newLevel = 0;
+		if(memberLevel == null) {
+			try {
+				memberLevel = DataFactoryMySqlImpl.getDataServiceInstance().getMemberLevel();
+				newLevel = memberLevel.getMemberLevel(newCredit);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				return ResultMessage_User.Net_Error;
+			}
+		}
+		
 		sqlManager.getConnection();
 		
-		String sql = "UPDATE client SET credit=? WHERE client_id=? ";
+		String sql = "UPDATE client SET credit=?, vip_level=? WHERE client_id=? ";
 		
-		boolean res = sqlManager.executeUpdate(sql, new Object[]{newCredit, clientID});
+		boolean res = sqlManager.executeUpdate(sql, new Object[]{newCredit, newLevel, clientID});
 		sqlManager.releaseConnection();
 		
 		if(!res)

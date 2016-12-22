@@ -17,6 +17,7 @@ import data.promotiondata.PromotionDataServiceMySqlImpl;
 import data.roomdata.RoomDataServiceMySqlImpl;
 import data.service.DataService;
 import data.userdata.clientdata.ClientDataServiceMySqlImpl;
+import data.userdata.clientdata.GetMemberLevel;
 import data.userdata.managerdata.ManagerDataServiceMySqlImpl;
 import data.userdata.marketerdata.MarketerDataServiceMySqlImpl;
 import data.userdata.staffdata.StaffDataServiceMySqlImpl;
@@ -212,6 +213,14 @@ public class DataFactoryMySqlImpl extends UnicastRemoteObject implements DataFac
 			clientDatabase = new ClientDataServiceMySqlImpl();
 		}
 		return clientDatabase;
+	}
+
+	@Override
+	public GetMemberLevel getMemberLevel() throws RemoteException {
+		if(promotionDatabase == null) {
+			promotionDatabase = new PromotionDataServiceMySqlImpl();
+		}
+		return promotionDatabase;
 	}
 
 

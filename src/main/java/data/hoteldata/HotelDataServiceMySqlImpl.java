@@ -66,7 +66,7 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 		if(sc.order_before) {
 			String sql = "SELECT hotel_id FROM order_record WHERE client_id=? ";
 			List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{sc.clientID});
-			
+			sqlManager.releaseAll();
 			for (Map<String, Object> map : mapList) {
 				HotelPO hotel = getHotelInfo(map.get("hotel_id").toString());
 				if(checkHotelCondition(hotel, sc))
@@ -90,10 +90,10 @@ public class HotelDataServiceMySqlImpl extends UnicastRemoteObject implements Ho
 			}
 			sql += " ORDER BY score DESC";
 			ArrayList<Map<String, Object>> mapList = sqlManager.queryMultiByList(sql, params);
+			sqlManager.releaseAll();
 			for (Map<String, Object> map : mapList)
 				hotelList.add(getHotelPO(map));
 		}
-		sqlManager.releaseAll();
 		
 		if(hotelList.size() == 0)
 			return hotelList;

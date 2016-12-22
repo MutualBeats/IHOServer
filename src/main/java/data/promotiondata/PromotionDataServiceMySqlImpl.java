@@ -13,6 +13,7 @@ import java.util.Map;
 import data.databaseutility.ID;
 import data.databaseutility.SqlManager;
 import data.datafactory.DataFactoryMySqlImpl;
+import data.userdata.clientdata.GetMemberLevel;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.promotion.DistrictPromotionPO;
 import po.promotion.EnterprisePromotionPO;
@@ -20,7 +21,7 @@ import po.promotion.PromotionPO;
 import util.promotion.PromotionType;
 import util.resultmessage.ResultMessage_Promotion;
 
-public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService {
+public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implements PromotionDataService, GetMemberLevel {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -271,6 +272,25 @@ public class PromotionDataServiceMySqlImpl extends UnicastRemoteObject implement
 		po.setDiscount(discount);
 		
 		return po;
+	}
+
+	/**
+	 * 获取信用值对应会员等级
+	 */
+	@Override
+	public int getMemberLevel(int credit) throws RemoteException {
+		ArrayList<Integer> memberLevel = getMemberLevel();
+		int lv0 = memberLevel.get(0);
+		int lv1 = memberLevel.get(1);
+		int lv2 = memberLevel.get(2);
+		if(credit <= lv0)
+			return 0;
+		else if(lv0 < credit && credit <= lv1)
+			return 1;
+		else if(lv1 < credit && credit <= lv2)
+			return 2;
+		else
+			return 3;
 	}	
 
 }

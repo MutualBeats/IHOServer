@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import rmihelper.QuickStart;
+
 public class SqlManager {
 
 	// 单件
@@ -65,6 +67,7 @@ public class SqlManager {
 		try {
 			Class.forName(DRIVER);
 		} catch (ClassNotFoundException e) {
+			QuickStart.sendMessage(e.getMessage());
 			System.out.println("驱动加载失败！");
 			e.printStackTrace();
 		}
@@ -91,6 +94,7 @@ public class SqlManager {
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
 			connection.setAutoCommit(false);
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			System.out.println("数据库连接失败！");
 			e.printStackTrace();
 		}
@@ -104,6 +108,7 @@ public class SqlManager {
 		try {
 			connection.commit();
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -117,6 +122,7 @@ public class SqlManager {
 				connection.commit();
 				connection.close();
 			} catch (SQLException e) {
+				QuickStart.sendMessage(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -130,6 +136,7 @@ public class SqlManager {
 			try {
 				preparedStatement.close();
 			} catch (SQLException e) {
+				QuickStart.sendMessage(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -143,6 +150,7 @@ public class SqlManager {
 			try {
 				statement.close();
 			} catch (SQLException e) {
+				QuickStart.sendMessage(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -156,6 +164,7 @@ public class SqlManager {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
+				QuickStart.sendMessage(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -186,6 +195,7 @@ public class SqlManager {
 			statement = connection.createStatement();
 			affectedLine = statement.executeUpdate(sql);
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			releaseStatement();
@@ -217,6 +227,7 @@ public class SqlManager {
 			}
 			affectedLine = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			releasePreparedStatement();
@@ -248,6 +259,7 @@ public class SqlManager {
 			}
 			affectedLine = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			releasePreparedStatement();
@@ -288,6 +300,7 @@ public class SqlManager {
 				}
 			}
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		return map;
@@ -327,6 +340,7 @@ public class SqlManager {
 				list.add(map);
 			}
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -366,6 +380,7 @@ public class SqlManager {
 				list.add(map);
 			}
 		} catch (SQLException e) {
+			QuickStart.sendMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -385,6 +400,5 @@ public class SqlManager {
         sql += "?)";
         return sql;
     }
-
 
 }

@@ -96,7 +96,8 @@ public class QuickStartController implements Initializable{
 				+ "更新日期 : 2016 11 24\r\n"
 				+ "特性 : "
 				+ "	对服务器直接操作. \r\n  "
-				+ "	支持日志导出操作\r\n");
+				+ "	支持日志导出操作\r\n"
+				+ " 界面变得好看了\r\n");
 	}
 
 	public void sendMessage(String message) {

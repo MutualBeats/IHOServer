@@ -28,7 +28,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 	private static final long serialVersionUID = 2L;
 	
 	private SqlManager sqlManager = SqlManager.getInstance();
-			
+	
 	public RoomDataServiceMySqlImpl() throws RemoteException {
 		super();
 	}
@@ -40,7 +40,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		unexecuted, // 未执行
 		underway, // 执行中
 		done, // 已完成
-//		abnormal, // 异常
+		abnormal, // 异常
 	}
 		
 	@Override
@@ -49,7 +49,7 @@ public class RoomDataServiceMySqlImpl extends UnicastRemoteObject implements Roo
 		
 		ArrayList<RoomPO> roomList = new ArrayList<RoomPO>();
 		
-		String sql = "SELECT * FROM room WHERE hotel_id=? ORDER BY room_type, price, room_number";
+		String sql = "SELECT * FROM room WHERE hotel_id=? ORDER BY room_number, room_type, price";
 		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID});
 		sqlManager.releaseAll();
 		

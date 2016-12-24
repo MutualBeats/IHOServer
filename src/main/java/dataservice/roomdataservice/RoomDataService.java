@@ -13,11 +13,12 @@ import po.room.RoomRecordPO;
 import util.resultmessage.ResultMessage_Room;
 
 public interface RoomDataService extends Remote {
+	
 	/**
 	 * 获取房间列表
 	 * 
 	 * @param hotelID
-	 * @return
+	 * @return ArrayList<RoomPO>
 	 * @throws RemoteException
 	 */
 	public ArrayList<RoomPO> getRoom(String hotelID) throws RemoteException;
@@ -26,15 +27,15 @@ public interface RoomDataService extends Remote {
 	 * 
 	 * @param hotelID
 	 * @param roomNumber
-	 * @return
+	 * @return RoomPO
 	 * @throws RemoteException
 	 */
 	public RoomPO getRoomInfo(String hotelID, String roomNumber) throws RemoteException;
 	/**
-	 * 添加酒店
+	 * 录入客房
 	 * 
 	 * @param po
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Room addRoom(RoomPO po) throws RemoteException;
@@ -43,7 +44,7 @@ public interface RoomDataService extends Remote {
 	 * 
 	 * @param hotelID
 	 * @param roomNumber
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Room checkIn(String hotelID, String roomNumber, boolean isOnline) throws RemoteException;
@@ -52,33 +53,35 @@ public interface RoomDataService extends Remote {
 	 * 
 	 * @param hotelID
 	 * @param roomNumber
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Room checkOut(String hotelID, String roomNumber, boolean isOnline) throws RemoteException;
 	/**
-	 * 获得预定记录
+	 * 获得房间未来预订记录
 	 * 
 	 * @param hotelID
 	 * @param roomNumber
-	 * @return
+	 * @return ArrayList<RoomRecordPO> 
 	 * @throws RemoteException
 	 */
 	public ArrayList<RoomRecordPO> getOrderRecord(String hotelID, String roomNumber) throws RemoteException;
 	/**
-	 * 
+	 * 增加房间预订记录
 	 * 
 	 * @param po
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Room addRecord(RoomRecordPO po) throws RemoteException;
 	/**
-	 * 删除房间预定记录
+	 * 删除房间预订记录
 	 * 
 	 * @param orderID
-	 * @return
+	 * @return ResultMessage
 	 * @throws RemoteException
 	 */
 	public ResultMessage_Room deleteRecord(String orderID) throws RemoteException;
+
+	
 }

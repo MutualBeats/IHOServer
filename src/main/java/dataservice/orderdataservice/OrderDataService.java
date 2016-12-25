@@ -72,15 +72,6 @@ public interface OrderDataService extends Remote{
 	 */
 	public ArrayList<OrderPO> findByUser(String clientID) throws RemoteException;
 	/**
-	 * 查询房间订单
-	 * 
-	 * @param hotelID
-	 * @param roomNumber
-	 * @return ArrayList<OrderPO>
-	 * @throws RemoteException
-	 */
-	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException;
-	/**
 	 * 用户查询在某酒店订单
 	 * 
 	 * @param hotelID

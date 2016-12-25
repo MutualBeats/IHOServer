@@ -324,23 +324,23 @@ public class OrderDataServiceMySqlImpl extends UnicastRemoteObject implements Or
 		return clientOrderList;
 	}
 
-	@Override
-	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException {
-		sqlManager.getConnection();
-		
-		ArrayList<OrderPO> roomOrderList = new ArrayList<OrderPO>();
-		
-		String sql = "SELECT order_id FROM order_room WHERE hotel_id=? AND room_number=? ORDER BY check_in_date DESC";
-		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber});
-		
-		for (Map<String, Object> map : mapList) {
-			sql = "SELECT * FROM order_record WHERE order_id=? ";
-			roomOrderList.add(getOrderPO(sqlManager.querySimple(sql, new Object[]{map.get("order_id")})));
-		}
-
-		sqlManager.releaseAll();
-		return roomOrderList;
-	}
+//	@Override
+//	public ArrayList<OrderPO> findByRoom(String hotelID, String roomNumber) throws RemoteException {
+//		sqlManager.getConnection();
+//		
+//		ArrayList<OrderPO> roomOrderList = new ArrayList<OrderPO>();
+//		
+//		String sql = "SELECT order_id FROM order_room WHERE hotel_id=? AND room_number=? ORDER BY check_in_date DESC";
+//		List<Map<String, Object>> mapList = sqlManager.queryMulti(sql, new Object[]{hotelID, roomNumber});
+//		
+//		for (Map<String, Object> map : mapList) {
+//			sql = "SELECT * FROM order_record WHERE order_id=? ";
+//			roomOrderList.add(getOrderPO(sqlManager.querySimple(sql, new Object[]{map.get("order_id")})));
+//		}
+//
+//		sqlManager.releaseAll();
+//		return roomOrderList;
+//	}
 
 	@Override
 	public ArrayList<OrderPO> findUOByHotel(String hotelID, String clientID) throws RemoteException {
